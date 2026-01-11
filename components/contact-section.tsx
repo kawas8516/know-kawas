@@ -1,27 +1,27 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Send, Mail, MapPin, Clock, CheckCircle2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Send, Mail, MapPin, Clock, CheckCircle2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 export function ContactSection() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
     // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-  }
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+  };
 
   return (
     <section id="contact" className="relative py-24 px-4">
@@ -61,9 +61,9 @@ export function ContactSection() {
 
             <div className="space-y-4">
               {[
-                { icon: Mail, label: "Email", value: "hello@alexchen.dev" },
-                { icon: MapPin, label: "Location", value: "San Francisco, CA" },
-                { icon: Clock, label: "Response Time", value: "Within 24 hours" },
+                { icon: Mail, label: 'Email', value: 'hello@alexchen.dev' },
+                { icon: MapPin, label: 'Location', value: 'San Francisco, CA' },
+                { icon: Clock, label: 'Response Time', value: 'Within 24 hours' },
               ].map((item) => (
                 <motion.div
                   key={item.label}
@@ -179,5 +179,5 @@ export function ContactSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

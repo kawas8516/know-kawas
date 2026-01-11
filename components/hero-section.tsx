@@ -1,14 +1,14 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { Linkedin, Github, Mail } from "lucide-react"
-import Link from "next/link"
+import { motion } from 'framer-motion';
+import { Linkedin, Github, Mail } from 'lucide-react';
+import Link from 'next/link';
 
 const socialLinks = [
-  { icon: Linkedin, name: "LinkedIn", href: "https://www.linkedin.com/in/kawas-nandan" },
-  { icon: Github, name: "GitHub", href: "https://github.com/kawas8516" },
-  { icon: Mail, name: "Email", href: "mailto:kaustubhamandhane24@gmail.com" },
-]
+  { icon: Linkedin, name: 'LinkedIn', href: 'https://www.linkedin.com/in/kawas-nandan' },
+  { icon: Github, name: 'GitHub', href: 'https://github.com/kawas8516' },
+  { icon: Mail, name: 'Email', href: 'mailto:kaustubhamandhane24@gmail.com' },
+];
 
 export function HeroSection() {
   return (
@@ -68,5 +68,5 @@ export function HeroSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

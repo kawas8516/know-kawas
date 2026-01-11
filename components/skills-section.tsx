@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
+import { motion } from 'framer-motion';
 import {
   Code2,
   Database,
@@ -14,61 +14,61 @@ import {
   Layers,
   Cpu,
   Globe,
-} from "lucide-react"
+} from 'lucide-react';
 
 const skillCategories = [
   {
-    title: "Frontend",
+    title: 'Frontend',
     icon: Code2,
-    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-    color: "from-[oklch(0.65_0.18_250)] to-[oklch(0.7_0.15_270)]",
+    skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'],
+    color: 'from-[oklch(0.65_0.18_250)] to-[oklch(0.7_0.15_270)]',
   },
   {
-    title: "Backend",
+    title: 'Backend',
     icon: Server,
-    skills: ["Node.js", "Express", "Python", "GraphQL"],
-    color: "from-[oklch(0.6_0.15_180)] to-[oklch(0.65_0.12_200)]",
+    skills: ['Node.js', 'Express', 'Python', 'GraphQL'],
+    color: 'from-[oklch(0.6_0.15_180)] to-[oklch(0.65_0.12_200)]',
   },
   {
-    title: "Database",
+    title: 'Database',
     icon: Database,
-    skills: ["PostgreSQL", "MongoDB", "Redis", "Prisma"],
-    color: "from-[oklch(0.6_0.18_280)] to-[oklch(0.55_0.15_300)]",
+    skills: ['PostgreSQL', 'MongoDB', 'Redis', 'Prisma'],
+    color: 'from-[oklch(0.6_0.18_280)] to-[oklch(0.55_0.15_300)]',
   },
   {
-    title: "Cloud & DevOps",
+    title: 'Cloud & DevOps',
     icon: Cloud,
-    skills: ["AWS", "Vercel", "Docker", "CI/CD"],
-    color: "from-[oklch(0.65_0.12_40)] to-[oklch(0.6_0.15_30)]",
+    skills: ['AWS', 'Vercel', 'Docker', 'CI/CD'],
+    color: 'from-[oklch(0.65_0.12_40)] to-[oklch(0.6_0.15_30)]',
   },
   {
-    title: "Mobile",
+    title: 'Mobile',
     icon: Smartphone,
-    skills: ["React Native", "Expo", "iOS", "Android"],
-    color: "from-[oklch(0.6_0.2_330)] to-[oklch(0.65_0.18_350)]",
+    skills: ['React Native', 'Expo', 'iOS', 'Android'],
+    color: 'from-[oklch(0.6_0.2_330)] to-[oklch(0.65_0.18_350)]',
   },
   {
-    title: "Tools",
+    title: 'Tools',
     icon: Terminal,
-    skills: ["Git", "VS Code", "Figma", "Postman"],
-    color: "from-[oklch(0.55_0.15_220)] to-[oklch(0.6_0.12_240)]",
+    skills: ['Git', 'VS Code', 'Figma', 'Postman'],
+    color: 'from-[oklch(0.55_0.15_220)] to-[oklch(0.6_0.12_240)]',
   },
-]
+];
 
 const allTechIcons = [
-  { icon: Code2, name: "Code" },
-  { icon: Database, name: "Database" },
-  { icon: Cloud, name: "Cloud" },
-  { icon: Palette, name: "Design" },
-  { icon: Terminal, name: "Terminal" },
-  { icon: Boxes, name: "Containers" },
-  { icon: GitBranch, name: "Git" },
-  { icon: Server, name: "Server" },
-  { icon: Layers, name: "Stack" },
-  { icon: Cpu, name: "Systems" },
-  { icon: Globe, name: "Web" },
-  { icon: Smartphone, name: "Mobile" },
-]
+  { icon: Code2, name: 'Code' },
+  { icon: Database, name: 'Database' },
+  { icon: Cloud, name: 'Cloud' },
+  { icon: Palette, name: 'Design' },
+  { icon: Terminal, name: 'Terminal' },
+  { icon: Boxes, name: 'Containers' },
+  { icon: GitBranch, name: 'Git' },
+  { icon: Server, name: 'Server' },
+  { icon: Layers, name: 'Stack' },
+  { icon: Cpu, name: 'Systems' },
+  { icon: Globe, name: 'Web' },
+  { icon: Smartphone, name: 'Mobile' },
+];
 
 export function SkillsSection() {
   return (
@@ -148,7 +148,7 @@ export function SkillsSection() {
               transition={{ delay: index * 0.05, duration: 0.3 }}
               whileHover={{
                 scale: 1.2,
-                boxShadow: "0 0 25px oklch(0.6 0.15 270 / 0.4)",
+                boxShadow: '0 0 25px oklch(0.6 0.15 270 / 0.4)',
               }}
               className="p-4 rounded-xl bg-secondary/30 border border-border hover:border-primary/50 cursor-pointer transition-colors"
             >
@@ -158,5 +158,5 @@ export function SkillsSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

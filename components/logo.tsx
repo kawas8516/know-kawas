@@ -1,32 +1,32 @@
-"use client"
+'use client';
 
-import { motion, type HTMLMotionProps } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { motion, type HTMLMotionProps } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
-interface LogoProps extends Omit<HTMLMotionProps<"span">, "children"> {
+interface LogoProps extends Omit<HTMLMotionProps<'span'>, 'children'> {
   /** The text to display in the logo */
-  text?: string
+  text?: string;
   /** Additional classes for the container */
-  className?: string
+  className?: string;
   /** Size variant for the logo */
-  size?: "sm" | "md" | "lg" | "xl"
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   /** Whether to disable the entrance animation */
-  disableAnimation?: boolean
+  disableAnimation?: boolean;
   /** Custom aria-label for accessibility */
-  ariaLabel?: string
+  ariaLabel?: string;
 }
 
 const sizeClasses = {
-  sm: "text-lg",
-  md: "text-2xl",
-  lg: "text-4xl",
-  xl: "text-5xl",
-}
+  sm: 'text-lg',
+  md: 'text-2xl',
+  lg: 'text-4xl',
+  xl: 'text-5xl',
+};
 
 export function Logo({
-  text = "Logo",
+  text = 'Logo',
   className,
-  size = "md",
+  size = 'md',
   disableAnimation = false,
   ariaLabel,
   ...props
@@ -34,10 +34,10 @@ export function Logo({
   const animationProps = disableAnimation
     ? {}
     : {
-        initial: { opacity: 0, y: 20 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.8, ease: "easeOut" },
-      }
+      initial: { opacity: 0, y: 20 },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration: 0.8 },
+    };
 
   return (
     <motion.span
@@ -45,10 +45,10 @@ export function Logo({
       aria-label={ariaLabel || `${text} logo`}
       className={cn(
         // Base styles
-        "inline-block font-bold",
+        'inline-block font-bold',
         // Gradient text using Tailwind
-        "bg-gradient-to-r from-violet-500 to-cyan-500",
-        "bg-clip-text text-transparent",
+        'bg-gradient-to-r from-violet-500 to-cyan-500',
+        'bg-clip-text text-transparent',
         // Size variant
         sizeClasses[size],
         className,
@@ -58,5 +58,5 @@ export function Logo({
     >
       {text}
     </motion.span>
-  )
+  );
 }

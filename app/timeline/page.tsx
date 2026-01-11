@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { motion, useScroll, useSpring } from "framer-motion"
-import { useRef } from "react"
-import { Briefcase, GraduationCap, Award, Calendar, MapPin, ExternalLink } from "lucide-react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import Link from "next/link"
+import { motion, useScroll, useSpring } from 'framer-motion';
+import { useRef } from 'react';
+import { Briefcase, GraduationCap, Award, Calendar, MapPin, ExternalLink } from 'lucide-react';
+import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
+import Link from 'next/link';
 
-type TimelineCategory = "work" | "education" | "award"
+type TimelineCategory = 'work' | 'education' | 'award'
 
 interface TimelineEvent {
   id: number
@@ -23,114 +23,114 @@ interface TimelineEvent {
 const timelineEvents: TimelineEvent[] = [
   {
     id: 1,
-    category: "education",
-    title: "Master of Computer Applications (MCA)",
-    organization: "MIT World Peace University",
-    location: "Pune, Maharashtra, India",
-    date: "2025 - 2027",
+    category: 'education',
+    title: 'Master of Computer Applications (MCA)',
+    organization: 'MIT World Peace University',
+    location: 'Pune, Maharashtra, India',
+    date: '2025 - 2027',
     achievements: [
-      "Specializing in Computer Science with focus on backend development",
-      "Building AI/ML projects including RAG-based chatbots",
-      "Exploring microservices, Docker, and AWS",
+      'Specializing in Computer Science with focus on backend development',
+      'Building AI/ML projects including RAG-based chatbots',
+      'Exploring microservices, Docker, and AWS',
     ],
-    link: "https://mitwpu.edu.in",
+    link: 'https://mitwpu.edu.in',
   },
   {
     id: 2,
-    category: "work",
-    title: "Content Writer",
-    organization: "STeRG",
-    location: "Pune, Maharashtra, India",
-    date: "Jan 2024 - Dec 2024",
+    category: 'work',
+    title: 'Content Writer',
+    organization: 'STeRG',
+    location: 'Pune, Maharashtra, India',
+    date: 'Jan 2024 - Dec 2024',
     achievements: [
-      "Composed 30+ emails to stakeholders",
-      "Secured support and permissions from university authorities",
-      "Developed professional communication skills",
+      'Composed 30+ emails to stakeholders',
+      'Secured support and permissions from university authorities',
+      'Developed professional communication skills',
     ],
   },
   {
     id: 3,
-    category: "work",
-    title: "General Member Board",
-    organization: "MIT-WPU Student Alumni Relations Society",
-    location: "Pune, Maharashtra, India",
-    date: "Feb 2024 - Aug 2024",
+    category: 'work',
+    title: 'General Member Board',
+    organization: 'MIT-WPU Student Alumni Relations Society',
+    location: 'Pune, Maharashtra, India',
+    date: 'Feb 2024 - Aug 2024',
     achievements: [
-      "Lead Generation: Identified and generated leads on LinkedIn for alumni podcasts and interviews",
-      "Script Writing: Authored scripts for interviews reaching 1K+ students",
-      "Helped grow the society's network and engagement",
+      'Lead Generation: Identified and generated leads on LinkedIn for alumni podcasts and interviews',
+      'Script Writing: Authored scripts for interviews reaching 1K+ students',
+      'Helped grow the society\'s network and engagement',
     ],
   },
   {
     id: 4,
-    category: "education",
-    title: "Bachelor's in Computer Application",
-    organization: "Dr. Vishwanath Karad MIT World Peace University",
-    location: "Pune, Maharashtra, India",
-    date: "Aug 2022 - 2025",
+    category: 'education',
+    title: 'Bachelor\'s in Computer Application',
+    organization: 'Dr. Vishwanath Karad MIT World Peace University',
+    location: 'Pune, Maharashtra, India',
+    date: 'Aug 2022 - 2025',
     achievements: [
-      "Specialization in Computer Software and Media Applications",
-      "Built multiple projects including system utilities and web apps",
-      "Active participation in technical clubs and hackathons",
+      'Specialization in Computer Software and Media Applications',
+      'Built multiple projects including system utilities and web apps',
+      'Active participation in technical clubs and hackathons',
     ],
-    link: "https://mitwpu.edu.in",
+    link: 'https://mitwpu.edu.in',
   },
   {
     id: 5,
-    category: "work",
-    title: "Co-Founder & Community Lead",
-    organization: "DNA (Discord Nation Alpha)",
-    location: "Remote",
-    date: "Jul 2020 - Sep 2022",
+    category: 'work',
+    title: 'Co-Founder & Community Lead',
+    organization: 'DNA (Discord Nation Alpha)',
+    location: 'Remote',
+    date: 'Jul 2020 - Sep 2022',
     achievements: [
-      "Scaled a 4,300+ member creator network across Discord and Reddit",
-      "Boosted community engagement by 35% through data-driven content strategies",
-      "Surpassed 100,000+ messages in a single day — an all-time peak achievement",
-      "Established governance framework and mentorship program, reducing churn by 20%",
-      "Produced and edited tutorial videos; crafted graphics in Photoshop and Canva",
+      'Scaled a 4,300+ member creator network across Discord and Reddit',
+      'Boosted community engagement by 35% through data-driven content strategies',
+      'Surpassed 100,000+ messages in a single day — an all-time peak achievement',
+      'Established governance framework and mentorship program, reducing churn by 20%',
+      'Produced and edited tutorial videos; crafted graphics in Photoshop and Canva',
     ],
   },
   {
     id: 6,
-    category: "work",
-    title: "Associate Business Coordinator",
-    organization: "Hyperlinks.edit",
-    location: "Remote",
-    date: "Feb 2022 - May 2022",
+    category: 'work',
+    title: 'Associate Business Coordinator',
+    organization: 'Hyperlinks.edit',
+    location: 'Remote',
+    date: 'Feb 2022 - May 2022',
     achievements: [
-      "Coordinated business operations and client communications",
-      "Supported team in achieving business objectives",
-      "Gained experience in startup operations",
+      'Coordinated business operations and client communications',
+      'Supported team in achieving business objectives',
+      'Gained experience in startup operations',
     ],
   },
   {
     id: 7,
-    category: "education",
-    title: "Secondary Education",
-    organization: "Mount Carmel English School",
-    location: "India",
-    date: "Jun 2008 - Jun 2018",
-    achievements: ["Completed foundational education", "Developed early interest in technology and computers"],
+    category: 'education',
+    title: 'Secondary Education',
+    organization: 'Mount Carmel English School',
+    location: 'India',
+    date: 'Jun 2008 - Jun 2018',
+    achievements: ['Completed foundational education', 'Developed early interest in technology and computers'],
   },
-]
+];
 
 const categoryIcons: Record<TimelineCategory, typeof Briefcase> = {
   work: Briefcase,
   education: GraduationCap,
   award: Award,
-}
+};
 
 const categoryColors: Record<TimelineCategory, string> = {
-  work: "from-violet-500 to-purple-600",
-  education: "from-cyan-500 to-blue-600",
-  award: "from-amber-500 to-orange-600",
-}
+  work: 'from-violet-500 to-purple-600',
+  education: 'from-cyan-500 to-blue-600',
+  award: 'from-amber-500 to-orange-600',
+};
 
 const categoryGlows: Record<TimelineCategory, string> = {
-  work: "shadow-violet-500/30",
-  education: "shadow-cyan-500/30",
-  award: "shadow-amber-500/30",
-}
+  work: 'shadow-violet-500/30',
+  education: 'shadow-cyan-500/30',
+  award: 'shadow-amber-500/30',
+};
 
 function TimelineCard({
   event,
@@ -139,17 +139,17 @@ function TimelineCard({
   event: TimelineEvent
   index: number
 }) {
-  const isLeft = index % 2 === 0
-  const Icon = categoryIcons[event.category]
+  const isLeft = index % 2 === 0;
+  const Icon = categoryIcons[event.category];
 
   return (
-    <div className={`flex items-center gap-8 ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}>
+    <div className={`flex items-center gap-8 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
       {/* Card */}
       <motion.div
         initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
         whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
         whileHover={{ scale: 1.02, y: -4 }}
         className="flex-1"
       >
@@ -229,21 +229,21 @@ function TimelineCard({
       {/* Spacer for alternating layout */}
       <div className="hidden md:block flex-1" />
     </div>
-  )
+  );
 }
 
 export default function TimelinePage() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "end center"],
-  })
+    offset: ['start center', 'end center'],
+  });
 
   const scaleY = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001,
-  })
+  });
 
   return (
     <main className="min-h-screen bg-zinc-950 relative overflow-hidden">
@@ -295,7 +295,7 @@ export default function TimelinePage() {
             className="flex flex-wrap justify-center gap-6 mb-16"
           >
             {(Object.keys(categoryIcons) as TimelineCategory[]).map((category) => {
-              const Icon = categoryIcons[category]
+              const Icon = categoryIcons[category];
               return (
                 <div key={category} className="flex items-center gap-2">
                   <div className={`p-1.5 rounded-md bg-gradient-to-br ${categoryColors[category]}`}>
@@ -303,7 +303,7 @@ export default function TimelinePage() {
                   </div>
                   <span className="text-sm text-zinc-400 capitalize">{category}</span>
                 </div>
-              )
+              );
             })}
           </motion.div>
 
@@ -368,5 +368,5 @@ export default function TimelinePage() {
 
       <Footer />
     </main>
-  )
+  );
 }

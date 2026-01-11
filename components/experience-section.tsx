@@ -1,35 +1,35 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { Zap, Layers, Link2 } from "lucide-react"
-import Link from "next/link"
+import { motion } from 'framer-motion';
+import { Zap, Layers, Link2 } from 'lucide-react';
+import Link from 'next/link';
 
 const experiences = [
   {
-    company: "AlgoZenith",
-    period: "2024 — now",
+    company: 'AlgoZenith',
+    period: '2024 — now',
     icon: Zap,
-    iconBg: "bg-emerald-500/20",
-    iconColor: "#22C55E",
-    borderColor: "border-emerald-500/30",
+    iconBg: 'bg-emerald-500/20',
+    iconColor: '#22C55E',
+    borderColor: 'border-emerald-500/30',
   },
   {
-    company: "KasperTech",
-    period: "2024",
+    company: 'KasperTech',
+    period: '2024',
     icon: Layers,
-    iconBg: "bg-red-500/20",
-    iconColor: "#EF4444",
-    borderColor: "border-red-500/30",
+    iconBg: 'bg-red-500/20',
+    iconColor: '#EF4444',
+    borderColor: 'border-red-500/30',
   },
   {
-    company: "ApnaKonnect",
-    period: "2023",
+    company: 'ApnaKonnect',
+    period: '2023',
     icon: Link2,
-    iconBg: "bg-blue-500/20",
-    iconColor: "#3B82F6",
-    borderColor: "border-blue-500/30",
+    iconBg: 'bg-blue-500/20',
+    iconColor: '#3B82F6',
+    borderColor: 'border-blue-500/30',
   },
-]
+];
 
 export function ExperienceSection() {
   return (
@@ -74,7 +74,7 @@ export function ExperienceSection() {
               className="group cursor-pointer"
             >
               <div
-                className={`relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 flex flex-col items-center text-center hover:border-zinc-700 transition-all`}
+                className={'relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 flex flex-col items-center text-center hover:border-zinc-700 transition-all'}
               >
                 {/* Icon */}
                 <div className="mb-4">
@@ -96,5 +96,5 @@ export function ExperienceSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

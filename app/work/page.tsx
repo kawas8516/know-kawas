@@ -1,17 +1,17 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import Link from "next/link"
-import { ExternalLink, Github } from "lucide-react"
+import { motion } from 'framer-motion';
+import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
+import Link from 'next/link';
+import { ExternalLink, Github } from 'lucide-react';
 
 const projects = [
   {
     id: 1,
-    name: "Food Waste Chatbot",
+    name: 'Food Waste Chatbot',
     description:
-      "Suggests recipes from available ingredients and gives storage tips using RAG + NLP. Built with Django, FAISS, Sentence Transformers, and HTMX.",
+      'Suggests recipes from available ingredients and gives storage tips using RAG + NLP. Built with Django, FAISS, Sentence Transformers, and HTMX.',
     icon: (
       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-500/10 flex items-center justify-center border border-emerald-500/20">
         <svg viewBox="0 0 24 24" className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2">
@@ -22,18 +22,18 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: "AI/ML", color: "bg-emerald-500/20 text-emerald-400" },
-      { label: "DJANGO", color: "bg-purple-500/20 text-purple-400" },
+      { label: 'AI/ML', color: 'bg-emerald-500/20 text-emerald-400' },
+      { label: 'DJANGO', color: 'bg-purple-500/20 text-purple-400' },
     ],
-    github: "https://github.com/kawas8516/Food-Waste-Chatbot",
+    github: 'https://github.com/kawas8516/Food-Waste-Chatbot',
     demo: null,
-    languages: ["Python", "Django", "HTMX"],
+    languages: ['Python', 'Django', 'HTMX'],
   },
   {
     id: 2,
-    name: "Java Task Scheduler",
+    name: 'Java Task Scheduler',
     description:
-      "Java-based scheduling application to manage and track daily/weekly tasks. Built with OOP principles and GUI-based task management.",
+      'Java-based scheduling application to manage and track daily/weekly tasks. Built with OOP principles and GUI-based task management.',
     icon: (
       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 flex items-center justify-center border border-orange-500/20">
         <svg viewBox="0 0 24 24" className="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" strokeWidth="2">
@@ -45,18 +45,18 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: "JAVA", color: "bg-orange-500/20 text-orange-400" },
-      { label: "OOP", color: "bg-purple-500/20 text-purple-400" },
+      { label: 'JAVA', color: 'bg-orange-500/20 text-orange-400' },
+      { label: 'OOP', color: 'bg-purple-500/20 text-purple-400' },
     ],
-    github: "https://github.com/kawas8516/Taskscheduler",
+    github: 'https://github.com/kawas8516/Taskscheduler',
     demo: null,
-    languages: ["Java"],
+    languages: ['Java'],
   },
   {
     id: 3,
-    name: "CLI Utilities (C/C++)",
+    name: 'CLI Utilities (C/C++)',
     description:
-      "Collection of system utilities and command-line tools — interactive mode, improved error handling. Built with C and C++.",
+      'Collection of system utilities and command-line tools — interactive mode, improved error handling. Built with C and C++.',
     icon: (
       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/10 flex items-center justify-center border border-blue-500/20">
         <svg viewBox="0 0 24 24" className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2">
@@ -66,18 +66,18 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: "C++", color: "bg-blue-500/20 text-blue-400" },
-      { label: "SYSTEM", color: "bg-zinc-500/20 text-zinc-400" },
+      { label: 'C++', color: 'bg-blue-500/20 text-blue-400' },
+      { label: 'SYSTEM', color: 'bg-zinc-500/20 text-zinc-400' },
     ],
-    github: "https://github.com/kawas8516/cpp-windows-system-utility-tool",
+    github: 'https://github.com/kawas8516/cpp-windows-system-utility-tool',
     demo: null,
-    languages: ["C++", "C"],
+    languages: ['C++', 'C'],
   },
   {
     id: 4,
-    name: "Belleza",
+    name: 'Belleza',
     description:
-      "A frontend project showcasing modern web design principles with clean CSS styling and responsive layouts.",
+      'A frontend project showcasing modern web design principles with clean CSS styling and responsive layouts.',
     icon: (
       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-pink-500/20 to-rose-500/10 flex items-center justify-center border border-pink-500/20">
         <svg viewBox="0 0 24 24" className="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" strokeWidth="2">
@@ -88,18 +88,18 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: "CSS", color: "bg-pink-500/20 text-pink-400" },
-      { label: "FRONTEND", color: "bg-purple-500/20 text-purple-400" },
+      { label: 'CSS', color: 'bg-pink-500/20 text-pink-400' },
+      { label: 'FRONTEND', color: 'bg-purple-500/20 text-purple-400' },
     ],
-    github: "https://github.com/kawas8516/belleza",
+    github: 'https://github.com/kawas8516/belleza',
     demo: null,
-    languages: ["CSS", "HTML"],
+    languages: ['CSS', 'HTML'],
   },
   {
     id: 5,
-    name: "Chat Cooking",
+    name: 'Chat Cooking',
     description:
-      "A Python-based cooking assistant project. Interactive chat interface for recipe suggestions and cooking help.",
+      'A Python-based cooking assistant project. Interactive chat interface for recipe suggestions and cooking help.',
     icon: (
       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/10 flex items-center justify-center border border-amber-500/20">
         <svg viewBox="0 0 24 24" className="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" strokeWidth="2">
@@ -111,18 +111,18 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: "PYTHON", color: "bg-amber-500/20 text-amber-400" },
-      { label: "CHAT", color: "bg-emerald-500/20 text-emerald-400" },
+      { label: 'PYTHON', color: 'bg-amber-500/20 text-amber-400' },
+      { label: 'CHAT', color: 'bg-emerald-500/20 text-emerald-400' },
     ],
-    github: "https://github.com/kawas8516/chat-cooking",
+    github: 'https://github.com/kawas8516/chat-cooking',
     demo: null,
-    languages: ["Python"],
+    languages: ['Python'],
   },
   {
     id: 6,
-    name: "Railway Reservation System",
+    name: 'Railway Reservation System',
     description:
-      "A simple Python project for railway ticket booking. Learn Python basics, file handling, and console-based project workflow.",
+      'A simple Python project for railway ticket booking. Learn Python basics, file handling, and console-based project workflow.',
     icon: (
       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 flex items-center justify-center border border-violet-500/20">
         <svg viewBox="0 0 24 24" className="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" strokeWidth="2">
@@ -133,17 +133,17 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: "PYTHON", color: "bg-violet-500/20 text-violet-400" },
-      { label: "BEGINNER", color: "bg-emerald-500/20 text-emerald-400" },
+      { label: 'PYTHON', color: 'bg-violet-500/20 text-violet-400' },
+      { label: 'BEGINNER', color: 'bg-emerald-500/20 text-emerald-400' },
     ],
-    github: "https://github.com/kawas8516/Railway-Reservation-System",
+    github: 'https://github.com/kawas8516/Railway-Reservation-System',
     demo: null,
-    languages: ["Python"],
+    languages: ['Python'],
   },
   {
     id: 7,
-    name: "Shopping Cart",
-    description: "Python-based shopping cart system. Practice OOP, data handling, and basic project structuring.",
+    name: 'Shopping Cart',
+    description: 'Python-based shopping cart system. Practice OOP, data handling, and basic project structuring.',
     icon: (
       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-cyan-500/20 to-teal-500/10 flex items-center justify-center border border-cyan-500/20">
         <svg viewBox="0 0 24 24" className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" strokeWidth="2">
@@ -154,14 +154,14 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: "PYTHON", color: "bg-cyan-500/20 text-cyan-400" },
-      { label: "OOP", color: "bg-purple-500/20 text-purple-400" },
+      { label: 'PYTHON', color: 'bg-cyan-500/20 text-cyan-400' },
+      { label: 'OOP', color: 'bg-purple-500/20 text-purple-400' },
     ],
-    github: "https://github.com/kawas8516/shopping-cart",
+    github: 'https://github.com/kawas8516/shopping-cart',
     demo: null,
-    languages: ["Python"],
+    languages: ['Python'],
   },
-]
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -171,7 +171,7 @@ const containerVariants = {
       staggerChildren: 0.1,
     },
   },
-}
+};
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -180,10 +180,9 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
     },
   },
-}
+};
 
 export default function WorkPage() {
   return (
@@ -212,7 +211,7 @@ export default function WorkPage() {
             <p className="text-zinc-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
               Each of these projects reflects a piece of my journey.
               <br />
-              Feel free to take a look around and explore the work I&apos;ve enjoyed building.
+              Feel free to take a look around and explore the work I've enjoyed building.
             </p>
 
             {/* Decorative line */}
@@ -290,5 +289,5 @@ export default function WorkPage() {
 
       <Footer />
     </main>
-  )
+  );
 }

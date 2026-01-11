@@ -1,32 +1,32 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { Sparkles, Shield, Box } from "lucide-react"
-import Link from "next/link"
+import { motion } from 'framer-motion';
+import { Sparkles, Shield, Box } from 'lucide-react';
+import Link from 'next/link';
 
 const projects = [
   {
-    name: "UpEvent",
-    year: "2024",
+    name: 'UpEvent',
+    year: '2024',
     icon: Sparkles,
-    iconColor: "#A855F7",
-    bgGradient: "from-purple-500/20 to-pink-500/20",
+    iconColor: '#A855F7',
+    bgGradient: 'from-purple-500/20 to-pink-500/20',
   },
   {
-    name: "Abusive Buster",
-    year: "2024",
+    name: 'Abusive Buster',
+    year: '2024',
     icon: Shield,
-    iconColor: "#22C55E",
-    bgGradient: "from-green-500/20 to-emerald-500/20",
+    iconColor: '#22C55E',
+    bgGradient: 'from-green-500/20 to-emerald-500/20',
   },
   {
-    name: "FridgeInsider",
-    year: "2023",
+    name: 'FridgeInsider',
+    year: '2023',
     icon: Box,
-    iconColor: "#F97316",
-    bgGradient: "from-orange-500/20 to-amber-500/20",
+    iconColor: '#F97316',
+    bgGradient: 'from-orange-500/20 to-amber-500/20',
   },
-]
+];
 
 export function ProjectsSection() {
   return (
@@ -94,5 +94,5 @@ export function ProjectsSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

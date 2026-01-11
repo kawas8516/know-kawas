@@ -1,26 +1,26 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import Link from "next/link"
+import { motion } from 'framer-motion';
+import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
+import Link from 'next/link';
 
 const sections = [
   {
-    id: "what-i-do",
-    label: "WHAT I DO",
+    id: 'what-i-do',
+    label: 'WHAT I DO',
     content: (
       <>
         <p className="mb-4">
           I'm a backend developer focused on building intelligent systems and learning through practice. Whether it's
-          crafting <strong className="text-white">chatbots</strong>,{" "}
-          <strong className="text-white">system utilities</strong>, or{" "}
+          crafting <strong className="text-white">chatbots</strong>,{' '}
+          <strong className="text-white">system utilities</strong>, or{' '}
           <strong className="text-white">scalable web apps</strong>, I enjoy solving real-world problems with code.
         </p>
         <p>
-          My toolkit includes <strong className="text-white">Java</strong>,{" "}
-          <strong className="text-white">Python</strong>, <strong className="text-white">Django</strong>,{" "}
-          <strong className="text-white">C/C++</strong>, <strong className="text-white">REST APIs</strong>,{" "}
+          My toolkit includes <strong className="text-white">Java</strong>,{' '}
+          <strong className="text-white">Python</strong>, <strong className="text-white">Django</strong>,{' '}
+          <strong className="text-white">C/C++</strong>, <strong className="text-white">REST APIs</strong>,{' '}
           <strong className="text-white">PostgreSQL</strong>, and <strong className="text-white">Git/GitHub</strong>.
           I'm also exploring <strong className="text-white">AI/ML (RAG, LLMs)</strong>, cloud deployment, and robust
           backend patterns.
@@ -29,8 +29,8 @@ const sections = [
     ),
   },
   {
-    id: "current",
-    label: "CURRENT",
+    id: 'current',
+    label: 'CURRENT',
     content: (
       <>
         <p className="mb-4">
@@ -39,7 +39,7 @@ const sections = [
           recommendation system using RAG + NLP that suggests recipes from available ingredients and gives storage tips.
         </p>
         <p>
-          I'm strengthening my backend architecture & system design skills, integrating{" "}
+          I'm strengthening my backend architecture & system design skills, integrating{' '}
           <strong className="text-white">LLMs and retrieval-augmented pipelines</strong> into practical apps, and
           preparing production-ready open-source projects for my portfolio.
         </p>
@@ -47,8 +47,8 @@ const sections = [
     ),
   },
   {
-    id: "previously",
-    label: "PREVIOUSLY",
+    id: 'previously',
+    label: 'PREVIOUSLY',
     content: (
       <>
         <p className="mb-4">
@@ -69,27 +69,27 @@ const sections = [
     ),
   },
   {
-    id: "education",
-    label: "EDUCATION",
+    id: 'education',
+    label: 'EDUCATION',
     content: (
       <>
         <p className="mb-4">
-          Currently pursuing <strong className="text-white">Master of Computer Applications (MCA)</strong> at{" "}
+          Currently pursuing <strong className="text-white">Master of Computer Applications (MCA)</strong> at{' '}
           <strong className="text-white">MIT World Peace University</strong>, graduating in July 2027.
         </p>
         <p>
-          Completed my <strong className="text-white">Bachelor's in Computer Application</strong> from{" "}
+          Completed my <strong className="text-white">Bachelor's in Computer Application</strong> from{' '}
           <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent font-medium">
             Dr. Vishwanath Karad MIT World Peace University, Pune
-          </span>{" "}
+          </span>{' '}
           (2022-2025), specializing in Computer Software and Media Applications.
         </p>
       </>
     ),
   },
   {
-    id: "certifications",
-    label: "CERTIFICATIONS",
+    id: 'certifications',
+    label: 'CERTIFICATIONS',
     content: (
       <p>
         <strong className="text-white">Complete A.I. & Machine Learning, Data Science Bootcamp</strong> — Comprehensive
@@ -99,20 +99,20 @@ const sections = [
     ),
   },
   {
-    id: "contact",
-    label: "CONTACT",
+    id: 'contact',
+    label: 'CONTACT',
     content: (
       <>
         <p className="mb-4">
-          Reach out via email at{" "}
+          Reach out via email at{' '}
           <Link href="mailto:kaustubhamandhane24@gmail.com" className="text-white hover:underline">
             kaustubhamandhane24@gmail.com
           </Link>
-          , or connect on{" "}
+          , or connect on{' '}
           <Link href="https://www.linkedin.com/in/kawas-nandan" target="_blank" className="text-white hover:underline">
             LinkedIn
-          </Link>{" "}
-          or{" "}
+          </Link>{' '}
+          or{' '}
           <Link href="https://github.com/kawas8516" target="_blank" className="text-white hover:underline">
             GitHub
           </Link>
@@ -125,7 +125,7 @@ const sections = [
       </>
     ),
   },
-]
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -135,7 +135,7 @@ const containerVariants = {
       staggerChildren: 0.15,
     },
   },
-}
+};
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -144,10 +144,9 @@ const sectionVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
     },
   },
-}
+};
 
 export default function AboutPage() {
   return (
@@ -206,5 +205,5 @@ export default function AboutPage() {
 
       <Footer />
     </main>
-  )
+  );
 }

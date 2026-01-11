@@ -1,9 +1,9 @@
-import { Navbar } from "@/components/navbar"
-import { HeroSection } from "@/components/hero-section"
-import { TechStackSection } from "@/components/tech-stack-section"
-import { ProjectsSection } from "@/components/projects-section"
-import { ExperienceSection } from "@/components/experience-section"
-import { Footer } from "@/components/footer"
+import { Navbar } from '@/components/navbar';
+import { HeroSection } from '@/components/hero-section';
+import { TechStackSection } from '@/components/tech-stack-section';
+import { ProjectsSection } from '@/components/projects-section';
+import { ExperienceSection } from '@/components/experience-section';
+import { Footer } from '@/components/footer';
 
 export default function Home() {
   return (
@@ -31,5 +31,5 @@ export default function Home() {
         <Footer />
       </div>
     </main>
-  )
+  );
 }

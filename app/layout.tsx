@@ -1,35 +1,31 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Inter, Geist_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
-import "./globals.css"
-
-const _inter = Inter({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+import type React from 'react';
+import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "Antriksh Gupta | Software Developer",
+  title: 'Kaustubha M | Software Developer',
   description:
-    "Software Developer at AlgoZenith - Building seamless apps and websites with Next.js, React, and React Native",
-  generator: "v0.app",
+    'MCA Freshman at MIT-WPU - Building chatbots, system utilities, and scalable web apps.',
+  generator: 'v0.app',
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
+        url: '/icon-light-32x32.png',
+        media: '(prefers-color-scheme: light)',
       },
       {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
+        url: '/icon-dark-32x32.png',
+        media: '(prefers-color-scheme: dark)',
       },
       {
-        url: "/icon.svg",
-        type: "image/svg+xml",
+        url: '/icon.svg',
+        type: 'image/svg+xml',
       },
     ],
-    apple: "/apple-icon.png",
+    apple: '/apple-icon.png',
   },
-}
+};
 
 export default function RootLayout({
   children,
@@ -38,10 +34,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className={`font-sans antialiased`}>
+      <body className={'font-sans antialiased'}>
         {children}
         <Analytics />
       </body>
     </html>
-  )
+  );
 }
