@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Zap, Layers, Link2 } from 'lucide-react';
+import { Zap, Layers, Link2, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 
 const experiences = [

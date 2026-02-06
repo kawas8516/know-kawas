@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Sparkles, Shield, Box } from 'lucide-react';
+import { Sparkles, Shield, Box, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
 
 const projects = [
@@ -38,13 +38,14 @@ export function ProjectsSection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-xs font-medium text-zinc-500 uppercase tracking-wider"
+            className="flex items-center gap-2 text-xs font-medium text-zinc-500 uppercase tracking-wider"
           >
+            <FolderOpen className="h-4 w-4" />
             Notable Projects
           </motion.h3>
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <Link
-              href="/projects"
+              href="/work"
               className="text-sm text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-1"
             >
               All work <span>→</span>

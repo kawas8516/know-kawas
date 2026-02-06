@@ -1,20 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Smartphone, RefreshCw, Database, FileCode, Code, Layers, Wind, LayoutGrid, Palette, Zap } from 'lucide-react';
+import { Code, FileCode, Database, Zap, Coffee, Brain, Network, GitBranch, Rocket, Binary } from 'lucide-react';
 import Link from 'next/link';
 
 const techStack = [
-  { name: 'React Native', icon: Smartphone, color: '#61DAFB' },
-  { name: 'Redux', icon: RefreshCw, color: '#764ABC' },
-  { name: 'Golang', icon: Database, color: '#00ADD8' },
-  { name: 'MySQL', icon: FileCode, color: '#4479A1' },
-  { name: 'C++', icon: Code, color: '#00599C' },
-  { name: 'shadcn UI', icon: Layers, color: '#FFFFFF' },
-  { name: 'Tailwind CSS', icon: Wind, color: '#06B6D4' },
-  { name: 'Bootstrap', icon: LayoutGrid, color: '#7952B3' },
-  { name: 'Sass', icon: Palette, color: '#CC6699' },
-  { name: 'Vite', icon: Zap, color: '#646CFF' },
+  { name: 'Java', icon: Coffee, color: '#ED8B00' },
+  { name: 'Python', icon: Code, color: '#3776AB' },
+  { name: 'C++', icon: Binary, color: '#00599C' },
+  { name: 'SQL', icon: FileCode, color: '#4479A1' },
+  { name: 'PostgreSQL', icon: Database, color: '#4169E1' },
+  { name: 'MongoDB', icon: Zap, color: '#47A248' },
+  { name: 'LLMs / GenAI', icon: Brain, color: '#FF6B6B' },
+  { name: 'Vector Search', icon: Network, color: '#4ECDC4' },
+  { name: 'Git / GitHub', icon: GitBranch, color: '#F05032' },
+  { name: 'FastAPI', icon: Rocket, color: '#009688' },
 ];
 
 export function TechStackSection() {
@@ -27,8 +27,9 @@ export function TechStackSection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-xs font-medium text-zinc-500 uppercase tracking-wider"
+            className="flex items-center gap-2 text-xs font-medium text-zinc-500 uppercase tracking-wider"
           >
+            <Code className="h-4 w-4" />
             Technology Stack
           </motion.h3>
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
