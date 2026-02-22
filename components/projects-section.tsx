@@ -1,30 +1,30 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Sparkles, Shield, Box, FolderOpen } from 'lucide-react';
+import { Clock, Terminal, MessageSquare, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
 
 const projects = [
   {
-    name: 'UpEvent',
+    name: 'Java Task Scheduler',
     year: '2024',
-    icon: Sparkles,
-    iconColor: '#A855F7',
-    bgGradient: 'from-purple-500/20 to-pink-500/20',
+    icon: Clock, // Clock icon for scheduling
+    iconColor: '#ED8B00',
+    bgGradient: 'from-orange-500/20 to-amber-500/20',
   },
   {
-    name: 'Abusive Buster',
+    name: 'CLI Utilities (C/C++)',
     year: '2024',
-    icon: Shield,
+    icon: Terminal, // Terminal icon for CLI tools
+    iconColor: '#00599C',
+    bgGradient: 'from-blue-500/20 to-cyan-500/20',
+  },
+  {
+    name: 'Food Waste Chatbot',
+    year: '2024',
+    icon: MessageSquare, // Chat bubble for chatbot
     iconColor: '#22C55E',
     bgGradient: 'from-green-500/20 to-emerald-500/20',
-  },
-  {
-    name: 'FridgeInsider',
-    year: '2023',
-    icon: Box,
-    iconColor: '#F97316',
-    bgGradient: 'from-orange-500/20 to-amber-500/20',
   },
 ];
 
