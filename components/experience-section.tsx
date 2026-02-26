@@ -1,12 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Zap, Layers, Link2, Briefcase } from 'lucide-react';
+import { Zap, Layers } from 'lucide-react';
 import Link from 'next/link';
 
 const experiences = [
   {
-    company: 'AlgoZenith',
+    company: 'Discord Nation Alpha DNA',
     period: '2024 — now',
     icon: Zap,
     iconBg: 'bg-emerald-500/20',
@@ -14,20 +14,12 @@ const experiences = [
     borderColor: 'border-emerald-500/30',
   },
   {
-    company: 'KasperTech',
+    company: 'Student Communities @MIT-WPU',
     period: '2024',
     icon: Layers,
     iconBg: 'bg-red-500/20',
     iconColor: '#EF4444',
     borderColor: 'border-red-500/30',
-  },
-  {
-    company: 'ApnaKonnect',
-    period: '2023',
-    icon: Link2,
-    iconBg: 'bg-blue-500/20',
-    iconColor: '#3B82F6',
-    borderColor: 'border-blue-500/30',
   },
 ];
 
@@ -61,7 +53,7 @@ export function ExperienceSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-3 gap-4"
+          className="grid grid-cols-2 gap-8"
         >
           {experiences.map((exp, index) => (
             <motion.div
