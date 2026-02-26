@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Instagram, Github, Linkedin, Gamepad2 } from 'lucide-react';
+import { Menu, X, Instagram, Github, Linkedin, Gamepad2, Twitter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
@@ -91,6 +91,13 @@ export function Navbar() {
               <Github className="h-4 w-4" />
             </Link>
             <Link
+              href="https://x.com/notkawas"
+              target="_blank"
+              className="text-zinc-400 hover:text-white transition-colors"
+            >
+              <Twitter className="h-4 w-4" />
+            </Link>
+            <Link
               href="https://linkedin.com/in/kawas-nandan"
               target="_blank"
               className="text-zinc-400 hover:text-white transition-colors"
@@ -154,6 +161,9 @@ export function Navbar() {
                 </Link>
                 <Link href="https://github.com" target="_blank" className="text-zinc-400 hover:text-white">
                   <Github className="h-5 w-5" />
+                </Link>
+                <Link href="https://x.com/notkawas" target="_blank" className="text-zinc-400 hover:text-white">
+                  <Twitter className="h-5 w-5" />
                 </Link>
                 <Link href="https://linkedin.com" target="_blank" className="text-zinc-400 hover:text-white">
                   <Linkedin className="h-5 w-5" />

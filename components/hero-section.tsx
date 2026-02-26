@@ -1,12 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Linkedin, Github, Mail } from 'lucide-react';
+import { Linkedin, Github, Mail, Twitter } from 'lucide-react';
 import Link from 'next/link';
 
 const socialLinks = [
   { icon: Linkedin, name: 'LinkedIn', href: 'https://www.linkedin.com/in/kawas-nandan' },
   { icon: Github, name: 'GitHub', href: 'https://github.com/kawas8516' },
+  { icon: Twitter, name: 'X', href: 'https://x.com/notkawas' },
   { icon: Mail, name: 'Email', href: 'mailto:kaustubhamandhane24@gmail.com' },
 ];
 
