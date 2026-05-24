@@ -21,10 +21,12 @@ export function HeroSection() {
           transition={{ duration: 0.6 }}
           className="space-y-6"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight">Hi, I'm Kaustubha M</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight">
+            Hi, I&apos;m Kaustubha.
+          </h1>
 
           <h2 className="text-2xl sm:text-3xl font-semibold bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-            Backend Developer | Java, Python, Django
+            Backend dev with deep interest in the physical-AI era.
           </h2>
 
           {/* Social Links Row */}
@@ -53,9 +55,9 @@ export function HeroSection() {
             transition={{ delay: 0.3 }}
             className="text-zinc-400 leading-relaxed text-base max-w-xl"
           >
-            I'm a backend developer focused on building intelligent systems and learning through practice. MCA student
-            at MIT-WPU with hands-on experience in backend development and growing exposure to AI/ML concepts. I build
-            chatbots, system utilities, and scalable web apps.
+            I write Java, Python, and Django. Nights, I go deep on modern ML systems — transformers,
+            RAG, embeddings. This site is the log: what I read, prompts I actually use, projects
+            I&apos;ve shipped.
           </motion.p>
 
           <motion.p

@@ -4,10 +4,9 @@ import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Kaustubha M | Software Developer',
+  title: { template: '%s | Kaustubha M', default: 'Kaustubha M' },
   description:
-    'MCA Freshman at MIT-WPU - Building chatbots, system utilities, and scalable web apps.',
-  generator: 'v0.app',
+    'Backend dev with deep interest in the physical-AI era. Building, reading, shipping.',
   icons: {
     icon: [
       {
@@ -24,6 +23,13 @@ export const metadata: Metadata = {
       },
     ],
     apple: '/apple-icon.png',
+  },
+  openGraph: {
+    images: [{ url: '/og' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og'],
   },
 };
 

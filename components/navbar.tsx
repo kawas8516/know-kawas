@@ -2,22 +2,26 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Instagram, Github, Linkedin, Gamepad2, Twitter } from 'lucide-react';
+import { Menu, X, Instagram, Github, Linkedin, Gamepad2, Twitter, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { CommandPalette } from '@/components/command-palette';
 
 const navLinks = [
   { name: 'timeline', href: '/timeline' },
   { name: 'about', href: '/about' },
   { name: 'work', href: '/work' },
   { name: 'experience', href: '/#experience' },
+  { name: 'reading', href: '/reading' },
+  { name: 'prompts', href: '/prompts' },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -28,7 +32,19 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setPaletteOpen((o) => !o);
+      }
+    };
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
+
   return (
+    <>
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -73,6 +89,16 @@ export function Navbar() {
                 </Link>
               </motion.div>
             ))}
+
+            {/* ⌘K search pill */}
+            <button
+              onClick={() => setPaletteOpen(true)}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-border bg-muted/30 text-xs text-muted-foreground hover:bg-muted/60 transition-colors cursor-pointer font-mono"
+            >
+              <Search size={12} />
+              search
+              <kbd className="ml-1 text-[10px] bg-muted px-1 py-0.5 rounded">⌘K</kbd>
+            </button>
 
             {/* Social Icons */}
             {/* <div className="flex items-center gap-3 ml-4 pl-4 border-l border-zinc-700">
@@ -177,5 +203,8 @@ export function Navbar() {
         )}
       </AnimatePresence>
     </motion.header>
+
+    <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+    </>
   );
 }
