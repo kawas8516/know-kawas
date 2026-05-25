@@ -24,28 +24,27 @@ const MODAL_DATA: Record<string, ModalEntry> = {
       <>
         <p>
           Co-founded in 2020 as a Gen-Z focused digital creator and community network
-          operating primarily across Discord. Supported content creators and social media
-          influencers through video editing, content writing, graphic design, and audience
-          and community building.
+          operating across Discord. Supported content creators and social media influencers
+          through video editing, content writing, graphic design, and audience building.
         </p>
         <ul>
           <li>
             Scaled to <strong>4,300+ members</strong>
           </li>
           <li>
-            <strong>~35% growth</strong> in community engagement via data-driven
-            strategies and creator collaborations
+            <strong>~35% growth</strong> in community engagement via data-driven strategies
+            and creator collaborations
           </li>
           <li>Reduced churn through structured mentorship and governance initiatives</li>
           <li>
             Contributed across operations, moderation, engagement strategy, and creator
-            collaboration at multiple hierarchy levels
+            collaboration
           </li>
         </ul>
-        <p className="mt-3 italic text-sm">
-          What it taught me: community is a distributed system. Same problems as software
-          — consistency, availability, partition tolerance — just with humans instead of
-          nodes.
+        <p className="mt-3 italic text-sm opacity-70">
+          Building and running DNA taught me that communities are systems — they have the
+          same consistency, scaling, and failure problems as any distributed software. You
+          only really understand that after you have built one.
         </p>
       </>
     ),
@@ -87,24 +86,31 @@ const MODAL_DATA: Record<string, ModalEntry> = {
     body: (
       <>
         <p>
-          The same mental models that work in one domain turn out to be load-bearing in
-          another:
+          The same mental models keep appearing across different domains. A few I have
+          noticed:
         </p>
         <ul>
           <li>
-            <strong>Community ops → Distributed systems:</strong> Managing 4,300 people
-            across Discord is a consistency problem. Who has write access, who sees what,
-            how to handle partition — all the same questions as backend engineering.
+            <strong>Community ops → Distributed systems:</strong>{' '}
+            Running DNA across Discord is a consistency problem at its core. Who has write
+            access, what everyone sees, how you handle a partition — same questions as
+            backend engineering, just with humans.
           </li>
           <li>
-            <strong>RAG pipelines → Physical AI:</strong> Retrieval-augmented generation
-            is about grounding model outputs in real-world data. Embodied agents need the
-            same — they must retrieve from the physical world, not just a vector store.
+            <strong>Classification models → Research papers:</strong>{' '}
+            Starting with Hugging Face implementations gave me enough intuition to read the
+            papers behind them. The practical work came first; the theory clicked after.
           </li>
           <li>
-            <strong>Task Scheduler → This page:</strong> The Java Task Scheduler was a
-            queue with priorities and statuses. This about page is structured the same
-            way. The irony was intentional.
+            <strong>RAG pipelines → Agentic AI:</strong>{' '}
+            RAG taught me that grounding matters more than generation. Agentic systems have
+            the same problem — they need to retrieve from the real world, not just a vector
+            store.
+          </li>
+          <li>
+            <strong>Task Scheduler → This page:</strong>{' '}
+            A queue with priorities and statuses. This page is structured the same way. The
+            irony was intentional.
           </li>
         </ul>
       </>
@@ -118,22 +124,21 @@ const MODAL_DATA: Record<string, ModalEntry> = {
     title: '"Build. Learn. Iterate."',
     body: (
       <>
+        <p>The only rule that survived every project and every failure.</p>
         <p>
-          The only rule that survived every project, every late night, and every failure.
+          Not &quot;plan endlessly.&quot; Not &quot;wait until you are ready.&quot; Build
+          something. Learn from it honestly. Iterate until it works — or until you
+          understand exactly why it cannot.
         </p>
         <p>
-          Not "plan endlessly." Not "wait until you are ready." Build something — anything.
-          Learn from it honestly. Iterate until it works, or until you understand exactly
-          why it cannot.
+          I have built things that worked and things that did not. The ones that did not
+          taught more. The pattern holds at every scale — a side project, a community, a
+          career.
         </p>
-        <p>
-          The <strong>iterate</strong> part is the one everyone skips. That is where all
-          the real learning lives. The first build teaches you what to build. The
-          iteration teaches you how.
-        </p>
-        <p className="italic text-sm mt-2">
+        <p className="italic text-sm mt-2 opacity-70">
           DNA was run this way. The Food Waste Chatbot was built this way. This site was
-          designed this way.
+          designed this way. The iterate part is the one everyone skips — that is where all
+          the real learning lives.
         </p>
       </>
     ),
@@ -163,7 +168,8 @@ const MODAL_DATA: Record<string, ModalEntry> = {
             <strong>[P1]</strong> First long-form essay on a topic I have gone deep on
           </li>
           <li>
-            <strong>[P2]</strong> Build something with vision-language-action models
+            <strong>[P2]</strong> Go deeper on Hugging Face — models, fine-tuning, beyond
+            the tutorial implementations
           </li>
           <li>
             <strong>[P2]</strong> Run a workshop for juniors at MIT-WPU
@@ -183,25 +189,64 @@ const MODAL_DATA: Record<string, ModalEntry> = {
       <>
         <ul>
           <li>
-            <strong>MCA at MIT-WPU</strong> — active, graduating July 2027. Classes by
-            day, repos by night.
+            <strong>MCA at MIT-WPU</strong> — active, graduating July 2027. Mix of
+            technical and research subjects.
           </li>
           <li>
-            <strong>Building</strong> — production RAG project with evaluation harness.
-            Current focus.
+            <strong>Actively reading</strong> — AI and ML research papers weekly.
+            Currently discussing Memory in the Age of AI Agents with people online.
+          </li>
+          <li>
+            <strong>Building</strong> — production RAG project with an evaluation harness.
+            Current main focus outside coursework.
           </li>
           <li>
             <strong>Shipping</strong> — prompts, reading notes, small tools. All live on
             this site.
           </li>
-          <li>
-            <strong>Learning</strong> — transformer internals, diffusion models, VLA
-            models.
-          </li>
         </ul>
         <p className="mt-3">
           Open to: internships, research collaborations, community work.
         </p>
+      </>
+    ),
+  },
+
+  jrn: {
+    tag: 'Journey',
+    tagBg: 'rgba(59,130,246,0.1)',
+    tagColor: '#1d4ed8',
+    title: 'How I got here',
+    body: (
+      <>
+        <ul>
+          <li>
+            <strong style={{ color: 'rgba(255,255,255,0.8)' }}>
+              BCA · MIT-WPU · 2022–25
+            </strong>{' '}
+            — systems, algorithms, C/C++, SQL. First classification models and Hugging Face
+            implementations.
+          </li>
+          <li>
+            <strong style={{ color: 'rgba(255,255,255,0.8)' }}>
+              Discord Nation Alpha · 2020–24
+            </strong>{' '}
+            — co-founded, 4,300+ members, 35% engagement growth.
+          </li>
+          <li>
+            <strong style={{ color: 'rgba(255,255,255,0.8)' }}>
+              Food Waste Chatbot · 2024
+            </strong>{' '}
+            — first end-to-end RAG system. Django + FAISS + NLP.
+          </li>
+          <li>
+            <strong style={{ color: 'rgba(255,255,255,0.8)' }}>
+              MCA · MIT-WPU · 2025–27
+            </strong>{' '}
+            — currently active. Mix of technical and research subjects. Reading AI research
+            papers weekly.
+          </li>
+        </ul>
       </>
     ),
   },
@@ -220,11 +265,12 @@ const STATUS_DOTS = [
   { color: '#60a5fa', glow: 'rgba(96,165,250,0.7)', label: 'Shipping' },
 ];
 
-const LINE_NUMBERS = Array.from({ length: 34 }, (_, i) => i + 1);
+const LINE_NUMBERS = Array.from({ length: 40 }, (_, i) => i + 1);
 
 const CONNECTIONS = [
   { left: 'Community ops', right: 'Distributed systems thinking' },
-  { left: 'RAG pipelines', right: 'Physical AI curiosity' },
+  { left: 'Classification models', right: 'Research papers' },
+  { left: 'RAG pipelines', right: 'Agentic AI' },
   { left: 'Task Scheduler (Java)', right: 'Structure of this very page' },
 ];
 
@@ -237,7 +283,7 @@ const BACKLOG_ITEMS = [
 const STATUS_PILLS = [
   { bg: '#fef08a', color: '#713f12', text: 'MCA · active' },
   { bg: '#bfdbfe', color: '#1e3a5f', text: 'Building RAG' },
-  { bg: '#bbf7d0', color: '#14532d', text: 'Shipping prompts' },
+  { bg: '#bbf7d0', color: '#14532d', text: 'Actively reading' },
   { bg: '#f3e8ff', color: '#6b21a8', text: 'Open to collabs' },
 ];
 
@@ -248,7 +294,7 @@ export default function AboutPage() {
     <main className="min-h-screen bg-background">
       <Navbar />
 
-      <div className="pt-32 pb-20">
+      <div className="pt-32 pb-10">
         {/* ── HERO ── */}
         <section className="mx-auto max-w-[560px] px-4 mb-6">
           <p className="text-[9px] uppercase tracking-[.16em] text-muted-foreground/60 mb-2.5 font-mono">
@@ -260,8 +306,10 @@ export default function AboutPage() {
           </h1>
 
           <p className="text-[13px] text-muted-foreground/60 leading-[1.65] max-w-[400px] mb-3.5">
-            Backend developer. Co-founded DNA (4,300+ members). Going deep on AI/ML
-            systems. Building in public.
+            Backend developer. Co-founded DNA. Started with classification models and Hugging
+            Face in undergrad — now reading research papers, following where the field is
+            going. The direction is clear: Gen AI → Agentic AI → what comes next. I&apos;m
+            moving deeper.
           </p>
 
           <div className="flex flex-wrap gap-[18px]">
@@ -396,9 +444,47 @@ export default function AboutPage() {
 
                   <div className="border-t border-black/10 my-1.5" />
 
+                  {/* ── SECTION 0: JOURNEY ── */}
+                  <motion.div
+                    className="py-2 border-b cursor-pointer relative group"
+                    style={{ borderColor: 'rgba(0,0,0,0.08)' }}
+                    initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
+                    whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
+                    onClick={() => setActiveId('jrn')}
+                    role="button"
+                    aria-label="Open Journey"
+                  >
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="text-amber-700 text-[10px]">★</span>
+                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                        Journey · 2020–present
+                      </span>
+                    </div>
+                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                      HOW I GOT HERE
+                    </h3>
+                    <div className="space-y-0.5 mt-1">
+                      {[
+                        { text: 'BCA 2022–25', className: 'text-black/55' },
+                        { text: 'DNA · 2020–24', className: 'text-black/55' },
+                        { text: 'RAG Chatbot', className: 'text-black/55' },
+                        { text: 'MCA · active', className: 'text-violet-700' },
+                        { text: 'Research papers + models', className: 'text-blue-700' },
+                      ].map(({ text, className }) => (
+                        <div key={text} className="flex items-center gap-1.5 text-[9.5px]">
+                          <span className="text-amber-600 text-[9px]">✦</span>
+                          <span className={`font-serif ${className}`}>{text}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                      → read more
+                    </span>
+                  </motion.div>
+
                   {/* ── SECTION 1: DNA ── */}
                   <motion.div
-                    className="py-2 border-b cursor-pointer relative"
+                    className="py-2 border-b cursor-pointer relative group"
                     style={{ borderColor: 'rgba(0,0,0,0.08)' }}
                     initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
                     whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
@@ -463,11 +549,14 @@ export default function AboutPage() {
                         <p>data-driven strategy + creator collabs</p>
                       </div>
                     </div>
+                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                      → read more
+                    </span>
                   </motion.div>
 
                   {/* ── SECTION 2: RAG ── */}
                   <motion.div
-                    className="py-2 border-b cursor-pointer relative"
+                    className="py-2 border-b cursor-pointer relative group"
                     style={{ borderColor: 'rgba(0,0,0,0.08)' }}
                     initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
                     whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
@@ -513,11 +602,14 @@ export default function AboutPage() {
                     >
                       amounts of thought →
                     </span>
+                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                      → read more
+                    </span>
                   </motion.div>
 
                   {/* ── SECTION 3: CONNECTIONS ── */}
                   <motion.div
-                    className="py-2 border-b cursor-pointer relative"
+                    className="py-2 border-b cursor-pointer relative group"
                     style={{ borderColor: 'rgba(0,0,0,0.08)' }}
                     initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
                     whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
@@ -551,11 +643,14 @@ export default function AboutPage() {
                     <span className="text-red-600 italic text-[9.5px] block mt-1">
                       ↳ the last one was intentional — philosophy as engineering
                     </span>
+                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                      → read more
+                    </span>
                   </motion.div>
 
                   {/* ── SECTION 4: PHILOSOPHY ── */}
                   <motion.div
-                    className="py-2 border-b cursor-pointer relative"
+                    className="py-2 border-b cursor-pointer relative group"
                     style={{ borderColor: 'rgba(0,0,0,0.08)' }}
                     initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
                     whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
@@ -605,11 +700,14 @@ export default function AboutPage() {
                         here
                       </span>
                     </p>
+                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                      → read more
+                    </span>
                   </motion.div>
 
                   {/* ── SECTION 5: BACKLOG ── */}
                   <motion.div
-                    className="py-2 border-b cursor-pointer relative"
+                    className="py-2 border-b cursor-pointer relative group"
                     style={{ borderColor: 'rgba(0,0,0,0.08)' }}
                     initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
                     whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
@@ -644,10 +742,11 @@ export default function AboutPage() {
                       <span className="text-[8px] font-bold px-1 py-0.5 rounded-sm font-mono flex-shrink-0 bg-blue-100 text-blue-700">
                         [P2]
                       </span>
-                      Build with{' '}
+                      Go deeper on{' '}
                       <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[9px] font-semibold">
-                        vision-language-action models
-                      </span>
+                        Hugging Face
+                      </span>{' '}
+                      — beyond the tutorials
                     </div>
 
                     <div className="mt-2">
@@ -659,11 +758,14 @@ export default function AboutPage() {
                         <div className="h-full w-[28%] bg-purple-500 rounded-full" />
                       </div>
                     </div>
+                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                      → read more
+                    </span>
                   </motion.div>
 
                   {/* ── SECTION 6: STATUS ── */}
                   <motion.div
-                    className="py-2 cursor-pointer relative"
+                    className="py-2 cursor-pointer relative group"
                     initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
                     whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
                     onClick={() => setActiveId('status')}
@@ -690,15 +792,20 @@ export default function AboutPage() {
                         </span>
                       ))}
                     </div>
+                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                      → read more
+                    </span>
                   </motion.div>
 
-                  {/* COMMIT LINE */}
-                  <p
-                    className="text-center italic text-[9.5px] text-black/35 border-t pt-2.5 mt-1"
-                    style={{ borderColor: 'rgba(0,0,0,0.1)' }}
-                  >
-                    // commit: building, reading, shipping — kawas
-                  </p>
+                  {/* CLOSING QUOTE */}
+                  <div className="border-t pt-2.5 mt-1 pb-3" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>
+                    <p className="text-center italic text-[9px] text-black/40 leading-[1.7] font-serif">
+                      &ldquo;A complex system that works is invariably found to have evolved from a simple system that worked.&rdquo;
+                    </p>
+                    <p className="text-center text-[8px] text-black/28 font-mono tracking-[.06em] uppercase mt-1">
+                      John Gall — Systemantics, 1975
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -939,11 +1046,6 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-
-        {/* click hint */}
-        <p className="text-center text-[10px] text-muted-foreground/30 tracking-[.05em] mt-4 font-mono">
-          click any section to read more
-        </p>
 
         {/* MODAL */}
         <AnimatePresence>

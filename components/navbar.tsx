@@ -15,7 +15,6 @@ const navLinks = [
   { name: 'work', href: '/work' },
   { name: 'experience', href: '/#experience' },
   { name: 'reading', href: '/reading' },
-  { name: 'prompts', href: '/prompts' },
 ];
 
 export function Navbar() {
@@ -82,7 +81,9 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   className={`text-sm transition-colors ${
-                    pathname === link.href ? 'text-white' : 'text-zinc-400 hover:text-white'
+                    pathname === link.href
+                      ? 'text-foreground relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-blue-500 after:rounded-full'
+                      : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   {link.name}

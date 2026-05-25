@@ -8,23 +8,12 @@ export type ReadingItem = {
   author: string
   year: number
   type: 'book' | 'paper' | 'essay' | 'talk' | 'other'
-  status: 'reading' | 'finished' | 'abandoned'
+  status: 'reading' | 'finished' | 'abandoned' | 'discussing'
   tags: string[]
   note?: string
 }
 
-export type Prompt = {
-  slug: string
-  title: string
-  date: string
-  model: 'claude' | 'gpt-4' | 'gemini' | 'generic'
-  use_case: string
-  tags: string[]
-  content: string
-}
-
 const readingDir = path.join(process.cwd(), 'content', 'reading')
-const promptsDir = path.join(process.cwd(), 'content', 'prompts')
 
 function getMdxFiles(dir: string): string[] {
   if (!fs.existsSync(dir)) return []
@@ -50,40 +39,4 @@ export function getAllReading(): ReadingItem[] {
       }
     })
     .sort((a, b) => a.title.localeCompare(b.title))
-}
-
-export function getAllPrompts(): Prompt[] {
-  const files = getMdxFiles(promptsDir)
-  return files
-    .map((filename) => {
-      const slug = filename.replace(/\.mdx$/, '')
-      const raw = fs.readFileSync(path.join(promptsDir, filename), 'utf8')
-      const { data, content } = matter(raw)
-      return {
-        slug,
-        title: data.title as string,
-        date: data.date as string,
-        model: data.model as Prompt['model'],
-        use_case: data.use_case as string,
-        tags: (data.tags as string[]) ?? [],
-        content,
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-}
-
-export function getPromptBySlug(slug: string): Prompt | null {
-  const filepath = path.join(promptsDir, `${slug}.mdx`)
-  if (!fs.existsSync(filepath)) return null
-  const raw = fs.readFileSync(filepath, 'utf8')
-  const { data, content } = matter(raw)
-  return {
-    slug,
-    title: data.title as string,
-    date: data.date as string,
-    model: data.model as Prompt['model'],
-    use_case: data.use_case as string,
-    tags: (data.tags as string[]) ?? [],
-    content,
-  }
 }

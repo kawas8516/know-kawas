@@ -18,21 +18,18 @@ import {
   Github,
   GitBranch,
   Mail,
-  Terminal,
 } from 'lucide-react';
-import type { Prompt, ReadingItem } from '@/lib/content';
+import type { ReadingItem } from '@/lib/content';
 
 type PaletteData = {
-  prompts: Pick<Prompt, 'slug' | 'title' | 'use_case'>[];
   reading: Pick<ReadingItem, 'slug' | 'title' | 'author'>[];
 };
 
 const PAGES = [
-  { id: 'about', label: 'About — PENDING_TASKS.md', href: '/about', Icon: FileText },
+  { id: 'about', label: 'About', href: '/about', Icon: FileText },
   { id: 'work', label: 'Work', href: '/work', Icon: Folder },
   { id: 'timeline', label: 'Timeline', href: '/timeline', Icon: GitBranch },
   { id: 'reading', label: 'Reading', href: '/reading', Icon: BookOpen },
-  { id: 'prompts', label: 'Prompts', href: '/prompts', Icon: Terminal },
 ];
 
 const ACTIONS = [
@@ -70,12 +67,9 @@ export function CommandPalette({
 
   useEffect(() => {
     if (open && !data) {
-      Promise.all([
-        fetch('/api/prompts').then((r) => r.json()),
-        fetch('/api/reading').then((r) => r.json()),
-      ]).then(([prompts, reading]) => {
-        setData({ prompts, reading });
-      });
+      fetch('/api/reading')
+        .then((r) => r.json())
+        .then((reading) => setData({ reading }));
     }
   }, [open, data]);
 
@@ -116,7 +110,7 @@ export function CommandPalette({
         >
           <CommandInput
             autoFocus
-            placeholder="Search pages, prompts, reading…"
+            placeholder="Search pages, reading…"
             className="border-b border-border px-4 py-3 font-sans text-sm bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground"
           />
 
@@ -139,26 +133,6 @@ export function CommandPalette({
                 </CommandItem>
               ))}
             </CommandGroup>
-
-            {/* Prompts */}
-            {data?.prompts && data.prompts.length > 0 && (
-              <CommandGroup heading="Prompts" className={GROUP_HEADING_CLASS}>
-                {data.prompts.slice(0, 5).map((prompt) => (
-                  <CommandItem
-                    key={prompt.slug}
-                    value={prompt.title}
-                    onSelect={() => handleSelect(`/prompts/${prompt.slug}`)}
-                    className={ITEM_CLASS}
-                  >
-                    <Terminal className="size-3.5 text-muted-foreground flex-shrink-0" />
-                    <span className="flex-1 truncate">{prompt.title}</span>
-                    <span className="text-[10px] text-muted-foreground/60 truncate max-w-[120px]">
-                      {prompt.use_case}
-                    </span>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
 
             {/* Reading */}
             {data?.reading && data.reading.length > 0 && (

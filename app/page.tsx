@@ -5,11 +5,10 @@ import { ProjectsSection } from '@/components/projects-section';
 import { ExperienceSection } from '@/components/experience-section';
 import { Footer } from '@/components/footer';
 import { HomeContentSections } from '@/components/home-content-sections';
-import { getAllReading, getAllPrompts } from '@/lib/content';
+import { getAllReading } from '@/lib/content';
 
 export default function Home() {
   const readingItems = getAllReading().filter((i) => i.status === 'reading').slice(0, 2);
-  const promptItems = getAllPrompts().slice(0, 3);
 
   return (
     <main className="relative min-h-screen">
@@ -31,7 +30,7 @@ export default function Home() {
         <Navbar />
         <HeroSection />
         <TechStackSection />
-        <HomeContentSections readingItems={readingItems} promptItems={promptItems} />
+        <HomeContentSections readingItems={readingItems} />
         <ProjectsSection />
         <ExperienceSection />
         <Footer />

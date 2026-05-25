@@ -48,6 +48,14 @@ function StatusBadge({ status }: { status: ReadingItem['status'] }) {
       </span>
     );
   }
+  if (status === 'discussing') {
+    return (
+      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-violet-500/15 text-violet-400 font-mono inline-flex items-center">
+        <span className="inline-block w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse mr-1" />
+        discussing
+      </span>
+    );
+  }
   if (status === 'finished') {
     return (
       <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
@@ -94,7 +102,9 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
           <TypeBadge type={item.type} />
         </div>
         {item.note && (
-          <p className="text-xs text-zinc-400 leading-relaxed mt-1 italic">{item.note}</p>
+          <p className="text-xs text-zinc-400 leading-relaxed mt-1 italic line-clamp-2 group-hover:line-clamp-none transition-all">
+            {item.note}
+          </p>
         )}
         <div className="flex flex-wrap gap-1.5 mt-2">
           {item.tags.map((tag) => (
@@ -106,6 +116,14 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
             </span>
           ))}
         </div>
+      </div>
+      <div className="ml-auto flex-shrink-0 pl-2 self-center">
+        <span
+          className="text-muted-foreground/20 group-hover:text-muted-foreground/60 transition-colors text-sm"
+          aria-hidden="true"
+        >
+          →
+        </span>
       </div>
     </motion.div>
   );
