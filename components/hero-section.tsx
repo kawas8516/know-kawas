@@ -22,11 +22,11 @@ export function HeroSection() {
           className="space-y-6"
         >
           <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight">
-            Hi, I&apos;m Kaustubha.
+            Hi, I&apos;m Kaustubha
           </h1>
 
           <h2 className="text-2xl sm:text-3xl font-semibold bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-            Backend dev with deep interest in the physical-AI era.
+            Good at systems. Getting better at what&apos;s next
           </h2>
 
           {/* Social Links Row */}
