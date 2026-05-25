@@ -1,95 +1,1015 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Github, Linkedin, Twitter, Mail, X } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { TaskFileView } from '@/components/task-file-view';
+
+type ModalEntry = {
+  tag: string;
+  tagBg: string;
+  tagColor: string;
+  title: string;
+  body: React.ReactNode;
+};
+
+const MODAL_DATA: Record<string, ModalEntry> = {
+  dna: {
+    tag: 'Community Building',
+    tagBg: 'rgba(236,72,153,0.1)',
+    tagColor: '#be185d',
+    title: 'Discord Nation Alpha (DNA)',
+    body: (
+      <>
+        <p>
+          Co-founded in 2020 as a Gen-Z focused digital creator and community network
+          operating primarily across Discord. Supported content creators and social media
+          influencers through video editing, content writing, graphic design, and audience
+          and community building.
+        </p>
+        <ul>
+          <li>
+            Scaled to <strong>4,300+ members</strong>
+          </li>
+          <li>
+            <strong>~35% growth</strong> in community engagement via data-driven
+            strategies and creator collaborations
+          </li>
+          <li>Reduced churn through structured mentorship and governance initiatives</li>
+          <li>
+            Contributed across operations, moderation, engagement strategy, and creator
+            collaboration at multiple hierarchy levels
+          </li>
+        </ul>
+        <p className="mt-3 italic text-sm">
+          What it taught me: community is a distributed system. Same problems as software
+          — consistency, availability, partition tolerance — just with humans instead of
+          nodes.
+        </p>
+      </>
+    ),
+  },
+
+  rag: {
+    tag: 'Project Highlight',
+    tagBg: 'rgba(29,158,117,0.1)',
+    tagColor: '#0f6e56',
+    title: 'Food Waste Chatbot · RAG + FAISS + Django',
+    body: (
+      <>
+        <p>
+          An end-to-end RAG system built to reduce food waste through intelligent
+          query-answering. The project where retrieval pipelines finally clicked beyond
+          what the papers described.
+        </p>
+        <p>
+          <strong>Stack:</strong> Django · FAISS · NLP preprocessing · Python
+        </p>
+        <p>
+          <strong>Key insight:</strong> 80% of RAG quality is in the retrieval step, not
+          the generation. The LLM is the easy part. Chunking strategy, embedding model
+          choice, metadata filters — that is where the real engineering lives.
+        </p>
+        <p>
+          Run your retrieval quality check across N samples to spot patterns — usually
+          reveals chunking problems, not retrieval problems.
+        </p>
+      </>
+    ),
+  },
+
+  connections: {
+    tag: 'Cross-Pollination',
+    tagBg: 'rgba(186,117,23,0.1)',
+    tagColor: '#854f0b',
+    title: 'How domains connect',
+    body: (
+      <>
+        <p>
+          The same mental models that work in one domain turn out to be load-bearing in
+          another:
+        </p>
+        <ul>
+          <li>
+            <strong>Community ops → Distributed systems:</strong> Managing 4,300 people
+            across Discord is a consistency problem. Who has write access, who sees what,
+            how to handle partition — all the same questions as backend engineering.
+          </li>
+          <li>
+            <strong>RAG pipelines → Physical AI:</strong> Retrieval-augmented generation
+            is about grounding model outputs in real-world data. Embodied agents need the
+            same — they must retrieve from the physical world, not just a vector store.
+          </li>
+          <li>
+            <strong>Task Scheduler → This page:</strong> The Java Task Scheduler was a
+            queue with priorities and statuses. This about page is structured the same
+            way. The irony was intentional.
+          </li>
+        </ul>
+      </>
+    ),
+  },
+
+  philosophy: {
+    tag: 'Philosophy',
+    tagBg: 'rgba(127,119,221,0.1)',
+    tagColor: '#534ab7',
+    title: '"Build. Learn. Iterate."',
+    body: (
+      <>
+        <p>
+          The only rule that survived every project, every late night, and every failure.
+        </p>
+        <p>
+          Not "plan endlessly." Not "wait until you are ready." Build something — anything.
+          Learn from it honestly. Iterate until it works, or until you understand exactly
+          why it cannot.
+        </p>
+        <p>
+          The <strong>iterate</strong> part is the one everyone skips. That is where all
+          the real learning lives. The first build teaches you what to build. The
+          iteration teaches you how.
+        </p>
+        <p className="italic text-sm mt-2">
+          DNA was run this way. The Food Waste Chatbot was built this way. This site was
+          designed this way.
+        </p>
+      </>
+    ),
+  },
+
+  backlog: {
+    tag: 'Backlog.md',
+    tagBg: 'rgba(127,119,221,0.1)',
+    tagColor: '#534ab7',
+    title: 'Current priorities',
+    body: (
+      <>
+        <ul>
+          <li>
+            <strong>[P0]</strong> Ship a production RAG project with a full evaluation
+            harness — not just a demo
+          </li>
+          <li>
+            <strong>[P0]</strong> Finish Designing Data-Intensive Applications (halfway
+            through)
+          </li>
+          <li>
+            <strong>[P1]</strong> First meaningful open-source contribution to an LLM
+            tooling project
+          </li>
+          <li>
+            <strong>[P1]</strong> First long-form essay on a topic I have gone deep on
+          </li>
+          <li>
+            <strong>[P2]</strong> Build something with vision-language-action models
+          </li>
+          <li>
+            <strong>[P2]</strong> Run a workshop for juniors at MIT-WPU
+          </li>
+        </ul>
+        <p className="text-sm italic mt-3 opacity-50">// update these when they ship</p>
+      </>
+    ),
+  },
+
+  status: {
+    tag: 'Live Status',
+    tagBg: 'rgba(74,222,128,0.1)',
+    tagColor: '#166534',
+    title: 'Where things stand',
+    body: (
+      <>
+        <ul>
+          <li>
+            <strong>MCA at MIT-WPU</strong> — active, graduating July 2027. Classes by
+            day, repos by night.
+          </li>
+          <li>
+            <strong>Building</strong> — production RAG project with evaluation harness.
+            Current focus.
+          </li>
+          <li>
+            <strong>Shipping</strong> — prompts, reading notes, small tools. All live on
+            this site.
+          </li>
+          <li>
+            <strong>Learning</strong> — transformer internals, diffusion models, VLA
+            models.
+          </li>
+        </ul>
+        <p className="mt-3">
+          Open to: internships, research collaborations, community work.
+        </p>
+      </>
+    ),
+  },
+};
+
+const SOCIAL_LINKS = [
+  { href: 'https://github.com/kawas8516', icon: Github, label: 'kawas8516' },
+  { href: 'https://www.linkedin.com/in/kawas-nandan', icon: Linkedin, label: 'kawas-nandan' },
+  { href: 'https://x.com/notkawas', icon: Twitter, label: 'notkawas' },
+  { href: 'mailto:kaustubhamandhane24@gmail.com', icon: Mail, label: 'email' },
+];
+
+const STATUS_DOTS = [
+  { color: '#4ade80', glow: 'rgba(74,222,128,0.7)', label: 'Building' },
+  { color: '#fbbf24', glow: 'rgba(251,191,36,0.7)', label: 'Learning' },
+  { color: '#60a5fa', glow: 'rgba(96,165,250,0.7)', label: 'Shipping' },
+];
+
+const LINE_NUMBERS = Array.from({ length: 34 }, (_, i) => i + 1);
+
+const CONNECTIONS = [
+  { left: 'Community ops', right: 'Distributed systems thinking' },
+  { left: 'RAG pipelines', right: 'Physical AI curiosity' },
+  { left: 'Task Scheduler (Java)', right: 'Structure of this very page' },
+];
+
+const BACKLOG_ITEMS = [
+  { priority: 'P0', className: 'bg-red-100 text-red-700', text: 'Ship production RAG project with eval harness' },
+  { priority: 'P0', className: 'bg-red-100 text-red-700', text: 'Finish Designing Data-Intensive Applications' },
+  { priority: 'P1', className: 'bg-violet-100 text-violet-700', text: 'First OSS contribution to LLM tooling' },
+];
+
+const STATUS_PILLS = [
+  { bg: '#fef08a', color: '#713f12', text: 'MCA · active' },
+  { bg: '#bfdbfe', color: '#1e3a5f', text: 'Building RAG' },
+  { bg: '#bbf7d0', color: '#14532d', text: 'Shipping prompts' },
+  { bg: '#f3e8ff', color: '#6b21a8', text: 'Open to collabs' },
+];
 
 export default function AboutPage() {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
   return (
     <main className="min-h-screen bg-background">
-      {/* G12 ambient glows */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full bg-purple-600/20 blur-[150px]" />
-        <div className="absolute top-1/4 -right-32 h-[400px] w-[400px] rounded-full bg-blue-500/15 blur-[120px]" />
-        <div className="absolute top-[45%] left-1/4 h-[350px] w-[350px] rounded-full bg-emerald-500/10 blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/3 h-[300px] w-[300px] rounded-full bg-orange-500/10 blur-[100px]" />
-        <div className="absolute -bottom-20 -left-20 h-[400px] w-[400px] rounded-full bg-pink-500/10 blur-[120px]" />
-      </div>
+      <Navbar />
 
-      <div className="relative z-10">
-        <Navbar />
+      <div className="pt-32 pb-20">
+        {/* ── HERO ── */}
+        <section className="mx-auto max-w-[560px] px-4 mb-6">
+          <p className="text-[9px] uppercase tracking-[.16em] text-muted-foreground/60 mb-2.5 font-mono">
+            Portfolio · Pune, IN
+          </p>
 
-        <div className="pt-32 pb-20 px-4 sm:px-6">
-          <div className="mx-auto max-w-2xl">
-            {/* PageHeader */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">about</p>
-              <h1 className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                A living file.
-              </h1>
-              <p className="mt-3 text-sm sm:text-base text-zinc-400 max-w-md mx-auto leading-relaxed">
-                I&apos;m Kaustubha. Backend developer, pursuing my MCA at MIT-WPU, with a deep
-                interest in AI/ML systems and the physical-AI era. I structure work the way I
-                structure this page — as a TODO file.
-              </p>
-              {/* G5 hairline */}
-              <div className="flex items-center justify-center gap-2 mt-6">
-                <div className="w-16 h-px bg-gradient-to-r from-transparent via-zinc-600 to-zinc-600" />
-                <div className="flex gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
-                </div>
-                <div className="w-16 h-px bg-gradient-to-l from-transparent via-zinc-600 to-zinc-600" />
-              </div>
-            </motion.div>
+          <h1 className="text-[32px] font-bold leading-[1.1] mb-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+            Hey, I&apos;m Kawas.
+          </h1>
 
-            {/* Intro */}
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="text-sm text-zinc-400 leading-relaxed mb-8"
-            >
-              What&apos;s shipped, what I&apos;m building, what&apos;s queued. It updates as I do.
-            </motion.p>
+          <p className="text-[13px] text-muted-foreground/60 leading-[1.65] max-w-[400px] mb-3.5">
+            Backend developer. Co-founded DNA (4,300+ members). Going deep on AI/ML
+            systems. Building in public.
+          </p>
 
-            {/* TaskFileView */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.25 }}
-            >
-              <TaskFileView />
-            </motion.div>
-
-            {/* Footer nudge */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-sm text-zinc-400 mt-6"
-            >
-              Have a{' '}
-              <span className="font-mono text-muted-foreground">// [P?]</span> suggestion?{' '}
+          <div className="flex flex-wrap gap-[18px]">
+            {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
               <a
-                href="mailto:kaustubhamandhane24@gmail.com"
-                className="text-primary hover:underline"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-[5px] text-xs text-muted-foreground/40 hover:text-foreground transition-colors"
               >
-                Email me →
+                <Icon className="size-3" />
+                <span>{label}</span>
               </a>
-            </motion.p>
+            ))}
+          </div>
+        </section>
+
+        {/* ── DIVIDER ── */}
+        <div className="mx-auto max-w-[560px] px-4">
+          <hr className="border-border mb-8" />
+        </div>
+
+        {/* ── THREE-COLUMN CANVAS ── */}
+        <div className="flex justify-center items-start gap-0 px-3 relative">
+          {/* LEFT PANEL — 72px */}
+          <div className="hidden md:flex w-[72px] flex-shrink-0 mt-1 flex-col gap-2.5">
+            {/* Status box */}
+            <div className="bg-muted/30 border border-border rounded p-2">
+              <p className="text-[8px] uppercase tracking-[.08em] text-muted-foreground/50 font-mono mb-1.5">
+                Status
+              </p>
+              {STATUS_DOTS.map(({ color, glow, label }) => (
+                <div key={label} className="flex items-center gap-1 mb-1 last:mb-0">
+                  <div
+                    className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                    style={{ background: color, boxShadow: `0 0 5px ${glow}` }}
+                  />
+                  <span className="text-[9px] text-muted-foreground/55 font-mono">
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Yellow sticky */}
+            <div className="relative" style={{ transform: 'rotate(-4deg)' }}>
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-purple-500 shadow-md z-10" />
+              <div
+                className="text-[8.5px] leading-[1.5] p-2 rounded-sm"
+                style={{
+                  background: '#fef08a',
+                  color: '#713f12',
+                  boxShadow: '1px 3px 8px rgba(0,0,0,0.35)',
+                }}
+              >
+                <p className="font-bold mb-0.5">verify logic chain</p>
+                <p>community = distributed system</p>
+              </div>
+            </div>
+          </div>
+
+          {/* CENTER PAPER */}
+          <div className="w-full max-w-[460px] md:flex-shrink-0 md:mx-3 relative">
+            <div
+              className="relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(165deg, #f7f0e0, #f0e8ce, #ede0c4)',
+                borderRadius: '2px',
+                boxShadow:
+                  '0 12px 50px rgba(0,0,0,.65), 0 2px 10px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.4)',
+              }}
+            >
+              {/* Top rule */}
+              <div className="h-[3px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500" />
+
+              {/* Two-column inner layout */}
+              <div className="flex">
+                {/* GUTTER */}
+                <div
+                  className="font-mono text-[8px] text-black/25 flex-shrink-0"
+                  style={{
+                    background: 'rgba(0,0,0,0.04)',
+                    borderRight: '1px solid rgba(0,0,0,0.1)',
+                    padding: '10px 0',
+                    minWidth: '26px',
+                  }}
+                >
+                  {LINE_NUMBERS.map((n) => (
+                    <div
+                      key={n}
+                      style={{
+                        lineHeight: '20px',
+                        paddingRight: '5px',
+                        textAlign: 'right',
+                      }}
+                    >
+                      {n}
+                    </div>
+                  ))}
+                </div>
+
+                {/* BODY */}
+                <div className="flex-1 min-w-0 p-3 pr-4">
+                  {/* META ROW */}
+                  <div className="flex justify-between items-start mb-1 gap-2">
+                    <span className="font-mono text-[8.5px] text-black/40">
+                      06. Apr 23, creator days
+                    </span>
+                    <span
+                      className="text-[8px] px-2 py-0.5 rounded-sm font-mono tracking-[.06em] border"
+                      style={{
+                        background: '#1a1525',
+                        color: 'rgba(255,255,255,0.45)',
+                        borderColor: 'rgba(255,255,255,0.08)',
+                      }}
+                    >
+                      PRIVATE · KM-001
+                    </span>
+                  </div>
+
+                  {/* Title block */}
+                  <h2 className="font-mono text-[15px] font-bold text-black tracking-[.05em]">
+                    CROSS-POLLINATION LOG
+                  </h2>
+                  <p className="text-[9.5px] text-black/50 italic">
+                    — no, no, everything connects.
+                  </p>
+                  <p className="font-mono text-[9.5px] text-black/60 font-bold mb-2">
+                    [RESEARCH YEAR: 2025]
+                  </p>
+
+                  <div className="border-t border-black/10 my-1.5" />
+
+                  {/* ── SECTION 1: DNA ── */}
+                  <motion.div
+                    className="py-2 border-b cursor-pointer relative"
+                    style={{ borderColor: 'rgba(0,0,0,0.08)' }}
+                    initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
+                    whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
+                    onClick={() => setActiveId('dna')}
+                    role="button"
+                    aria-label="Open Discord Nation Alpha"
+                  >
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="text-amber-700 text-[10px]">★</span>
+                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                        Community building · 2020–2024
+                      </span>
+                    </div>
+                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                      DISCORD NATION ALPHA
+                      <span className="text-[9px] text-red-600 ml-1">
+                        (REF:{' '}
+                        <span className="bg-orange-200 text-orange-900 px-1 rounded-sm font-semibold text-[9px]">
+                          CREATOR ECONOMY
+                        </span>
+                        )
+                      </span>
+                    </h3>
+                    <p className="font-serif text-[10px] text-black/55 leading-[1.78]">
+                      Co-founded Gen-Z digital creator and community network.{' '}
+                      <span className="text-green-700 font-semibold underline decoration-green-600/40">
+                        Scaled to 4,300+ members
+                      </span>{' '}
+                      across Discord — video editing, content writing, graphic design,
+                      audience building. Worked across multiple hierarchy levels:
+                      operations, moderation, engagement strategy, creator collaboration.{' '}
+                      <span className="line-through text-black/30">
+                        tried everything at once
+                      </span>{' '}
+                      Achieved{' '}
+                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[9px] font-semibold">
+                        ~35% engagement growth
+                      </span>{' '}
+                      via data-driven strategy and creator collaborations.
+                      <br />
+                      <span className="text-red-600 italic text-[9.5px]">
+                        ↳ community ops is backend engineering with humans — same CAP
+                        theorem
+                      </span>
+                    </p>
+
+                    {/* Overlapping sticky */}
+                    <div
+                      className="absolute right-[-10px] top-4 z-10"
+                      style={{ transform: 'rotate(3.5deg)' }}
+                    >
+                      <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-pink-500 shadow-md z-10" />
+                      <div
+                        className="text-[8.5px] leading-[1.5] p-2 w-[88px] rounded-sm"
+                        style={{
+                          background: '#fef08a',
+                          color: '#713f12',
+                          boxShadow: '1px 3px 8px rgba(0,0,0,0.25)',
+                        }}
+                      >
+                        <p className="font-bold text-[8px] mb-0.5">35% growth</p>
+                        <p>data-driven strategy + creator collabs</p>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* ── SECTION 2: RAG ── */}
+                  <motion.div
+                    className="py-2 border-b cursor-pointer relative"
+                    style={{ borderColor: 'rgba(0,0,0,0.08)' }}
+                    initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
+                    whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
+                    onClick={() => setActiveId('rag')}
+                    role="button"
+                    aria-label="Open Food Waste Chatbot"
+                  >
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="text-amber-700 text-[10px]">★</span>
+                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                        AI/ML systems · 2024
+                      </span>
+                    </div>
+                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                      FOOD WASTE CHATBOT{' '}
+                      <span className="underline decoration-blue-500 text-blue-700">
+                        (RAG · FAISS · DJANGO)
+                      </span>
+                    </h3>
+                    <p className="font-serif text-[10px] text-black/55 leading-[1.78]">
+                      First end-to-end retrieval pipeline shipped.{' '}
+                      <span className="text-red-600 font-semibold underline decoration-red-500/50">
+                        80% of RAG quality lives in retrieval
+                      </span>
+                      ,{' '}
+                      <span className="line-through text-black/30">not the model</span>{' '}
+                      not the generation. Chunking strategy, embedding model choice,
+                      metadata filters —{' '}
+                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[9px] font-semibold">
+                        chunking strategy clicked here
+                      </span>
+                      .
+                      <br />
+                      <span className="text-red-600 italic text-[9.5px]">
+                        → re-read the RAG paper after building — it reads differently
+                      </span>
+                    </p>
+
+                    {/* Diagonal annotation */}
+                    <span
+                      className="absolute right-[-18px] top-6 text-red-600 italic text-[9px] whitespace-nowrap pointer-events-none z-[8]"
+                      style={{ transform: 'rotate(-18deg)' }}
+                    >
+                      amounts of thought →
+                    </span>
+                  </motion.div>
+
+                  {/* ── SECTION 3: CONNECTIONS ── */}
+                  <motion.div
+                    className="py-2 border-b cursor-pointer relative"
+                    style={{ borderColor: 'rgba(0,0,0,0.08)' }}
+                    initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
+                    whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
+                    onClick={() => setActiveId('connections')}
+                    role="button"
+                    aria-label="Open Cross-domain connections"
+                  >
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="text-amber-700 text-[10px]">★</span>
+                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                        Cross-domain connections
+                      </span>
+                    </div>
+                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                      HOW DOMAINS CROSS-POLLINATE
+                    </h3>
+                    {CONNECTIONS.map(({ left, right }) => (
+                      <div
+                        key={left}
+                        className="flex items-center gap-1 text-[9.5px] text-black/55 mt-1"
+                      >
+                        <div className="flex-1 px-1.5 py-0.5 rounded bg-black/5 border border-black/10 font-mono text-[9px] text-black/50">
+                          {left}
+                        </div>
+                        <span className="text-black/30 font-mono text-[10px]">→</span>
+                        <div className="flex-1 px-1.5 py-0.5 rounded bg-black/5 border border-black/10 font-mono text-[9px] text-black/50">
+                          {right}
+                        </div>
+                      </div>
+                    ))}
+                    <span className="text-red-600 italic text-[9.5px] block mt-1">
+                      ↳ the last one was intentional — philosophy as engineering
+                    </span>
+                  </motion.div>
+
+                  {/* ── SECTION 4: PHILOSOPHY ── */}
+                  <motion.div
+                    className="py-2 border-b cursor-pointer relative"
+                    style={{ borderColor: 'rgba(0,0,0,0.08)' }}
+                    initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
+                    whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
+                    onClick={() => setActiveId('philosophy')}
+                    role="button"
+                    aria-label="Open Philosophy"
+                  >
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="text-amber-700 text-[10px]">★</span>
+                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                        Philosophy
+                      </span>
+                    </div>
+                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                      BUILD. LEARN.{' '}
+                      <span
+                        style={{
+                          textDecoration: 'underline',
+                          textDecorationStyle: 'wavy',
+                          textDecorationColor: '#dc2626',
+                        }}
+                      >
+                        ITERATE.
+                      </span>{' '}
+                      <span className="text-red-600 italic text-[9px]">
+                        (RED underline)
+                      </span>
+                    </h3>
+                    <p className="font-serif text-[10px] text-black/55 leading-[1.78]">
+                      Not &quot;plan endlessly.&quot; Not{' '}
+                      <span className="bg-blue-100 text-blue-800 px-1 rounded-sm text-[9px]">
+                        &quot;wait until ready.&quot;
+                      </span>{' '}
+                      Build something. Learn from it{' '}
+                      <span className="text-green-700 font-semibold underline decoration-green-600/40">
+                        honestly
+                      </span>
+                      . Iterate until it works — or until you understand why it{' '}
+                      <span className="text-red-600 font-semibold underline decoration-red-500/50">
+                        cannot
+                      </span>
+                      . DNA was run this way. The Food Waste Chatbot was built this way.
+                      This site was designed this way.
+                      <br />
+                      <span className="text-red-600 italic text-[9.5px]">
+                        ↳ the iterate part is what everyone skips — real learning lives
+                        here
+                      </span>
+                    </p>
+                  </motion.div>
+
+                  {/* ── SECTION 5: BACKLOG ── */}
+                  <motion.div
+                    className="py-2 border-b cursor-pointer relative"
+                    style={{ borderColor: 'rgba(0,0,0,0.08)' }}
+                    initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
+                    whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
+                    onClick={() => setActiveId('backlog')}
+                    role="button"
+                    aria-label="Open Backlog"
+                  >
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="text-amber-700 text-[10px]">★</span>
+                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                        Backlog.md — current priorities
+                      </span>
+                    </div>
+                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                      QUEUED &amp; CONCEPTUAL BLENDING
+                    </h3>
+
+                    {BACKLOG_ITEMS.map(({ priority, className, text }) => (
+                      <div
+                        key={text}
+                        className="flex items-baseline gap-1.5 py-0.5 text-[10px] text-black/55 leading-[1.5]"
+                      >
+                        <span
+                          className={`text-[8px] font-bold px-1 py-0.5 rounded-sm font-mono flex-shrink-0 ${className}`}
+                        >
+                          [{priority}]
+                        </span>
+                        {text}
+                      </div>
+                    ))}
+                    <div className="flex items-baseline gap-1.5 py-0.5 text-[10px] text-black/55 leading-[1.5]">
+                      <span className="text-[8px] font-bold px-1 py-0.5 rounded-sm font-mono flex-shrink-0 bg-blue-100 text-blue-700">
+                        [P2]
+                      </span>
+                      Build with{' '}
+                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[9px] font-semibold">
+                        vision-language-action models
+                      </span>
+                    </div>
+
+                    <div className="mt-2">
+                      <div className="flex justify-between text-[8.5px] text-black/35 font-mono mb-0.5">
+                        <span>sprint progress</span>
+                        <span>2 / 6 done</span>
+                      </div>
+                      <div className="h-[2px] bg-black/10 rounded-full overflow-hidden">
+                        <div className="h-full w-[28%] bg-purple-500 rounded-full" />
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* ── SECTION 6: STATUS ── */}
+                  <motion.div
+                    className="py-2 cursor-pointer relative"
+                    initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
+                    whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
+                    onClick={() => setActiveId('status')}
+                    role="button"
+                    aria-label="Open Live status"
+                  >
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="text-amber-700 text-[10px]">★</span>
+                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                        Live status
+                      </span>
+                    </div>
+                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                      CURRENTLY
+                    </h3>
+                    <div className="flex flex-wrap gap-1.5 mt-1.5">
+                      {STATUS_PILLS.map(({ bg, color, text }) => (
+                        <span
+                          key={text}
+                          className="inline-flex px-2 py-1 rounded-sm text-[9px] shadow-sm"
+                          style={{ background: bg, color }}
+                        >
+                          {text}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* COMMIT LINE */}
+                  <p
+                    className="text-center italic text-[9.5px] text-black/35 border-t pt-2.5 mt-1"
+                    style={{ borderColor: 'rgba(0,0,0,0.1)' }}
+                  >
+                    // commit: building, reading, shipping — kawas
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN — 160px */}
+          <div className="hidden md:flex w-[160px] flex-shrink-0 flex-col gap-2.5 mt-1">
+            {/* CARD 1 — RAG Pipeline */}
+            <div
+              className="bg-white rounded-sm shadow-md p-2.5 relative"
+              style={{ transform: 'rotate(-1.5deg)' }}
+            >
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-purple-500 shadow-md z-10" />
+              <p className="font-mono text-[8px] uppercase tracking-wider text-black/50 mb-1">
+                RAG pipeline
+              </p>
+              <svg viewBox="0 0 135 50" className="w-full">
+                <defs>
+                  <marker
+                    id="rag-arrow"
+                    markerWidth="5"
+                    markerHeight="5"
+                    refX="4"
+                    refY="2.5"
+                    orient="auto"
+                  >
+                    <path d="M0,0 L5,2.5 L0,5 z" fill="#ccc" />
+                  </marker>
+                </defs>
+                <rect x="0" y="14" width="26" height="20" rx="3" fill="#fee2e2" />
+                <text
+                  x="13"
+                  y="27"
+                  fontSize="7"
+                  fill="#991b1b"
+                  textAnchor="middle"
+                  fontFamily="monospace"
+                >
+                  query
+                </text>
+                <line x1="26" y1="24" x2="35" y2="24" stroke="#ccc" markerEnd="url(#rag-arrow)" />
+                <rect x="36" y="14" width="26" height="20" rx="3" fill="#fef3c7" />
+                <text
+                  x="49"
+                  y="27"
+                  fontSize="7"
+                  fill="#92400e"
+                  textAnchor="middle"
+                  fontFamily="monospace"
+                >
+                  embed
+                </text>
+                <line x1="62" y1="24" x2="71" y2="24" stroke="#ccc" markerEnd="url(#rag-arrow)" />
+                <rect x="72" y="14" width="26" height="20" rx="3" fill="#dbeafe" />
+                <text
+                  x="85"
+                  y="27"
+                  fontSize="7"
+                  fill="#1e40af"
+                  textAnchor="middle"
+                  fontFamily="monospace"
+                >
+                  FAISS
+                </text>
+                <line x1="98" y1="24" x2="107" y2="24" stroke="#ccc" markerEnd="url(#rag-arrow)" />
+                <rect x="108" y="14" width="26" height="20" rx="3" fill="#dcfce7" />
+                <text
+                  x="121"
+                  y="27"
+                  fontSize="7"
+                  fill="#166534"
+                  textAnchor="middle"
+                  fontFamily="monospace"
+                >
+                  LLM
+                </text>
+              </svg>
+              <p className="italic text-[7px] text-red-600 text-center mt-1">
+                ↑ 80% quality lives here
+              </p>
+            </div>
+
+            {/* CARD 2 — Community taught */}
+            <div
+              className="bg-white rounded-sm shadow-md p-2.5 relative"
+              style={{ transform: 'rotate(2deg)' }}
+            >
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-pink-500 shadow-md z-10" />
+              <p className="font-mono text-[8px] uppercase tracking-wider text-black/50 mb-1">
+                What community taught me
+              </p>
+              <p className="text-[9.5px] text-black/65 leading-[1.55]">
+                Managing 4,300 members is a consistency problem — who has write access,
+                what everyone sees, how to handle partition. Same questions as backend.
+              </p>
+              <div className="border-l-2 border-black/10 pl-1.5 mt-1 italic text-[8.5px] text-black/45">
+                DNA → CAP theorem with humans
+              </div>
+            </div>
+
+            {/* CARD 3 — Blue sticky */}
+            <div
+              className="rounded-sm shadow-md p-2.5 relative"
+              style={{
+                transform: 'rotate(-2.5deg)',
+                background: '#bfdbfe',
+                color: '#1e3a5f',
+              }}
+            >
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-500 shadow-md z-10" />
+              <p className="text-[9.5px] font-bold mb-1">Read DDIA Ch.5</p>
+              <p className="text-[9px] leading-[1.55]">
+                Replication. Finally explains why DNA had consistency issues at peak hours.
+              </p>
+            </div>
+
+            {/* CARD 4 — Neural net */}
+            <div
+              className="bg-white rounded-sm shadow-md p-2.5 relative"
+              style={{ transform: 'rotate(1.5deg)' }}
+            >
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-red-500 shadow-md z-10" />
+              <p className="font-mono text-[8px] uppercase tracking-wider text-black/50 mb-1">
+                Embedding space
+              </p>
+              <svg viewBox="0 0 135 68" className="w-full">
+                {/* Connections: input → hidden1 */}
+                {[14, 30, 46].map((y1) =>
+                  [10, 26, 42, 58].map((y2) => (
+                    <line
+                      key={`i-h1-${y1}-${y2}`}
+                      x1="14"
+                      y1={y1}
+                      x2="50"
+                      y2={y2}
+                      stroke="#e9d5ff"
+                      strokeOpacity="0.55"
+                      strokeWidth="0.5"
+                    />
+                  ))
+                )}
+                {/* hidden1 → hidden2 */}
+                {[10, 26, 42, 58].map((y1) =>
+                  [18, 34, 50].map((y2) => (
+                    <line
+                      key={`h1-h2-${y1}-${y2}`}
+                      x1="50"
+                      y1={y1}
+                      x2="86"
+                      y2={y2}
+                      stroke="#bfdbfe"
+                      strokeOpacity="0.55"
+                      strokeWidth="0.5"
+                    />
+                  ))
+                )}
+                {/* hidden2 → output */}
+                {[18, 34, 50].map((y1) => (
+                  <line
+                    key={`h2-o-${y1}`}
+                    x1="86"
+                    y1={y1}
+                    x2="120"
+                    y2="34"
+                    stroke="#bfdbfe"
+                    strokeOpacity="0.55"
+                    strokeWidth="0.5"
+                  />
+                ))}
+                {/* Input nodes */}
+                {[14, 30, 46].map((cy) => (
+                  <circle
+                    key={`i-${cy}`}
+                    cx="14"
+                    cy={cy}
+                    r="3.5"
+                    fill="#fce7f3"
+                    stroke="#f9a8d4"
+                    strokeWidth="0.8"
+                  />
+                ))}
+                {/* Hidden layer 1 */}
+                {[10, 26, 42, 58].map((cy) => (
+                  <circle
+                    key={`h1-${cy}`}
+                    cx="50"
+                    cy={cy}
+                    r="3.5"
+                    fill="#ede9fe"
+                    stroke="#c4b5fd"
+                    strokeWidth="0.8"
+                  />
+                ))}
+                {/* Hidden layer 2 */}
+                {[18, 34, 50].map((cy) => (
+                  <circle
+                    key={`h2-${cy}`}
+                    cx="86"
+                    cy={cy}
+                    r="3.5"
+                    fill="#dbeafe"
+                    stroke="#93c5fd"
+                    strokeWidth="0.8"
+                  />
+                ))}
+                {/* Output */}
+                <circle
+                  cx="120"
+                  cy="34"
+                  r="4.5"
+                  fill="#dcfce7"
+                  stroke="#86efac"
+                  strokeWidth="0.8"
+                />
+              </svg>
+              <p className="font-mono text-[6.5px] text-black/35 text-center mt-1">
+                token → vector space
+              </p>
+            </div>
+
+            {/* CARD 5 — Project stack (dark) */}
+            <div
+              className="rounded-sm shadow-md p-2.5 relative"
+              style={{
+                background: '#1a1525',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}
+            >
+              <p className="font-mono text-[8px] uppercase tracking-wider text-white/30 mb-1.5">
+                Project stack
+              </p>
+              <div className="flex gap-1.5 items-center">
+                <div className="w-3 h-3 rounded-full bg-pink-500" />
+                <div className="w-3 h-3 rounded-full bg-purple-500" />
+                <div className="w-3 h-3 rounded-full bg-blue-500" />
+                <span className="text-[8.5px] text-white/35 ml-1">DNA · RAG · MCA</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <Footer />
+        {/* click hint */}
+        <p className="text-center text-[10px] text-muted-foreground/30 tracking-[.05em] mt-4 font-mono">
+          click any section to read more
+        </p>
+
+        {/* MODAL */}
+        <AnimatePresence>
+          {activeId && (
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center p-6"
+              style={{
+                backdropFilter: 'blur(16px)',
+                backgroundColor: 'rgba(0, 0, 0, 0.72)',
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => {
+                if (e.target === e.currentTarget) setActiveId(null);
+              }}
+            >
+              <motion.div
+                className="relative w-full max-w-[480px] max-h-[78vh] overflow-y-auto rounded-xl border border-border"
+                style={{ background: 'linear-gradient(145deg, #10101a, #0d0d18)' }}
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <motion.button
+                  className="absolute top-4 right-4 z-10 flex items-center justify-center w-7 h-7 rounded-full border border-border bg-muted/40 text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-colors"
+                  onClick={() => setActiveId(null)}
+                  aria-label="Close"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <X className="size-3.5" />
+                </motion.button>
+
+                <div className="p-7">
+                  {(() => {
+                    const d = MODAL_DATA[activeId];
+                    if (!d) return null;
+                    return (
+                      <>
+                        <span
+                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium mb-4"
+                          style={{ background: d.tagBg, color: d.tagColor }}
+                        >
+                          {d.tag}
+                        </span>
+                        <h2 className="text-lg font-semibold text-foreground mb-4 leading-snug">
+                          {d.title}
+                        </h2>
+                        <div className="text-[13px] text-muted-foreground leading-[1.8] space-y-2.5 [&_ul]:pl-4 [&_ul]:space-y-2 [&_strong]:text-foreground [&_strong]:font-medium [&_p]:text-[13px]">
+                          {d.body}
+                        </div>
+                      </>
+                    );
+                  })()}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
+      <Footer />
     </main>
   );
 }
