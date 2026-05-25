@@ -5,7 +5,9 @@
       "Bash(node *)",
       "Bash(npx tsc *)",
       "PowerShell(Stop-Process *)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(git push *)",
+      "Bash(git ls-remote *)"
     ]
   }
 }

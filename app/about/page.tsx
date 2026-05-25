@@ -42,9 +42,11 @@ const MODAL_DATA: Record<string, ModalEntry> = {
           </li>
         </ul>
         <p className="mt-3 italic text-sm opacity-70">
-          Building and running DNA taught me that communities are systems — they have the
-          same consistency, scaling, and failure problems as any distributed software. You
-          only really understand that after you have built one.
+          DNA taught me how to build and manage communities from the ground up — taking
+          ownership across different roles, working with a long-term mindset, and staying
+          adaptable in a fast-moving online environment. Communication, leadership, and
+          data-driven decisions on retention and growth were how we kept 4,300+ members
+          engaged.
         </p>
       </>
     ),
@@ -91,10 +93,10 @@ const MODAL_DATA: Record<string, ModalEntry> = {
         </p>
         <ul>
           <li>
-            <strong>Community ops → Distributed systems:</strong>{' '}
-            Running DNA across Discord is a consistency problem at its core. Who has write
-            access, what everyone sees, how you handle a partition — same questions as
-            backend engineering, just with humans.
+            <strong>Community ops → Systems thinking:</strong>{' '}
+            Running DNA taught me to see a community as a whole system — roles, incentives,
+            feedback loops, failure modes. That same structural thinking transfers when
+            designing software or managing a project.
           </li>
           <li>
             <strong>Classification models → Research papers:</strong>{' '}
@@ -197,12 +199,12 @@ const MODAL_DATA: Record<string, ModalEntry> = {
             Currently discussing Memory in the Age of AI Agents with people online.
           </li>
           <li>
-            <strong>Building</strong> — production RAG project with an evaluation harness.
-            Current main focus outside coursework.
+            <strong>Building</strong> — production RAG project. Current focus is the
+            evaluation layer — RAGAS metrics, faithfulness scoring, moving beyond
+            subjective quality checks.
           </li>
           <li>
-            <strong>Shipping</strong> — prompts, reading notes, small tools. All live on
-            this site.
+            <strong>Shipping</strong> — reading list, this site, small tools as they come.
           </li>
         </ul>
         <p className="mt-3">
@@ -268,7 +270,7 @@ const STATUS_DOTS = [
 const LINE_NUMBERS = Array.from({ length: 40 }, (_, i) => i + 1);
 
 const CONNECTIONS = [
-  { left: 'Community ops', right: 'Distributed systems thinking' },
+  { left: 'Community ops', right: 'Systems thinking' },
   { left: 'Classification models', right: 'Research papers' },
   { left: 'RAG pipelines', right: 'Agentic AI' },
   { left: 'Task Scheduler (Java)', right: 'Structure of this very page' },
@@ -366,8 +368,8 @@ export default function AboutPage() {
                   boxShadow: '1px 3px 8px rgba(0,0,0,0.35)',
                 }}
               >
-                <p className="font-bold mb-0.5">verify logic chain</p>
-                <p>community = distributed system</p>
+                <p className="font-bold mb-0.5">key takeaway</p>
+                <p>ownership across every role</p>
               </div>
             </div>
           </div>
@@ -526,8 +528,7 @@ export default function AboutPage() {
                       via data-driven strategy and creator collaborations.
                       <br />
                       <span className="text-red-600 italic text-[9.5px]">
-                        ↳ community ops is backend engineering with humans — same CAP
-                        theorem
+                        ↳ owned every role — operations, moderation, creator strategy
                       </span>
                     </p>
 
@@ -898,11 +899,12 @@ export default function AboutPage() {
                 What community taught me
               </p>
               <p className="text-[9.5px] text-black/65 leading-[1.55]">
-                Managing 4,300 members is a consistency problem — who has write access,
-                what everyone sees, how to handle partition. Same questions as backend.
+                Running DNA was a leadership challenge — ownership across moderation,
+                creator collaboration, and data-driven retention for 4,300+ members.
+                Communication and adaptability were the real skills.
               </p>
               <div className="border-l-2 border-black/10 pl-1.5 mt-1 italic text-[8.5px] text-black/45">
-                DNA → CAP theorem with humans
+                DNA → leadership + systems thinking
               </div>
             </div>
 
@@ -916,9 +918,10 @@ export default function AboutPage() {
               }}
             >
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-500 shadow-md z-10" />
-              <p className="text-[9.5px] font-bold mb-1">Read DDIA Ch.5</p>
+              <p className="text-[9.5px] font-bold mb-1">Read DDIA Ch.3</p>
               <p className="text-[9px] leading-[1.55]">
-                Replication. Finally explains why DNA had consistency issues at peak hours.
+                Storage &amp; Retrieval. The indexing section finally clicked when building
+                the FAISS pipeline.
               </p>
             </div>
 
@@ -1042,6 +1045,59 @@ export default function AboutPage() {
                 <div className="w-3 h-3 rounded-full bg-purple-500" />
                 <div className="w-3 h-3 rounded-full bg-blue-500" />
                 <span className="text-[8.5px] text-white/35 ml-1">DNA · RAG · MCA</span>
+              </div>
+            </div>
+
+            {/* CARD 6 — Green sticky: Memory in AI Agents */}
+            <div
+              className="rounded-sm shadow-md p-2.5 relative"
+              style={{
+                transform: 'rotate(1.5deg)',
+                background: '#bbf7d0',
+                color: '#14532d',
+              }}
+            >
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-green-500 shadow-md z-10" />
+              <p className="text-[9.5px] font-bold mb-1">Memory in AI Agents</p>
+              <p className="text-[9px] leading-[1.55]">
+                How do you give a model persistent context without blowing the window? Same
+                chunking problem as RAG, one abstraction up.
+              </p>
+            </div>
+
+            {/* CARD 7 — Pink sticky: trajectory */}
+            <div
+              className="rounded-sm shadow-md p-2.5 relative"
+              style={{
+                transform: 'rotate(-1deg)',
+                background: '#fce7f3',
+                color: '#9d174d',
+              }}
+            >
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-pink-500 shadow-md z-10" />
+              <p className="text-[9.5px] font-bold mb-1">Gen AI → Agentic</p>
+              <p className="text-[9px] leading-[1.55]">
+                The shift from &quot;generate a response&quot; to &quot;complete a
+                task&quot; changes the whole stack. Memory, planning, tool use. That&apos;s
+                the direction.
+              </p>
+            </div>
+
+            {/* CARD 8 — Attention paper */}
+            <div
+              className="bg-white rounded-sm shadow-md p-2.5 relative"
+              style={{ transform: 'rotate(-1.5deg)' }}
+            >
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-violet-500 shadow-md z-10" />
+              <p className="font-mono text-[8px] uppercase tracking-wider text-black/50 mb-1">
+                Attention is All You Need
+              </p>
+              <p className="text-[9.5px] text-black/65 leading-[1.55]">
+                Vaswani et al., 2017. At the time: just another arXiv paper. By 2026: the
+                architecture behind every model you use.
+              </p>
+              <div className="border-l-2 border-black/10 pl-1.5 mt-1 italic text-[8.5px] text-black/45">
+                who knew
               </div>
             </div>
           </div>
