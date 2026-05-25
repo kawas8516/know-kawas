@@ -3,11 +3,6 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { ReadingList } from '@/components/reading-list';
 
-export const metadata = {
-  title: 'Reading',
-  description: 'Papers, books, essays — things worth the time.',
-};
-
 export default function ReadingPage() {
   const items = getAllReading();
   return (
