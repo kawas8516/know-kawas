@@ -307,7 +307,7 @@ export default function AboutPage() {
             Hey, I&apos;m Kawas.
           </h1>
 
-          <p className="text-[13px] text-muted-foreground/60 leading-[1.65] max-w-[400px] mb-3.5">
+          <p className="text-[13px] text-muted-foreground/80 leading-[1.65] max-w-[400px] mb-3.5">
             Backend developer. Co-founded DNA. Started with classification models and Hugging
             Face in undergrad — now reading research papers, following where the field is
             going. The direction is clear: Gen AI → Agentic AI → what comes next. I&apos;m
