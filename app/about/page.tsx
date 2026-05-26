@@ -195,21 +195,24 @@ const MODAL_DATA: Record<string, ModalEntry> = {
             technical and research subjects.
           </li>
           <li>
-            <strong>Actively reading</strong> — AI and ML research papers weekly.
-            Currently discussing Memory in the Age of AI Agents with people online.
+            <strong>Reading</strong> — coursework by day, AI/ML papers alongside.
           </li>
           <li>
-            <strong>Building</strong> — production RAG project. Current focus is the
-            evaluation layer — RAGAS metrics, faithfulness scoring, moving beyond
-            subjective quality checks.
+            <strong>Building</strong> — check{' '}
+            <a
+              href="https://github.com/kawas8516"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-pink-400 hover:text-pink-300 transition-colors underline-offset-2 hover:underline"
+            >
+              GitHub
+            </a>
+            . It speaks better than I do.
           </li>
           <li>
-            <strong>Shipping</strong> — reading list, this site, small tools as they come.
+            <strong>Shipping</strong> — this site, the reading list, tools when they come.
           </li>
         </ul>
-        <p className="mt-3">
-          Open to: internships, research collaborations, community work.
-        </p>
       </>
     ),
   },

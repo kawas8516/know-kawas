@@ -30,7 +30,7 @@ const projects = [
 
 export function ProjectsSection() {
   return (
-    <section id="projects" className="px-4 py-12">
+    <section id="projects" className="px-4 py-8">
       <div className="mx-auto max-w-2xl">
         {/* Section Header */}
         <div className="flex items-center justify-between mb-8">

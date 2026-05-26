@@ -26,7 +26,7 @@ export function HomeContentSections({ readingItems }: { readingItems: ReadingIte
   if (!readingItems.length) return null;
 
   return (
-    <section className="px-4 sm:px-6 py-12 sm:py-16">
+    <section className="px-4 sm:px-6 py-8">
       <div className="mx-auto max-w-2xl">
         <div className="flex items-center justify-between mb-4">
           <span className="text-sm font-medium text-foreground">Currently reading</span>

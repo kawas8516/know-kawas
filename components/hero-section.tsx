@@ -13,7 +13,7 @@ const socialLinks = [
 
 export function HeroSection() {
   return (
-    <section id="about" className="relative px-4 pt-28 pb-16">
+    <section id="about" className="relative px-4 pt-28 pb-10">
       <div className="mx-auto max-w-2xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
