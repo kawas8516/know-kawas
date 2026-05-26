@@ -26,7 +26,7 @@ export function HeroSection() {
           </h1>
 
           <h2 className="text-2xl sm:text-3xl font-semibold bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-            Good at systems. Getting better at what&apos;s next
+            Good at backends. Getting better in ML
           </h2>
 
           {/* Social Links Row */}
