@@ -29,6 +29,17 @@ export function HeroSection() {
             Good at backends. Getting better in ML
           </h2>
 
+          <div className="flex items-center gap-2">
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse flex-shrink-0"
+              style={{ boxShadow: '0 0 6px rgba(74, 222, 128, 0.7)' }}
+              aria-hidden="true"
+            />
+            <span className="text-sm text-foreground/55 tracking-[.01em]">
+              Currently open to internships · Pune / Remote
+            </span>
+          </div>
+
           {/* Primary CTA */}
           <motion.a
             href="/work"
@@ -63,6 +74,7 @@ export function HeroSection() {
                 key={social.name}
                 href={social.href}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-300 transition-colors text-sm"
               >
                 <social.icon className="h-3.5 w-3.5" />

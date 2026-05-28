@@ -65,7 +65,7 @@ export function ProjectsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
         >
           {projects.map((project, index) => (
             <motion.div
@@ -80,7 +80,7 @@ export function ProjectsSection() {
               <div className="relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 flex flex-col items-center text-center hover:border-zinc-700 transition-all overflow-hidden">
                 {/* Subtle glow effect */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${project.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  className={`absolute inset-0 bg-gradient-to-br ${project.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
                 />
 
                 {/* Icon */}

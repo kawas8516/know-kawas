@@ -34,9 +34,9 @@ const PAGES = [
 
 const ACTIONS = [
   {
-    id: 'email',
-    label: 'Email me',
-    href: 'mailto:kaustubhamandhane24@gmail.com',
+    id: 'internship',
+    label: 'Open to internships — email me',
+    href: 'mailto:kaustubhamandhane24@gmail.com?subject=Internship%20Opportunity',
     Icon: Mail,
     external: true,
   },

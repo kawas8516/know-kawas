@@ -678,9 +678,6 @@ export default function AboutPage() {
                         }}
                       >
                         ITERATE.
-                      </span>{' '}
-                      <span className="text-red-600 italic text-[9px]">
-                        (RED underline)
                       </span>
                     </h3>
                     <p className="font-serif text-[10px] text-black/55 leading-[1.78]">

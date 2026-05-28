@@ -49,7 +49,7 @@ export function TechStackSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-5 gap-4"
+          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4"
         >
           {techStack.map((tech, index) => (
             <motion.div

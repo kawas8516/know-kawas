@@ -113,6 +113,7 @@ export function Navbar() {
             <Link
               href="https://github.com/kawas8516"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-zinc-400 hover:text-white transition-colors"
             >
               <Github className="h-4 w-4" />
@@ -120,6 +121,7 @@ export function Navbar() {
             <Link
               href="https://x.com/notkawas"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-zinc-400 hover:text-white transition-colors"
             >
               <Twitter className="h-4 w-4" />
@@ -127,6 +129,7 @@ export function Navbar() {
             <Link
               href="https://linkedin.com/in/kawas-nandan"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-zinc-400 hover:text-white transition-colors"
             >
               <Linkedin className="h-4 w-4" />
@@ -183,20 +186,14 @@ export function Navbar() {
                 </motion.div>
               ))}
               <div className="flex items-center gap-4 px-4 pt-4 border-t border-zinc-800">
-                <Link href="https://instagram.com" target="_blank" className="text-zinc-400 hover:text-white">
-                  <Instagram className="h-5 w-5" />
-                </Link>
-                <Link href="https://github.com" target="_blank" className="text-zinc-400 hover:text-white">
+                <Link href="https://github.com/kawas8516" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
                   <Github className="h-5 w-5" />
                 </Link>
-                <Link href="https://x.com/notkawas" target="_blank" className="text-zinc-400 hover:text-white">
+                <Link href="https://x.com/notkawas" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
                   <Twitter className="h-5 w-5" />
                 </Link>
-                <Link href="https://linkedin.com" target="_blank" className="text-zinc-400 hover:text-white">
+                <Link href="https://linkedin.com/in/kawas-nandan" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
                   <Linkedin className="h-5 w-5" />
-                </Link>
-                <Link href="https://discord.com" target="_blank" className="text-zinc-400 hover:text-white">
-                  <Gamepad2 className="h-5 w-5" />
                 </Link>
               </div>
             </div>
