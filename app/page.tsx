@@ -8,7 +8,9 @@ import { HomeContentSections } from '@/components/home-content-sections';
 import { getAllReading } from '@/lib/content';
 
 export default function Home() {
-  const readingItems = getAllReading().filter((i) => i.status === 'reading').slice(0, 2);
+  const readingItems = getAllReading()
+    .filter((i) => i.status === 'reading' || i.status === 'discussing')
+    .slice(0, 3);
 
   return (
     <main className="relative min-h-screen">

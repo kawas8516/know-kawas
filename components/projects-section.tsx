@@ -8,21 +8,27 @@ const projects = [
   {
     name: 'Java Task Scheduler',
     year: '2024',
-    icon: Clock, // Clock icon for scheduling
+    description:
+      'OOP + GUI scheduler built in Java. Queue-based task management with priority handling.',
+    icon: Clock,
     iconColor: '#ED8B00',
     bgGradient: 'from-orange-500/20 to-amber-500/20',
   },
   {
     name: 'CLI Utilities (C/C++)',
     year: '2024',
-    icon: Terminal, // Terminal icon for CLI tools
+    description:
+      'Command-line tools built in C and C++. Systems-level fundamentals — where it all started.',
+    icon: Terminal,
     iconColor: '#00599C',
     bgGradient: 'from-blue-500/20 to-cyan-500/20',
   },
   {
     name: 'Food Waste Chatbot',
     year: '2024',
-    icon: MessageSquare, // Chat bubble for chatbot
+    description:
+      'RAG system using FAISS + Django + NLP. Answers food waste queries from a retrieved knowledge base. First end-to-end retrieval pipeline.',
+    icon: MessageSquare,
     iconColor: '#22C55E',
     bgGradient: 'from-green-500/20 to-emerald-500/20',
   },
@@ -89,6 +95,11 @@ export function ProjectsSection() {
 
                 {/* Year */}
                 <p className="relative z-10 text-xs text-zinc-500">{project.year}</p>
+
+                {/* Description */}
+                <p className="relative z-10 text-xs text-muted-foreground/55 mt-1 leading-relaxed">
+                  {project.description}
+                </p>
               </div>
             </motion.div>
           ))}

@@ -29,6 +29,28 @@ export function HeroSection() {
             Good at backends. Getting better in ML
           </h2>
 
+          {/* Primary CTA */}
+          <motion.a
+            href="/work"
+            className="inline-flex items-center justify-center sm:justify-start gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white shadow-lg hover:opacity-90 transition-opacity w-full sm:w-auto mb-4"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.15 }}
+          >
+            See my work
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </motion.a>
+
           {/* Social Links Row */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -55,9 +77,8 @@ export function HeroSection() {
             transition={{ delay: 0.3 }}
             className="text-zinc-400 leading-relaxed text-base max-w-xl"
           >
-            I write Java, Python, and Django. Nights, I go deep on modern ML systems — transformers,
-            RAG, embeddings. This site is the log: what I read, prompts I actually use, projects
-            I&apos;ve shipped.
+            I write Java, Python, and Django. Reading AI and ML research papers alongside. This site
+            is the log — projects I&apos;ve shipped, what I&apos;m reading, prompts I actually use.
           </motion.p>
 
           <motion.p

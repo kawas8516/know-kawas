@@ -8,8 +8,23 @@ import type { ReadingItem } from '@/lib/content';
 function StatusBadge({ status }: { status: ReadingItem['status'] }) {
   if (status === 'reading') {
     return (
-      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-primary/15 text-primary">
+      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-primary/15 text-primary inline-flex items-center gap-1">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
+        </span>
         reading
+      </span>
+    );
+  }
+  if (status === 'discussing') {
+    return (
+      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-accent/15 text-accent inline-flex items-center gap-1">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent" />
+        </span>
+        discussing
       </span>
     );
   }
@@ -58,7 +73,7 @@ export function HomeContentSections({ readingItems }: { readingItems: ReadingIte
                     <p className="font-medium text-sm text-foreground leading-snug line-clamp-2">
                       {item.title}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{item.author}</p>
+                    <p className="text-xs text-muted-foreground/45 mt-0.5">{item.author} · {item.year}</p>
                     <div className="mt-1.5">
                       <StatusBadge status={item.status} />
                     </div>

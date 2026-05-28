@@ -45,7 +45,7 @@ export async function GET() {
               letterSpacing: '0px',
             }}
           >
-            Backend dev · physical-AI era · building, reading, shipping
+            Good at backends. Getting better in ML.
           </div>
         </div>
 
