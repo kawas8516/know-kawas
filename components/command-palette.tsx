@@ -77,7 +77,11 @@ export function CommandPalette({
     (href: string, external?: boolean) => {
       onOpenChange(false);
       if (external) {
-        window.open(href, '_blank', 'noopener,noreferrer');
+        if (href.startsWith('mailto:')) {
+          window.location.href = href;
+        } else {
+          window.open(href, '_blank', 'noopener,noreferrer');
+        }
       } else {
         router.push(href);
       }

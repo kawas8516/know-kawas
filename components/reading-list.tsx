@@ -95,8 +95,7 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
   const config = sectionConfig[sectionType];
   const { Icon } = config;
   return (
-    <motion.div
-      whileHover={{ x: 4 }}
+    <div
       className="group flex gap-4 sm:gap-6 p-4 rounded-xl hover:bg-zinc-900/30 transition-colors"
     >
       <div
@@ -128,15 +127,7 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
           ))}
         </div>
       </div>
-      <div className="ml-auto flex-shrink-0 pl-2 self-center">
-        <span
-          className="text-muted-foreground/20 group-hover:text-muted-foreground/60 transition-colors text-sm"
-          aria-hidden="true"
-        >
-          →
-        </span>
-      </div>
-    </motion.div>
+    </div>
   );
 }
 
