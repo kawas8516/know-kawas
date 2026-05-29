@@ -150,11 +150,10 @@ Each project icon uses a unique color pair at 20%/10% opacity:
 
 | Project | Gradient classes | Border |
 |---|---|---|
-| Food Waste Chatbot | `from-emerald-500/20 to-green-500/10` | `border-emerald-500/20` |
+| Food Recipes bot | `from-emerald-500/20 to-green-500/10` | `border-emerald-500/20` |
 | Java Task Scheduler | `from-orange-500/20 to-amber-500/10` | `border-orange-500/20` |
 | CLI Utilities | `from-blue-500/20 to-cyan-500/10` | `border-blue-500/20` |
 | Belleza | `from-pink-500/20 to-rose-500/10` | `border-pink-500/20` |
-| Chat Cooking | `from-amber-500/20 to-yellow-500/10` | `border-amber-500/20` |
 | Railway Reservation | `from-violet-500/20 to-purple-500/10` | `border-violet-500/20` |
 | Shopping Cart | `from-cyan-500/20 to-teal-500/10` | `border-cyan-500/20` |
 

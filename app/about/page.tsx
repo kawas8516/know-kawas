@@ -56,7 +56,7 @@ const MODAL_DATA: Record<string, ModalEntry> = {
     tag: 'Project Highlight',
     tagBg: 'rgba(29,158,117,0.1)',
     tagColor: '#0f6e56',
-    title: 'Food Waste Chatbot · RAG + FAISS + Django',
+    title: 'Food Recipes bot · RAG + FAISS + Django',
     body: (
       <>
         <p>
@@ -138,7 +138,7 @@ const MODAL_DATA: Record<string, ModalEntry> = {
           career.
         </p>
         <p className="italic text-sm mt-2 opacity-70">
-          DNA was run this way. The Food Waste Chatbot was built this way. This site was
+          DNA was run this way. The Food Recipes bot was built this way. This site was
           designed this way. The iterate part is the one everyone skips — that is where all
           the real learning lives.
         </p>
@@ -240,7 +240,7 @@ const MODAL_DATA: Record<string, ModalEntry> = {
           </li>
           <li>
             <strong style={{ color: 'rgba(255,255,255,0.8)' }}>
-              Food Waste Chatbot · 2024
+              Food Recipes bot · 2024
             </strong>{' '}
             — first end-to-end RAG system. Django + FAISS + NLP.
           </li>
@@ -566,7 +566,7 @@ export default function AboutPage() {
                     whileHover={{ backgroundColor: 'rgba(0,0,0,0.02)' }}
                     onClick={() => setActiveId('rag')}
                     role="button"
-                    aria-label="Open Food Waste Chatbot"
+                    aria-label="Open Food Recipes bot"
                   >
                     <div className="flex items-center gap-1.5 mb-1">
                       <span className="text-amber-700 text-[10px]">★</span>
@@ -575,7 +575,7 @@ export default function AboutPage() {
                       </span>
                     </div>
                     <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
-                      FOOD WASTE CHATBOT{' '}
+                      FOOD RECIPES BOT{' '}
                       <span className="underline decoration-blue-500 text-blue-700">
                         (RAG · FAISS · DJANGO)
                       </span>
@@ -693,7 +693,7 @@ export default function AboutPage() {
                       <span className="text-red-600 font-semibold underline decoration-red-500/50">
                         cannot
                       </span>
-                      . DNA was run this way. The Food Waste Chatbot was built this way.
+                      . DNA was run this way. The Food Recipes bot was built this way.
                       This site was designed this way.
                       <br />
                       <span className="text-red-600 italic text-[9.5px]">

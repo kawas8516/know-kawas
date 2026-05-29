@@ -64,7 +64,7 @@ export function TaskFileView() {
         <FileLine num="02">
           <div className="line-through opacity-55">
             <span className="text-green-400 mr-2">✓</span>
-            Built Food Waste Chatbot — RAG + NLP on Django + FAISS
+            Built Food Recipes bot — RAG + NLP on Django + FAISS
             <span className="text-muted-foreground/70">
               {' '}// first end-to-end RAG system
             </span>

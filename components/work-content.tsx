@@ -2,12 +2,12 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Github } from 'lucide-react';
+import { Github, ExternalLink } from 'lucide-react';
 
 const projects = [
   {
     id: 1,
-    name: 'Food Waste Chatbot',
+    name: 'Food Recipes bot',
     description:
       'Suggests recipes from available ingredients and gives storage tips using RAG + NLP. Built with Django, FAISS, Sentence Transformers, and HTMX.',
     icon: (
@@ -23,7 +23,8 @@ const projects = [
       { label: 'AI/ML', color: 'bg-emerald-500/20 text-emerald-400' },
       { label: 'DJANGO', color: 'bg-purple-500/20 text-purple-400' },
     ],
-    github: 'https://github.com/kawas8516/Food-Waste-Chatbot',
+    github: 'https://github.com/kawas8516/chat-cooking',
+    demo: 'https://huggingface.co/spaces/kawas8516/chat-cooking',
     languages: ['Python', 'Django', 'HTMX'],
   },
   {
@@ -91,28 +92,6 @@ const projects = [
   },
   {
     id: 5,
-    name: 'Chat Cooking',
-    description:
-      'A Python-based cooking assistant project. Interactive chat interface for recipe suggestions and cooking help.',
-    icon: (
-      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/10 flex items-center justify-center border border-amber-500/20">
-        <svg viewBox="0 0 24 24" className="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
-          <path d="M8.5 8.5v.01" />
-          <path d="M16 15.5v.01" />
-          <path d="M12 12v.01" />
-        </svg>
-      </div>
-    ),
-    badges: [
-      { label: 'PYTHON', color: 'bg-amber-500/20 text-amber-400' },
-      { label: 'CHAT', color: 'bg-emerald-500/20 text-emerald-400' },
-    ],
-    github: 'https://github.com/kawas8516/chat-cooking',
-    languages: ['Python'],
-  },
-  {
-    id: 6,
     name: 'Railway Reservation System',
     description:
       'A simple Python project for railway ticket booking. Learn Python basics, file handling, and console-based project workflow.',
@@ -133,7 +112,7 @@ const projects = [
     languages: ['Python'],
   },
   {
-    id: 7,
+    id: 6,
     name: 'Shopping Cart',
     description: 'Python-based shopping cart system. Practice OOP, data handling, and basic project structuring.',
     icon: (
@@ -258,6 +237,17 @@ export function WorkContent() {
                     >
                       <Github className="w-4 h-4" />
                     </Link>
+                    {project.demo && (
+                      <Link
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="View live demo"
+                        className="text-zinc-500 hover:text-white transition-colors"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
+                    )}
                   </div>
                 </div>
               </motion.div>

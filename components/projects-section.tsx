@@ -24,10 +24,10 @@ const projects = [
     bgGradient: 'from-blue-500/20 to-cyan-500/20',
   },
   {
-    name: 'Food Waste Chatbot',
+    name: 'Food Recipes bot',
     year: '2024',
     description:
-      'RAG system using FAISS + Django + NLP. Answers food waste queries from a retrieved knowledge base. First end-to-end retrieval pipeline.',
+      'RAG system using FAISS + Django + NLP. Suggests recipes from available ingredients and storage tips. First end-to-end retrieval pipeline.',
     icon: MessageSquare,
     iconColor: '#22C55E',
     bgGradient: 'from-green-500/20 to-emerald-500/20',
@@ -77,7 +77,10 @@ export function ProjectsSection() {
               whileHover={{ scale: 1.03, y: -4 }}
               className="group cursor-pointer"
             >
-              <div className="relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 flex flex-col items-center text-center hover:border-zinc-700 transition-all overflow-hidden">
+              <Link
+                href="/work"
+                className="relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 flex flex-col items-center text-center hover:border-zinc-700 transition-all overflow-hidden"
+              >
                 {/* Subtle glow effect */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${project.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
@@ -100,7 +103,7 @@ export function ProjectsSection() {
                 <p className="relative z-10 text-xs text-muted-foreground/55 mt-1 leading-relaxed">
                   {project.description}
                 </p>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>
