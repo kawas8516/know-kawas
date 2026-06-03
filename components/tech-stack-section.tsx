@@ -34,7 +34,7 @@ export function TechStackSection() {
           </motion.h3>
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <Link
-              href="/resume.pdf"
+              href="https://drive.google.com/file/d/1PaV_eo-KRfX-WLQ1HevIZb1Wt8EtimgA/view?usp=sharing"
               target="_blank"
               className="text-sm text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-1"
             >
