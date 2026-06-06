@@ -25,7 +25,7 @@ const experiences = [
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="px-4 py-12">
+    <section id="experience" className="px-4 py-8">
       <div className="mx-auto max-w-2xl">
         {/* Section Header */}
         <div className="flex items-center justify-between mb-8">
@@ -65,7 +65,8 @@ export function ExperienceSection() {
               whileHover={{ scale: 1.03, y: -4 }}
               className="group cursor-pointer"
             >
-              <div
+              <Link
+                href="/timeline"
                 className={'relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 flex flex-col items-center text-center hover:border-zinc-700 transition-all'}
               >
                 {/* Icon */}
@@ -82,7 +83,7 @@ export function ExperienceSection() {
 
                 {/* Period */}
                 <p className="text-xs text-zinc-500">{exp.period}</p>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

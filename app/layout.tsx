@@ -4,10 +4,10 @@ import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Kaustubha M | Software Developer',
+  metadataBase: new URL('https://kawas.netlify.app'),
+  title: { template: '%s | Kaustubha M', default: 'Kaustubha M' },
   description:
-    'MCA Freshman at MIT-WPU - Building chatbots, system utilities, and scalable web apps.',
-  generator: 'v0.app',
+    'Backend engineer. Good at backends. Getting better in ML. Building in public — projects, reading list, prompts.',
   icons: {
     icon: [
       {
@@ -24,6 +24,28 @@ export const metadata: Metadata = {
       },
     ],
     apple: '/apple-icon.png',
+  },
+  openGraph: {
+    title: 'Kaustubha M',
+    description: 'Backend engineer. Good at backends. Getting better in ML.',
+    url: 'https://kawas.netlify.app',
+    siteName: 'Kaustubha M',
+    images: [
+      {
+        url: '/og',
+        width: 1200,
+        height: 630,
+        alt: 'Kaustubha M — Backend engineer',
+      },
+    ],
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Kaustubha M',
+    description: 'Backend engineer. Good at backends. Getting better in ML.',
+    images: ['/og'],
   },
 };
 

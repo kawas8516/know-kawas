@@ -19,7 +19,7 @@ const techStack = [
 
 export function TechStackSection() {
   return (
-    <section className="px-4 py-12">
+    <section className="px-4 py-8">
       <div className="mx-auto max-w-2xl">
         {/* Section Header */}
         <div className="flex items-center justify-between mb-8">
@@ -34,7 +34,7 @@ export function TechStackSection() {
           </motion.h3>
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <Link
-              href="/resume.pdf"
+              href="https://drive.google.com/file/d/1PaV_eo-KRfX-WLQ1HevIZb1Wt8EtimgA/view?usp=sharing"
               target="_blank"
               className="text-sm text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-1"
             >
@@ -49,7 +49,7 @@ export function TechStackSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-5 gap-4"
+          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4"
         >
           {techStack.map((tech, index) => (
             <motion.div

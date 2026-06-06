@@ -2,22 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Instagram, Github, Linkedin, Gamepad2, Twitter } from 'lucide-react';
+import { Menu, X, Instagram, Github, Linkedin, Gamepad2, Twitter, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { CommandPalette } from '@/components/command-palette';
 
 const navLinks = [
   { name: 'timeline', href: '/timeline' },
   { name: 'about', href: '/about' },
   { name: 'work', href: '/work' },
   { name: 'experience', href: '/#experience' },
+  { name: 'reading', href: '/reading' },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -28,7 +31,19 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setPaletteOpen((o) => !o);
+      }
+    };
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
+
   return (
+    <>
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -66,13 +81,25 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   className={`text-sm transition-colors ${
-                    pathname === link.href ? 'text-white' : 'text-zinc-400 hover:text-white'
+                    pathname === link.href
+                      ? 'text-foreground relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-blue-500 after:rounded-full'
+                      : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   {link.name}
                 </Link>
               </motion.div>
             ))}
+
+            {/* ⌘K search pill */}
+            <button
+              onClick={() => setPaletteOpen(true)}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-border bg-muted/30 text-xs text-muted-foreground hover:bg-muted/60 transition-colors cursor-pointer font-mono"
+            >
+              <Search size={12} />
+              search
+              <kbd className="ml-1 text-[10px] bg-muted px-1 py-0.5 rounded">⌘K</kbd>
+            </button>
 
             {/* Social Icons */}
             {/* <div className="flex items-center gap-3 ml-4 pl-4 border-l border-zinc-700">
@@ -86,6 +113,7 @@ export function Navbar() {
             <Link
               href="https://github.com/kawas8516"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-zinc-400 hover:text-white transition-colors"
             >
               <Github className="h-4 w-4" />
@@ -93,6 +121,7 @@ export function Navbar() {
             <Link
               href="https://x.com/notkawas"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-zinc-400 hover:text-white transition-colors"
             >
               <Twitter className="h-4 w-4" />
@@ -100,6 +129,7 @@ export function Navbar() {
             <Link
               href="https://linkedin.com/in/kawas-nandan"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-zinc-400 hover:text-white transition-colors"
             >
               <Linkedin className="h-4 w-4" />
@@ -156,20 +186,14 @@ export function Navbar() {
                 </motion.div>
               ))}
               <div className="flex items-center gap-4 px-4 pt-4 border-t border-zinc-800">
-                <Link href="https://instagram.com" target="_blank" className="text-zinc-400 hover:text-white">
-                  <Instagram className="h-5 w-5" />
-                </Link>
-                <Link href="https://github.com" target="_blank" className="text-zinc-400 hover:text-white">
+                <Link href="https://github.com/kawas8516" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
                   <Github className="h-5 w-5" />
                 </Link>
-                <Link href="https://x.com/notkawas" target="_blank" className="text-zinc-400 hover:text-white">
+                <Link href="https://x.com/notkawas" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
                   <Twitter className="h-5 w-5" />
                 </Link>
-                <Link href="https://linkedin.com" target="_blank" className="text-zinc-400 hover:text-white">
+                <Link href="https://linkedin.com/in/kawas-nandan" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
                   <Linkedin className="h-5 w-5" />
-                </Link>
-                <Link href="https://discord.com" target="_blank" className="text-zinc-400 hover:text-white">
-                  <Gamepad2 className="h-5 w-5" />
                 </Link>
               </div>
             </div>
@@ -177,5 +201,8 @@ export function Navbar() {
         )}
       </AnimatePresence>
     </motion.header>
+
+    <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+    </>
   );
 }
