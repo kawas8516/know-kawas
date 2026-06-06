@@ -12,14 +12,14 @@ export function Footer() {
           viewport={{ once: true }}
           className="flex flex-col items-center text-center space-y-4"
         >
-          <p className="text-sm text-zinc-500">© 2026 Kaustubha M • All rights reserved</p>
+          <p className="text-sm text-muted-foreground">© 2026 Kaustubha M • All rights reserved</p>
 
           {/* Divider with gradient */}
           <div className="flex items-center gap-3 w-full max-w-xs">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
           </div>
 
-          <p className="text-xs text-zinc-600 italic">Build. Learn. Iterate.</p>
+          <p className="text-xs text-muted-foreground/70 italic">Build. Learn. Iterate.</p>
         </motion.div>
       </div>
     </footer>

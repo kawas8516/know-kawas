@@ -44,7 +44,7 @@ export function ProjectsSection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex items-center gap-2 text-xs font-medium text-zinc-500 uppercase tracking-wider"
+            className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider"
           >
             <FolderOpen className="h-4 w-4" />
             Notable Projects
@@ -79,7 +79,7 @@ export function ProjectsSection() {
             >
               <Link
                 href="/work"
-                className="relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 flex flex-col items-center text-center hover:border-zinc-700 transition-all overflow-hidden"
+                className="relative rounded-2xl bg-card/80 border border-border p-6 flex flex-col items-center text-center hover:border-muted-foreground/30 transition-all overflow-hidden"
               >
                 {/* Subtle glow effect */}
                 <div
@@ -88,19 +88,19 @@ export function ProjectsSection() {
 
                 {/* Icon */}
                 <div className="relative z-10 mb-4">
-                  <div className="w-14 h-14 rounded-xl bg-zinc-800/80 border border-zinc-700 flex items-center justify-center group-hover:border-zinc-600 transition-colors">
+                  <div className="w-14 h-14 rounded-xl bg-muted/80 border border-border flex items-center justify-center group-hover:border-muted-foreground/30 transition-colors">
                     <project.icon className="h-7 w-7" style={{ color: project.iconColor }} />
                   </div>
                 </div>
 
                 {/* Name */}
-                <h4 className="relative z-10 text-sm font-medium text-white mb-1">{project.name}</h4>
+                <h4 className="relative z-10 text-sm font-medium text-foreground mb-1">{project.name}</h4>
 
                 {/* Year */}
-                <p className="relative z-10 text-xs text-zinc-500">{project.year}</p>
+                <p className="relative z-10 text-xs text-muted-foreground">{project.year}</p>
 
                 {/* Description */}
-                <p className="relative z-10 text-xs text-muted-foreground/55 mt-1 leading-relaxed">
+                <p className="relative z-10 text-xs text-muted-foreground/70 mt-1 leading-relaxed">
                   {project.description}
                 </p>
               </Link>

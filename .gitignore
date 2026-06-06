@@ -25,3 +25,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/.claude/
+/.agents/
+
+# Temporary design files
+mockup-*.html
+wireframes.html
+skills-lock.json

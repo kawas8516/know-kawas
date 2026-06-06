@@ -33,7 +33,7 @@ export function ExperienceSection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-xs font-medium text-zinc-500 uppercase tracking-wider"
+            className="text-xs font-medium text-muted-foreground uppercase tracking-wider"
           >
             Professional Experience
           </motion.h3>
@@ -67,7 +67,7 @@ export function ExperienceSection() {
             >
               <Link
                 href="/timeline"
-                className={'relative rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 flex flex-col items-center text-center hover:border-zinc-700 transition-all'}
+                className={'relative rounded-2xl bg-card/80 border border-border p-6 flex flex-col items-center text-center hover:border-muted-foreground/30 transition-all'}
               >
                 {/* Icon */}
                 <div className="mb-4">
@@ -79,10 +79,10 @@ export function ExperienceSection() {
                 </div>
 
                 {/* Company Name */}
-                <h4 className="text-sm font-medium text-white mb-1">{exp.company}</h4>
+                <h4 className="text-sm font-medium text-foreground mb-1">{exp.company}</h4>
 
                 {/* Period */}
-                <p className="text-xs text-zinc-500">{exp.period}</p>
+                <p className="text-xs text-muted-foreground">{exp.period}</p>
               </Link>
             </motion.div>
           ))}

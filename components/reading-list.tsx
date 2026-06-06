@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { FileText, BookOpen, Bookmark } from 'lucide-react';
+import Link from 'next/link';
 import type { ReadingItem } from '@/lib/content';
 
 // ─── sort ─────────────────────────────────────────────────────────────────────
@@ -94,17 +95,23 @@ function StatusBadge({ status }: { status: ReadingItem['status'] }) {
 function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: SectionType }) {
   const config = sectionConfig[sectionType];
   const { Icon } = config;
-  return (
-    <div
-      className="group flex gap-4 sm:gap-6 p-4 rounded-xl hover:bg-zinc-900/30 transition-colors"
-    >
+
+  const inner = (
+    <div className={`group flex gap-4 sm:gap-6 p-4 rounded-xl transition-colors ${item.hasContent ? 'hover:bg-muted/30 cursor-pointer' : ''}`}>
       <div
         className={`w-16 h-16 rounded-xl bg-gradient-to-br ${config.gradient} flex items-center justify-center border ${config.border} flex-shrink-0`}
       >
         <Icon className={`w-8 h-8 ${config.iconColor}`} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-sm text-foreground">{item.title}</p>
+        <div className="flex items-start justify-between gap-2">
+          <p className="font-medium text-sm text-foreground">{item.title}</p>
+          {item.hasContent && (
+            <span className="text-[10px] text-muted-foreground/40 group-hover:text-muted-foreground transition-colors flex-shrink-0 mt-0.5">
+              Read notes →
+            </span>
+          )}
+        </div>
         <p className="text-xs text-muted-foreground mt-0.5">
           {item.author} · {item.year}
         </p>
@@ -112,7 +119,7 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
           <StatusBadge status={item.status} />
         </div>
         {item.note && (
-          <p className="text-xs text-zinc-400 leading-relaxed mt-1 italic line-clamp-2 group-hover:line-clamp-none transition-all duration-200">
+          <p className="text-xs text-muted-foreground leading-relaxed mt-1 italic line-clamp-2 group-hover:line-clamp-none transition-all duration-200">
             {item.note}
           </p>
         )}
@@ -120,7 +127,7 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
           {item.tags.map((tag) => (
             <span
               key={tag}
-              className="text-[10px] bg-zinc-800/50 text-zinc-500 px-1.5 py-0.5 rounded"
+              className="text-[10px] bg-muted/50 text-muted-foreground px-1.5 py-0.5 rounded"
             >
               {tag}
             </span>
@@ -129,6 +136,11 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
       </div>
     </div>
   );
+
+  if (item.hasContent) {
+    return <Link href={`/reading/${item.slug}`}>{inner}</Link>;
+  }
+  return inner;
 }
 
 // ─── section ──────────────────────────────────────────────────────────────────
@@ -316,18 +328,18 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
           <h1 className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
             What I&apos;m reading
           </h1>
-          <p className="mt-3 text-sm sm:text-base text-zinc-400 max-w-md mx-auto leading-relaxed">
+          <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
             Papers, books, essays — things worth the time. Filtered by what actually changed how I
             think.
           </p>
           <div className="flex items-center justify-center gap-2 mt-6">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent via-zinc-600 to-zinc-600" />
+            <div className="w-16 h-px bg-gradient-to-r from-transparent via-border to-border" />
             <div className="flex gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
-              <div className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
-              <div className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
+              <div className="w-1.5 h-1.5 rounded-full bg-border" />
+              <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40" />
+              <div className="w-1.5 h-1.5 rounded-full bg-border" />
             </div>
-            <div className="w-16 h-px bg-gradient-to-l from-transparent via-zinc-600 to-zinc-600" />
+            <div className="w-16 h-px bg-gradient-to-l from-transparent via-border to-border" />
           </div>
         </motion.div>
 

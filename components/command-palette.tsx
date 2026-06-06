@@ -50,7 +50,7 @@ const ACTIONS = [
 ];
 
 const ITEM_CLASS =
-  'flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer text-zinc-400 aria-selected:bg-accent/20 aria-selected:text-foreground outline-none transition-colors';
+  'flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer text-muted-foreground aria-selected:bg-accent/20 aria-selected:text-foreground outline-none transition-colors';
 
 const GROUP_HEADING_CLASS =
   '[&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:pt-3';
@@ -97,7 +97,7 @@ export function CommandPalette({
       onClick={() => onOpenChange(false)}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-foreground/20 backdrop-blur-sm" />
 
       {/* Panel */}
       <div

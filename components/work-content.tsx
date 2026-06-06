@@ -176,7 +176,7 @@ export function WorkContent() {
             <h1 className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
               Work
             </h1>
-            <p className="text-zinc-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+            <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto leading-relaxed">
               Each of these projects reflects a piece of my journey.
               <br />
               Feel free to take a look around and explore the work I&apos;ve enjoyed building.
@@ -184,13 +184,13 @@ export function WorkContent() {
 
             {/* Decorative line */}
             <div className="flex items-center justify-center gap-2 mt-6">
-              <div className="w-16 h-px bg-gradient-to-r from-transparent via-zinc-600 to-zinc-600" />
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-border to-border" />
               <div className="flex gap-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
-                <div className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
-                <div className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
+                <div className="w-1.5 h-1.5 rounded-full bg-border" />
+                <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40" />
+                <div className="w-1.5 h-1.5 rounded-full bg-border" />
               </div>
-              <div className="w-16 h-px bg-gradient-to-l from-transparent via-zinc-600 to-zinc-600" />
+              <div className="w-16 h-px bg-gradient-to-l from-transparent via-border to-border" />
             </div>
           </motion.div>
 
@@ -200,7 +200,7 @@ export function WorkContent() {
               <motion.div
                 key={project.id}
                 variants={itemVariants}
-                className="group flex gap-4 sm:gap-6 p-4 rounded-xl transition-colors hover:bg-zinc-900/30"
+                className="group flex gap-4 sm:gap-6 p-4 rounded-xl transition-colors hover:bg-muted/30"
               >
                 {/* Icon */}
                 <div className="flex-shrink-0">{project.icon}</div>
@@ -208,19 +208,19 @@ export function WorkContent() {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <h3 className="font-semibold text-white">{project.name}</h3>
+                    <h3 className="font-semibold text-foreground">{project.name}</h3>
                     {project.badges.map((badge, index) => (
                       <span key={index} className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${badge.color}`}>
                         {badge.label}
                       </span>
                     ))}
                   </div>
-                  <p className="text-sm text-zinc-400 leading-relaxed">{project.description}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
 
                   {/* Language badges */}
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {project.languages.map((lang) => (
-                      <span key={lang} className="text-[10px] px-1.5 py-0.5 rounded bg-zinc-800/50 text-zinc-500">
+                      <span key={lang} className="text-[10px] px-1.5 py-0.5 rounded bg-muted/50 text-muted-foreground">
                         {lang}
                       </span>
                     ))}
@@ -233,7 +233,7 @@ export function WorkContent() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="View on GitHub"
-                      className="text-zinc-500 hover:text-white transition-colors"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
                     >
                       <Github className="w-4 h-4" />
                     </Link>
@@ -243,7 +243,7 @@ export function WorkContent() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="View live demo"
-                        className="text-zinc-500 hover:text-white transition-colors"
+                        className="text-muted-foreground hover:text-foreground transition-colors"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </Link>

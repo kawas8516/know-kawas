@@ -27,7 +27,7 @@ export function TechStackSection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex items-center gap-2 text-xs font-medium text-zinc-500 uppercase tracking-wider"
+            className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider"
           >
             <Code className="h-4 w-4" />
             Technology Stack
@@ -61,10 +61,10 @@ export function TechStackSection() {
               whileHover={{ scale: 1.05, y: -2 }}
               className="flex flex-col items-center gap-2 group"
             >
-              <div className="w-16 h-16 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:border-zinc-700 transition-colors">
+              <div className="w-16 h-16 rounded-2xl bg-card border border-border flex items-center justify-center group-hover:border-muted-foreground/30 transition-colors">
                 <tech.icon className="h-7 w-7" style={{ color: tech.color }} />
               </div>
-              <span className="text-xs text-zinc-500 group-hover:text-zinc-400 transition-colors text-center">
+              <span className="text-xs text-muted-foreground group-hover:text-foreground/70 transition-colors text-center">
                 {tech.name}
               </span>
             </motion.div>

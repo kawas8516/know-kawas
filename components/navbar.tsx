@@ -8,6 +8,7 @@ import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CommandPalette } from '@/components/command-palette';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const navLinks = [
   { name: 'timeline', href: '/timeline' },
@@ -83,7 +84,7 @@ export function Navbar() {
                   className={`text-sm transition-colors ${
                     pathname === link.href
                       ? 'text-foreground relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-blue-500 after:rounded-full'
-                      : 'text-zinc-400 hover:text-white'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {link.name}
@@ -106,7 +107,7 @@ export function Navbar() {
               <Link
                 href="https://instagram.com/"
                 target="_blank"
-                className="text-zinc-400 hover:text-white transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Instagram className="h-4 w-4" />
               </Link> */}
@@ -114,7 +115,7 @@ export function Navbar() {
               href="https://github.com/kawas8516"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               <Github className="h-4 w-4" />
             </Link>
@@ -122,7 +123,7 @@ export function Navbar() {
               href="https://x.com/notkawas"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               <Twitter className="h-4 w-4" />
             </Link>
@@ -130,14 +131,15 @@ export function Navbar() {
               href="https://linkedin.com/in/kawas-nandan"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               <Linkedin className="h-4 w-4" />
             </Link>
+            <ThemeToggle />
             {/* <Link
               href="https://discord.com"
               target="_blank"
-              className="text-zinc-400 hover:text-white transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               <Gamepad2 className="h-4 w-4" />
             </Link> */}
@@ -162,7 +164,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-zinc-900/95 backdrop-blur-xl border-b border-zinc-800"
+            className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border"
           >
             <div className="px-4 py-4 space-y-2">
               {navLinks.map((link, index) => (
@@ -177,24 +179,25 @@ export function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`block px-4 py-2 rounded-lg transition-colors ${
                       pathname === link.href
-                        ? 'text-white bg-zinc-800/50'
-                        : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
+                        ? 'text-foreground bg-muted/50'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                     }`}
                   >
                     {link.name}
                   </Link>
                 </motion.div>
               ))}
-              <div className="flex items-center gap-4 px-4 pt-4 border-t border-zinc-800">
-                <Link href="https://github.com/kawas8516" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
+              <div className="flex items-center gap-4 px-4 pt-4 border-t border-border">
+                <Link href="https://github.com/kawas8516" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                   <Github className="h-5 w-5" />
                 </Link>
-                <Link href="https://x.com/notkawas" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
+                <Link href="https://x.com/notkawas" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                   <Twitter className="h-5 w-5" />
                 </Link>
-                <Link href="https://linkedin.com/in/kawas-nandan" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
+                <Link href="https://linkedin.com/in/kawas-nandan" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
                   <Linkedin className="h-5 w-5" />
                 </Link>
+                <ThemeToggle />
               </div>
             </div>
           </motion.div>

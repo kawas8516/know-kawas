@@ -1,9 +1,297 @@
 ---
 title: "Learning a Generative Meta-Model of LLM Activations"
 author: "Luo, Feng, Darrell, Radford, Steinhardt"
-year: 2024
+year: 6 Feb 2026
 type: "paper"
 status: "finished"
 tags: ["llm-internals", "activations", "ml-research"]
 note: "Dense. The idea of modeling internal activations as a generative process is conceptually wild. Took multiple reads of the methodology section to follow the argument."
 ---
+
+Mechanistic interpretability has historically relied on a fundamental, highly convenient assumption: the **Linear Representation Hypothesis**. This hypothesis asserts that neural networks represent concepts as directions in a high-dimensional vector space. Consequently, tools like Sparse Autoencoders (SAEs), Principal Component Analysis (SAEs), and vector arithmetic (like DiffMean) have dominated our efforts to read, write, and steer internal model states.
+
+However, neural networks are deeply non-linear. Forces like activation sparsity, layer normalization, and complex multi-layer interactions restrict activations to a highly curved, low-dimensional manifold. When engineers perform linear interventions—such as adding a "sentiment direction" vector during inference—we frequently push the activations **off-manifold**.
+
+```
+Off-Manifold State (Repetitive, corrupted text output)
+       ▲
+       │  [Linear Steering Vector Added]
+       │
+   ────┼────────────────────────── (Highly curved natural activation manifold)
+       │
+       ▼
+On-Manifold State (Fluent, steered text output)
+```
+
+Driving activations off-manifold corrupts the internal state of the model, resulting in repetitive, nonsensical, or garbled outputs. This represents a classic trade-off in activation engineering: **steer harder to get the desired concept, but suffer a collapse in output fluency.**
+
+This deep dive explores a research paper that presents a generative alternative: **Generative Latent Priors (GLP)**. Instead of assuming linear structures, the authors train a deep generative diffusion model directly on the internal activations of a Large Language Model. By learning the true activation distribution, this "meta-model" acts as a powerful prior that can project corrupted, steered activations back onto the natural manifold, maintaining output fluency even under intense steering.
+
+---
+
+## The Problem: The Off-Manifold Steering Bottleneck
+
+To understand the core issue GLP solves, let's examine standard activation steering. If we want to steer an LLM to generate positive sentiment, we might extract a steering vector $w$ (using a technique like DiffMean, which computes the difference in mean activations between positive and negative text prompts).
+
+At inference time, we intervene at layer $l$ by modifying the hidden states:
+
+$$z_{\text{edit}} = z + \alpha \cdot w$$
+
+Where $\alpha$ is the steering strength.
+
+As $\alpha$ increases, the target concept becomes stronger, but the hidden states are driven further into out-of-distribution regions of the activation space. The downstream layers of the LLM, expecting activations that lie strictly on the learned manifold, fail to process these corrupted vectors. The result is fluency collapse (e.g., repeating words, generating broken syntax, or hallucinating).
+
+Traditional linear models like SAEs are ill-equipped to fix this. Because SAEs trade off reconstruction fidelity to enforce a sparsity bottleneck, their reconstructions are often inherently off-manifold themselves, leading to a baseline degradation in language model perplexity when injected.
+
+---
+
+## Core Intuition: Denoising as Manifold Projection
+
+The key insight of GLP is that **diffusion models are natural manifold projectors**.
+
+In computer vision, an image editing framework like SDEdit can take a crude user sketch, add noise to it, and then run a reverse diffusion process. The diffusion model uses its learned prior to denoise the image, projecting the unrealistic sketch back onto the natural image manifold while preserving the high-level semantic layout.
+
+```
+Steered Activation (Off-Manifold)
+       │
+       ▼
+Add Noise (To a specific timestep t_start)
+       │
+       ▼
+Run Reverse Flow Matching (GLP)
+       │
+       ▼
+Denoised Activation (On-Manifold & Fluent)
+```
+
+GLP applies this exact pipeline to the hidden states of an LLM:
+
+1. An intervention (such as adding a steering vector) is applied, yielding $z_{\text{edit}}$.
+2. We add Gaussian noise to $z_{\text{edit}}$ corresponding to an intermediate timestep $t_{\text{start}}$ (e.g., $t = 0.5$).
+3. We run the reverse diffusion process using GLP starting from $t_{\text{start}}$ back to $t = 0$.
+
+During reverse sampling, GLP's learned prior strips away the out-of-distribution artifacts (the "noise") while preserving the underlying semantic signal of the intervention. This pulls the hidden state back onto the true activation manifold, restoring fluency.
+
+---
+
+## The Method: Flow Matching on Activations
+
+Rather than using traditional Denoising Diffusion Probabilistic Models (DDPM), GLP is trained using **Flow Matching**, a modern formulation of continuous normalizing flows that is faster to train and simpler to implement.
+
+### The Training Objective
+
+Let $z_0$ represent a clean activation vector extracted from an LLM. We define a forward process that interpolates linearly between the real data point $z_0$ and a pure Gaussian noise vector $\epsilon \sim \mathcal{N}(0, I)$:
+
+$$z_t = (1 - t)z_0 + t\epsilon$$
+
+The target velocity field pointing from the data to the noise is defined as:
+
+$$u = \epsilon - z_0$$
+
+We train a neural network denoiser $\hat{u}_\theta(z_t, t)$ to predict this target velocity $u$. The objective is a simple mean squared error loss:
+
+$$\mathcal{L}_{\text{FM}}(\theta) = \mathbb{E}_{t, z_0, \epsilon} \left[ \| \hat{u}_\theta(z_t, t) - (\epsilon - z_0) \|^2 \right]$$
+
+Where the timestep $t$ is sampled uniformly from $[0, 1]$.
+
+---
+
+## Model Architecture
+
+The architecture of GLP is designed to process high-dimensional, continuous vector distributions. Rather than using convolutional networks (like U-Nets) or transformers (which operate over sequences), GLP models **single-token activations independently**. This removes the need for complex self-attention layers and keeps the model stateless across tokens.
+
+The model architecture consists of a stack of feedforward MLP blocks matching the style of Llama-3:
+
+- **Activation Dimension ($d$):** e.g., $d = 2048$ for Llama-3-2-1B, $d = 4096$ for Llama-3-8B.
+- **Layer Structure:** SwiGLU layers with residual connections.
+- **Width Multiplier:** The model width is set to $2\times$ the activation dimension, and the SwiGLU expansion factor is set to an additional $2\times$ over that width. Making the meta-model wider than the input dimension is highly critical for capturing complex joint distributions.
+- **Timestep Conditioning:** The timestep $t$ is passed through a sinusoidal embedding and used to multiplicatively modulate the gate activations inside the SwiGLU blocks.
+
+---
+
+## Implementation Perspective: Training and Data Pipelines
+
+Implementing a pipeline to extract and train on **one billion** LLM activations requires careful engineering to manage the CPU-GPU memory bottleneck. Generating activations on-the-fly slows down training, while caching them statically to disk requires terabytes of storage.
+
+To solve this, the authors implement a highly efficient **producer-consumer data pipeline**:
+
+```
+[GPU 0: Producer (vLLM/nnsight)] ──► [Fixed-Size Lock-Free Queue] ──► [GPU 1: Consumer (GLP Training)]
+```
+
+1.  **The Producer:** A process running an LLM (using `vLLM` or `nnsight`) processes batches of text documents (from FineWeb). It intercepts the activations of the middlemost layer (Layer 7 for Llama-3-1B, Layer 15 for Llama-3-8B) on the fly.
+2.  **The Queue:** Activations are written directly into a fixed-size, lock-free CPU memory buffer queue.
+3.  **The Consumer:** The training process pulls activations from this queue, standardizes them, adds noise, and performs standard backpropagation on the GLP MLP weights.
+
+### Flow Matching Training Step
+
+The following Python code represents the core inner training loop of GLP:
+
+```python
+import torch
+import torch.nn as nn
+
+class GLPTrainer:
+    def __init__(self, denoiser_model, scaler_mean, scaler_std):
+        self.model = denoiser_model
+        # Precomputed running mean and std of LLM activations
+        self.mean = torch.tensor(scaler_mean).cuda()
+        self.std = torch.tensor(scaler_std).cuda()
+        self.loss_fn = nn.MSELoss()
+
+    def train_step(self, raw_activations):
+        # 1. Standardize input activations
+        z0 = (raw_activations - self.mean) / (self.std + 1e-8)
+
+        # 2. Sample noise and timesteps
+        epsilon = torch.randn_like(z0)
+        t = torch.rand(z0.size(0), 1, device=z0.device)  # t in [0, 1]
+
+        # 3. Linearly interpolate (flow matching forward process)
+        zt = (1.0 - t) * z0 + t * epsilon
+
+        # 4. Define target velocity vector
+        target_velocity = epsilon - z0
+
+        # 5. Predict velocity field with denoiser
+        pred_velocity = self.model(zt, t.squeeze(-1))
+
+        # 6. Calculate MSE Loss
+        loss = self.loss_fn(pred_velocity, target_velocity)
+        return loss
+```
+
+---
+
+## Applications and Evaluations
+
+Once trained, GLP serves as a powerful prior for downstream tasks. The authors evaluate GLP on two core interpretability tasks: **On-Manifold Steering** and **1-D Concept Probing**.
+
+### 1. On-Manifold Steering
+
+During steering, we apply an intervention direction $w$ with strength $\alpha$. Instead of feeding the modified activations directly to downstream LLM layers, we run the following projection pipeline:
+
+```python
+@torch.no_grad()
+def on_manifold_steering(acts, steering_vector, alpha, denoiser, t_start=0.5, num_steps=20):
+    # Step 1: Apply linear steering intervention
+    acts_edit = acts + alpha * steering_vector
+
+    # Step 2: Standardize edited activations
+    acts_edit_norm = (acts_edit - denoiser.mean) / denoiser.std
+
+    # Step 3: Add Gaussian noise corresponding to t_start
+    noise = torch.randn_like(acts_edit_norm)
+    acts_noisy = (1.0 - t_start) * acts_edit_norm + t_start * noise
+
+    # Step 4: Run reverse Euler sampling from t_start to t=0
+    timesteps = torch.linspace(t_start, 0.0, num_steps, device=acts.device)
+    acts_sample = acts_noisy
+
+    for i in range(num_steps - 1):
+        t = timesteps[i]
+        dt = timesteps[i+1] - t
+
+        # Predict velocity field
+        pred_velocity = denoiser(acts_sample, t.expand(acts.size(0)))
+
+        # Euler integration step
+        acts_sample = acts_sample + dt * pred_velocity
+
+    # Step 5: Restore original mean and variance
+    restored_acts = (acts_sample * denoiser.std) + denoiser.mean
+    return restored_acts
+```
+
+_Refer to **Figure 5** in the original paper to see the resulting Pareto frontier. Linear steering alone quickly collapses output fluency. Applying GLP post-processing shifts the Pareto frontier significantly outward, achieving high target concept activation while preserving high fluency scores._
+
+---
+
+### 2. Probing and Interpretability: Discovering "Meta-Neurons"
+
+Can a generative model of activations help us _understand_ what representations are encoding? The authors explore this by using GLP as a feature extractor.
+
+They extract the internal activations of the GLP itself—specifically the intermediate gate values of the SwiGLU MLP layers (coined **"meta-neurons"**)—during a single forward pass over noised inputs. They evaluate these meta-neurons on 113 binary concept classification tasks (e.g., detecting terms related to sports, geography, or logical contradictions).
+
+| Encoder Method             | Llama-1B Probing AUC | Llama-8B Probing AUC |
+| :------------------------- | :------------------: | :------------------: |
+| Sparse Autoencoder (SAE)   |         0.70         |         0.76         |
+| Raw Layer Output           |         0.77         |         0.77         |
+| Raw LLM MLP Neuron         |         0.79         |         0.82         |
+| **GLP Meta-Neuron (Ours)** |       **0.84**       |       **0.87**       |
+
+#### Why GLP Outperforms SAEs in Concept Isolation
+
+Traditional SAEs force activations through a harsh $L_1$ sparsity bottleneck to find interpretable axes. This often splits single concepts across many weak features or produces incomplete reconstructions.
+
+GLP, because it models the entire joint probability distribution without enforcing a sparsity bottleneck, naturally aligns its internal representations with the non-linear boundaries of the activation manifold. This allows its SwiGLU gates to cleanly isolate highly semantic, human-understandable concepts into individual, parsimonious units, outperforming both SAE features and raw LLM activations.
+
+---
+
+## Scaling Laws of the Activation Manifold
+
+The authors demonstrate that training diffusion models on activations is a highly predictable, scalable science. They trained GLPs across four sizes (0.5B, 0.9B, 1.7B, and 3.3B parameters) and plotted the results against total FLOPs.
+
+```
+Diffusion Loss on FineWeb
+   ▲
+2.5│\
+2.0│ \  L(C) = 0.52 + 435.1 * C^-0.169 (Smooth Power Law)
+1.5│  \
+1.0│   \───────►
+   └───────────────────────────►
+    10^15      10^17      10^19   FLOPs
+```
+
+_Refer to **Figure 2** in the original paper to view the precise scaling curves. The training loss, sentiment steering performance, and probing accuracy all scale together under smooth, predictable power laws._
+
+This scaling behavior is critical: it proves that **diffusion loss is a highly reliable proxy for downstream utility**. As you scale compute and parameters to train better activation meta-models, both their manifold projection capability (steering fluency) and their representation isolation quality (probing AUC) improve predictably.
+
+---
+
+## Design Decisions and Trade-offs
+
+### 1. Why Flow Matching Over DDPM?
+
+Traditional DDPMs predict the noise vector $\epsilon$ added to the input. Flow Matching predicts the velocity vector pointing directly from the noise back to the data. This linear path simplifies the vector fields, making it significantly easier for the SwiGLU layers to model the manifold transitions.
+
+### 2. Modeling Single-Token vs. Multi-Token Activations
+
+Currently, GLP models activations on a single-token basis (each token vector is processed independently).
+
+- **The Trade-off:** Modeling single tokens independently eliminates the need for expensive self-attention layers in the meta-model, dramatically reducing training costs.
+- **The Downside:** It ignores cross-token context. If an activation relies on positional sequence context to resolve ambiguous concepts, a single-token model will fail to capture that nuance.
+
+---
+
+## Strengths of GLP
+
+1.  **Zero Inductive Structural Biases:** Unlike SAEs (which assume sparse linear feature additions) or PCA (which assumes linear orthogonality), GLP imposes **no structural assumptions** on the activation space. It simply learns the distribution directly from data.
+2.  **Solves the Fluency-Concept Trade-off:** Provides a highly practical, drop-in post-processing step for any linear steering vector, enabling aggressive model control without output corruption.
+3.  **Cross-Model Transferability:** A GLP trained on Llama-3-Base activations transfers cleanly to Llama-3-Instruct models, showing that the learned activation manifold is highly robust to fine-tuning variations.
+
+---
+
+## Limitations
+
+1.  **Single-Layer Focus:** Standard GLPs are trained on a single intermediate layer (e.g., Layer 15). Extending this to a unified multi-layer meta-model that understands how concepts flow across layers remains an open challenge.
+2.  **Inference Latency:** Running a 20-step Euler ODE integration on activations at every generation step adds substantial computational overhead during inference. This is a common bottleneck in diffusion-based systems and will require distilled or single-step consistency models to become commercially viable.
+
+---
+
+## Engineering Takeaways
+
+- **Linear Interventions are Fragile:** When writing activation engineering scripts for alignment, toxic content mitigation, or style-steering, linear vectors will degrade output fluency when scaled.
+- **Diffusion is a Powerful Regularizer:** If your team is struggling with corrupted outputs from activation steering, consider training a simple MLP Flow Matching denoiser on your layer activations. Using SDEdit-style denoising at $t_{\text{start}} = 0.5$ acts as a highly effective on-manifold regularizer.
+- **Wider is Better for Meta-Modeling:** When designing models to learn continuous activation vectors, ensure your denoiser width is at least $2\times$ the size of the target hidden dimension to capture joint distributions effectively.
+
+---
+
+## References
+
+- Luo, G., Feng, J., Darrell, T., Radford, A., & Steinhardt, J. (2026). _Learning a Generative Meta-Model of LLM Activations_. UC Berkeley & Independent. arXiv:2602.06964v1 [cs.LG].
+- Meng, C., He, Y., Song, Y., Song, J., Wu, J., Zhu, J.-Y., & Ermon, S. (2022). _SDEdit: Guided image synthesis and editing with stochastic differential equations_. In _International Conference on Learning Representations_.
+- Lipman, Y., Chen, R. T. Q., Ben-Hamu, H., Nickel, M., & Le, M. (2023). _Flow matching for generative modeling_. In _International Conference on Learning Representations_.
+- Kantamneni, S., Engels, J., Rajamanoharan, S., Tegmark, M., & Nanda, N. (2025). _Are sparse autoencoders useful? a case study in sparse probing_. In _International Conference on Machine Learning_.
+
+_See the original paper [here](https://arxiv.org/abs/2602.06964v1) for the full breakdown of experiment results._

@@ -154,7 +154,7 @@ function TimelineCard({
         className="flex-1"
       >
         <div
-          className={`relative group bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 transition-all duration-300 hover:border-zinc-700/50 hover:shadow-xl ${categoryGlows[event.category]}`}
+          className={`relative group bg-card/50 backdrop-blur-xl border border-border/50 rounded-2xl p-6 transition-all duration-300 hover:border-border hover:shadow-xl ${categoryGlows[event.category]}`}
         >
           {/* Glow effect */}
           <div
@@ -166,32 +166,32 @@ function TimelineCard({
             <div className={`p-2 rounded-lg bg-gradient-to-br ${categoryColors[event.category]}`}>
               <Icon className="h-4 w-4 text-white" />
             </div>
-            <span className="text-xs uppercase tracking-wider text-zinc-500">{event.category}</span>
+            <span className="text-xs uppercase tracking-wider text-muted-foreground">{event.category}</span>
           </div>
 
           {/* Date badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-800/50 border border-zinc-700/50 mb-4">
-            <Calendar className="h-3 w-3 text-zinc-500" />
-            <span className="text-xs text-zinc-400">{event.date}</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 mb-4">
+            <Calendar className="h-3 w-3 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">{event.date}</span>
           </div>
 
           {/* Title & Organization */}
-          <h3 className="text-lg font-semibold text-white mb-1">{event.title}</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-1">{event.title}</h3>
           <div className="flex items-center gap-2 mb-2">
             {event.link ? (
               <Link
                 href={event.link}
                 target="_blank"
-                className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-1"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
               >
                 {event.organization}
                 <ExternalLink className="h-3 w-3" />
               </Link>
             ) : (
-              <span className="text-sm text-zinc-400">{event.organization}</span>
+              <span className="text-sm text-muted-foreground">{event.organization}</span>
             )}
           </div>
-          <div className="flex items-center gap-1 text-xs text-zinc-500 mb-4">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground mb-4">
             <MapPin className="h-3 w-3" />
             {event.location}
           </div>
@@ -199,7 +199,7 @@ function TimelineCard({
           {/* Achievements */}
           <ul className="space-y-2">
             {event.achievements.map((achievement, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-zinc-400">
+              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                 <span
                   className={`mt-1.5 h-1.5 w-1.5 rounded-full bg-gradient-to-r ${categoryColors[event.category]} flex-shrink-0`}
                 />
@@ -246,7 +246,7 @@ export default function TimelinePage() {
   });
 
   return (
-    <main className="min-h-screen bg-zinc-950 relative overflow-hidden">
+    <main className="min-h-screen bg-background relative overflow-hidden">
       {/* Background glows */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl" />
@@ -270,20 +270,20 @@ export default function TimelinePage() {
                 Timeline
               </span>
             </h1>
-            <p className="text-zinc-400 max-w-md mx-auto">
+            <p className="text-muted-foreground max-w-md mx-auto">
               A quick look at my journey, highlighting key projects and growth as a developer. I prefer sharing my work
               here rather than on socials. Stay tuned for more updates and insights.
             </p>
 
             {/* Decorative line with dots */}
             <div className="flex items-center justify-center gap-2 mt-6">
-              <div className="h-px w-16 bg-gradient-to-r from-transparent to-zinc-700" />
+              <div className="h-px w-16 bg-gradient-to-r from-transparent to-border" />
               <div className="flex gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-zinc-600" />
-                <span className="h-1.5 w-1.5 rounded-full bg-zinc-600" />
-                <span className="h-1.5 w-1.5 rounded-full bg-zinc-600" />
+                <span className="h-1.5 w-1.5 rounded-full bg-border" />
+                <span className="h-1.5 w-1.5 rounded-full bg-border" />
+                <span className="h-1.5 w-1.5 rounded-full bg-border" />
               </div>
-              <div className="h-px w-16 bg-gradient-to-l from-transparent to-zinc-700" />
+              <div className="h-px w-16 bg-gradient-to-l from-transparent to-border" />
             </div>
           </motion.div>
 
@@ -301,7 +301,7 @@ export default function TimelinePage() {
                   <div className={`p-1.5 rounded-md bg-gradient-to-br ${categoryColors[category]}`}>
                     <Icon className="h-3 w-3 text-white" />
                   </div>
-                  <span className="text-sm text-zinc-400 capitalize">{category}</span>
+                  <span className="text-sm text-muted-foreground capitalize">{category}</span>
                 </div>
               );
             })}
@@ -312,7 +312,7 @@ export default function TimelinePage() {
             {/* Animated vertical line - center on desktop, left on mobile */}
             <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px">
               {/* Background dashed line */}
-              <div className="absolute inset-0 border-l border-dashed border-zinc-800" />
+              <div className="absolute inset-0 border-l border-dashed border-border" />
 
               {/* Animated solid line with glow */}
               <motion.div
@@ -343,7 +343,7 @@ export default function TimelinePage() {
               className="absolute left-4 md:left-1/2 md:-translate-x-1/2 -bottom-4"
             >
               <div className="h-8 w-8 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
-                <div className="h-3 w-3 rounded-full bg-zinc-950" />
+                <div className="h-3 w-3 rounded-full bg-background" />
               </div>
             </motion.div>
           </div>
@@ -357,7 +357,7 @@ export default function TimelinePage() {
           >
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <span>←</span>
               Back to Home

@@ -354,6 +354,23 @@ Changing this in one place was considered but rejected — the consistency is in
 **DESIGN_SYSTEM.md as source of truth** — every gradient token, color pair, and animation value is documented. New components reference it instead of inventing new values.
 
 ---
+#TO Do: future
+1.  At 15–20 articles you don't need a CDN for content. Here's why:
+
+  - The current setup uses generateStaticParams — every article is pre-rendered to static HTML at build time. There is
+  no server rendering happening at request time. It's just flat files.
+  - MDX body is compiled at build, not at runtime. The reader gets pre-baked HTML.
+  - Images are the only real weight risk — Next.js <Image> with a CDN like Cloudinary handles that if you add figures
+  later.
+
+  The only reason to move to a CDN/CMS would be if you want to publish new articles without redeploying the site. At 15
+  articles that's not a real problem — a git push deploys in ~30 seconds on Netlify/Vercel.
+
+  My recommendation: Stay with MDX files as-is. Add diagrams as inline SVGs when they genuinely help explain something.
+  Revisit a headless CMS (like Contentlayer or Sanity) only if you're writing more than one article per week and
+  redeploying becomes annoying.
+
+---
 
 ## Deployments
 

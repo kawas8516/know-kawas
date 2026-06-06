@@ -43,19 +43,16 @@ export function HomeContentSections({ readingItems }: { readingItems: ReadingIte
   return (
     <section className="px-4 sm:px-6 py-8">
       <div className="mx-auto max-w-2xl">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-sm font-medium text-foreground">Currently reading</span>
+        <div className="flex items-center gap-4 mb-4">
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider whitespace-nowrap">
+            Currently reading
+          </span>
+          <div className="flex-1 h-px bg-border" />
           <Link
             href="/reading"
-            className="text-primary text-xs hover:underline inline-flex items-center gap-1"
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
           >
-            reading list
-            <motion.span
-              whileHover={prefersReducedMotion ? {} : { x: 3 }}
-              transition={{ duration: 0.15 }}
-            >
-              →
-            </motion.span>
+            Reading list →
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -65,7 +62,7 @@ export function HomeContentSections({ readingItems }: { readingItems: ReadingIte
               whileHover={prefersReducedMotion ? {} : { x: 4 }}
             >
               <Link href="/reading">
-                <div className="group flex gap-4 p-4 rounded-xl hover:bg-zinc-900/30 transition-colors">
+                <div className="group flex gap-4 p-4 rounded-xl hover:bg-muted/30 transition-colors">
                   <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/10 flex items-center justify-center border border-blue-500/20 flex-shrink-0">
                     <BookOpen className="w-8 h-8 text-blue-400" />
                   </div>
