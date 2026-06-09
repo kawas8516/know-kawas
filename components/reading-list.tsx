@@ -73,6 +73,13 @@ function StatusBadge({ status }: { status: ReadingItem['status'] }) {
       </span>
     );
   }
+  if (status === 'discussing') {
+    return (
+      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-accent/15 text-accent">
+        up next
+      </span>
+    );
+  }
   if (status === 'finished') {
     return (
       <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
@@ -107,7 +114,7 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
         <div className="flex items-start justify-between gap-2">
           <p className="font-medium text-sm text-foreground">{item.title}</p>
           {item.hasContent && (
-            <span className="text-[10px] text-muted-foreground/40 group-hover:text-muted-foreground transition-colors flex-shrink-0 mt-0.5">
+            <span className="text-[10px] text-foreground/80 group-hover:text-foreground transition-colors flex-shrink-0 mt-0.5">
               Read notes →
             </span>
           )}
@@ -115,9 +122,6 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
         <p className="text-xs text-muted-foreground mt-0.5">
           {item.author} · {item.year}
         </p>
-        <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
-          <StatusBadge status={item.status} />
-        </div>
         {item.note && (
           <p className="text-xs text-muted-foreground leading-relaxed mt-1 italic line-clamp-2 group-hover:line-clamp-none transition-all duration-200">
             {item.note}
@@ -132,6 +136,7 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
               {tag}
             </span>
           ))}
+          <StatusBadge status={item.status} />
         </div>
       </div>
     </div>
