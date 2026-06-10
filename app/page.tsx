@@ -8,8 +8,12 @@ import { HomeContentSections } from '@/components/home-content-sections';
 import { getAllReading } from '@/lib/content';
 
 export default function Home() {
+  // Prioritize papers actively being read over "up next" (discussing) items
+  // so the current-reading section always surfaces in-progress work first.
+  const homeStatusPriority: Record<string, number> = { reading: 0, discussing: 1 };
   const readingItems = getAllReading()
     .filter((i) => i.status === 'reading' || i.status === 'discussing')
+    .sort((a, b) => homeStatusPriority[a.status] - homeStatusPriority[b.status])
     .slice(0, 3);
 
   return (

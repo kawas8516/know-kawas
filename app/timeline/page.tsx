@@ -182,6 +182,7 @@ function TimelineCard({
               <Link
                 href={event.link}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
               >
                 {event.organization}

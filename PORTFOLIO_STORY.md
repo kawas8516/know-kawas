@@ -11,11 +11,13 @@ Each card maps to a real feature. Format: **As [user], I want [goal], so that [o
 ---
 
 ### US-01 — Recruiter First Visit
+
 > **As a recruiter** landing on the home page,  
 > I want to quickly scan what the developer has built and where they've worked,  
 > so that I can decide in under 30 seconds whether to dig deeper.
 
 **Acceptance criteria:**
+
 - Hero section visible above the fold with name, tagline, and a primary CTA
 - Project cards and experience cards visible without scrolling past the hero
 - Each card is clickable and navigates to the full `/work` or `/timeline` page
@@ -27,11 +29,13 @@ Each card maps to a real feature. Format: **As [user], I want [goal], so that [o
 ---
 
 ### US-02 — Power User Navigation
+
 > **As a developer or technical visitor** who wants to jump around the site fast,  
 > I want a keyboard-driven command palette,  
 > so that I don't have to reach for the mouse or scroll the navbar.
 
 **Acceptance criteria:**
+
 - `Cmd/Ctrl+K` opens the palette from anywhere on the site
 - Palette shows Pages, Prompts, and Reading items grouped and labeled
 - Typing filters results instantly
@@ -43,11 +47,13 @@ Each card maps to a real feature. Format: **As [user], I want [goal], so that [o
 ---
 
 ### US-03 — Work Page Deep Dive
+
 > **As a hiring manager** reviewing projects,  
 > I want to see source code and a live demo from the same card,  
 > so that I can evaluate the work without searching GitHub manually.
 
 **Acceptance criteria:**
+
 - Each project card shows a GitHub icon that links to the repo
 - Projects with a deployed demo show a second link icon beside the GitHub icon
 - Links open in a new tab
@@ -59,11 +65,13 @@ Each card maps to a real feature. Format: **As [user], I want [goal], so that [o
 ---
 
 ### US-04 — Reading List Discovery
+
 > **As a fellow developer** interested in what the owner is reading,  
 > I want to browse papers and books by category with status indicators,  
 > so that I can find recommendations relevant to my own learning.
 
 **Acceptance criteria:**
+
 - Reading items split into Papers / Books / Others sections
 - Each card shows title, author, year
 - A colored dot communicates current status: green = reading, amber = discussing, zinc = done
@@ -75,11 +83,13 @@ Each card maps to a real feature. Format: **As [user], I want [goal], so that [o
 ---
 
 ### US-05 — Prompts as a Resource
+
 > **As a developer** who uses LLMs in their workflow,  
 > I want to browse and filter reusable prompt templates by tag,  
 > so that I can adopt or adapt them for my own projects.
 
 **Acceptance criteria:**
+
 - Prompts listed with title, description, and tags
 - Clicking a tag filters the list client-side without a page reload
 - Each prompt has a detail page with syntax-highlighted content
@@ -91,11 +101,13 @@ Each card maps to a real feature. Format: **As [user], I want [goal], so that [o
 ---
 
 ### US-06 — About Page as a Story
+
 > **As a visitor** who wants to understand who the developer is beyond a résumé,  
 > I want an about page that feels personal and intentional,  
 > so that I get a sense of how they think, not just what they've done.
 
 **Acceptance criteria:**
+
 - Page has a distinct aesthetic from the rest of the dark-themed site
 - Content is split into sections (Philosophy, Project highlight, Timeline, Connections)
 - Sections are interactive — clicking a topic loads its content without a full navigation
@@ -107,11 +119,13 @@ Each card maps to a real feature. Format: **As [user], I want [goal], so that [o
 ---
 
 ### US-07 — Shareable Links with Preview
+
 > **As a visitor** sharing the portfolio on LinkedIn, Discord, or Twitter,  
 > I want the shared link to show a rich preview card with title and context,  
 > so that the link looks professional and drives clicks.
 
 **Acceptance criteria:**
+
 - Every page has `og:title`, `og:description`, `og:image` metadata
 - OG image is generated dynamically (not a static PNG)
 - `metadataBase` is set so absolute OG image URLs resolve correctly
@@ -123,11 +137,13 @@ Each card maps to a real feature. Format: **As [user], I want [goal], so that [o
 ---
 
 ### US-08 — Project Name Consistency
+
 > **As the portfolio owner** maintaining the site,  
 > I want a single project entry to represent one real product,  
 > so that the site doesn't show duplicate cards for the same thing under different names.
 
 **Acceptance criteria:**
+
 - "Food Waste Chatbot" and "Chat Cooking" merged into one "Food Recipes bot" entry
 - Name updated consistently across work page, home cards, about page, task view, and design system
 - No orphaned references remain
@@ -148,6 +164,7 @@ The initial scaffold gave us:
 - Static placeholder images in `public/`
 
 **Stack chosen:**
+
 - Next.js 14 App Router (RSC + client components mixed)
 - Tailwind CSS for styling
 - Framer Motion for all animations
@@ -170,6 +187,7 @@ Early commits focused on content and small UX touches:
 At this stage, `/work` and `/timeline` were monolithic files — all the project data and JSX lived directly inside `app/work/page.tsx` and `app/timeline/page.tsx`.
 
 **Key design decisions locked in early:**
+
 - Dark background (`zinc-950` base), zinc grays for text hierarchy
 - Pink → purple → blue gradient for primary accents
 - Framer Motion `whileHover: { scale: 1.03, y: -4 }` as the standard card interaction
@@ -194,6 +212,7 @@ content/
 ```
 
 Exposed three functions:
+
 - `getAllReading()` — returns sorted list with metadata
 - `getAllPrompts()` — returns list with tag aggregation
 - `getPromptBySlug(slug)` — full content for detail page
@@ -203,6 +222,7 @@ API routes (`/api/reading`, `/api/prompts`) proxy the content layer so the ⌘K 
 ### 3b. /reading Page
 
 Categorized view (Papers / Books / Others) with animated cards. Each card shows title, author, year, and a pulsing colored dot indicating status:
+
 - `reading` → green pulse
 - `discussing` → amber pulse
 - `completed` → static zinc dot
@@ -214,6 +234,7 @@ Tag-based filter (`components/prompt-filter.tsx`) — clicking a tag client-side
 ### 3d. ⌘K Command Palette
 
 `components/command-palette.tsx` — keyboard-driven navigation. Groups:
+
 - **Pages** — static links (Home, Work, About, Timeline, Reading, Prompts)
 - **Prompts** — fetched from `/api/prompts` on palette open
 - **Reading** — fetched from `/api/reading` on palette open
@@ -238,22 +259,31 @@ A living design contract was committed alongside the code. It documents every gr
 
 ---
 
-## 4. About Page: Notebook Redesign (May 25 2026)
+## 4. About Page: Cross-Pollination Log Redesign (May 25 2026)
 
 `app/about/page.tsx` grew by ~1,000 lines in a single commit.
 
-The about page became a **physical notebook aesthetic** — white/cream paper background, fountain pen serif fonts, handwritten-style annotations, red ink callouts, and diagonal sticky notes. It uses a split layout:
+The about page became a **three-column physical notebook** — `'use client'` for the interactive modal layer, with a deliberate aesthetic that reads nothing like the rest of the dark-themed site.
 
-- **Left column:** A mini "newspaper" index of clickable sections
-- **Right column:** The active section content, animated in with `AnimatePresence`
+**Layout:**
 
-Sections include:
-- Philosophy (Build → Learn → Iterate)
-- RAG project highlight (Food Recipes bot)
-- Timeline snapshot
-- Cross-domain connections (how different disciplines informed each other)
+- **Left column (72px):** Status sidebar — three pulsing colored dots (Building / Learning / Shipping) and a pinned sticky note with a key takeaway
+- **Center (460px):** A cream/parchment paper card with a gradient top rule, line numbers in the gutter, and scrollable sections rendered as a handwritten journal
+- **Right column (160px):** A stack of tilted index cards — RAG pipeline diagram (inline SVG), community leadership note, attention paper reference, neural net embedding visualization, trajectory sticky notes
 
-The interactive model: clicking a row in the left column sets `activeId` state, which triggers the right panel to swap content with a spring animation. It deliberately looks like a handwritten notebook — not a standard dark-theme component page.
+**Sections in the center paper:**
+
+- Journey (2020–present chronology)
+- Discord Nation Alpha (co-founded, 4,300+ members, 35% engagement growth)
+- Food Recipes Bot (RAG + FAISS + Django)
+- Cross-domain connections (community ops → systems thinking, RAG → agentic AI)
+- Philosophy (Build. Learn. Iterate.)
+- Backlog.md (P0/P1/P2 priorities with a sprint progress bar)
+- Live Status (current status pills: MCA · active, Building RAG, Actively reading, Open to collabs)
+
+**Interactive model:** Clicking any section row sets `activeId` state. `AnimatePresence` renders a dark glassmorphic modal (`backdrop-filter: blur(16px)`) over the page. The modal snaps in with a spring (`stiffness: 380, damping: 30`). Clicking outside or the X button exits it.
+
+**Aesthetic details:** Fountain pen red callout annotations, strikethrough text, highlighted inline spans (`bg-orange-100`, `bg-blue-100`), wavy text underlines, diagonal sticky notes with pin dots, and line numbers rendered as a `div` array — it looks like a notebook torn out and pinned to a corkboard.
 
 ---
 
@@ -284,12 +314,14 @@ Same refactor applied to reading UI — `reading-list.tsx` cleaned up.
 **Use case discovered:** The work page had two separate project entries for the same product — "Food Waste Chatbot" and "Chat Cooking" — listed as separate cards because they were different GitHub repos from different learning phases.
 
 **Decision:** Merge into a single **"Food Recipes bot"** entry. The deployed Hugging Face Space (`chat-cooking`) became the canonical version with:
+
 - GitHub link → `github.com/kawas8516/chat-cooking`
 - Live demo link → `huggingface.co/spaces/kawas8516/chat-cooking` (ExternalLink icon)
 
 Updated across **6 files:** work-content, projects-section, task-file-view, about page (6 references), and DESIGN_SYSTEM.md.
 
 **Navigation UX:** Home page cards had `cursor-pointer` and hover animations but were not actually clickable — they were `<div>` elements with no `href`. Fixed by wrapping each card's inner container in a Next.js `<Link>`:
+
 - Project cards → `/work`
 - Experience cards → `/timeline`
 
@@ -302,36 +334,41 @@ Framer Motion stays on the outer `motion.div` so all entrance/hover animations a
 ```
 app/
   page.tsx                   ← home, assembles section components
-  layout.tsx                 ← root layout, metadata, theme
-  about/page.tsx             ← notebook-style interactive about
+  layout.tsx                 ← root layout, metadata, theme provider
+  about/page.tsx             ← three-column notebook / cross-pollination log
   work/page.tsx              ← thin shell → <WorkContent />
   timeline/page.tsx          ← full timeline, all inline
   reading/page.tsx           ← thin shell → <ReadingList />
-  prompts/page.tsx           ← thin shell → <PromptFilter />
-  prompts/[slug]/page.tsx    ← MDX detail page
-  og/route.tsx               ← dynamic OG image
+  reading/[slug]/page.tsx    ← individual book/paper MDX detail page
+  reading/layout.tsx         ← reading section layout
+  og/route.tsx               ← dynamic OG image (ImageResponse)
   api/reading/route.ts       ← JSON endpoint for ⌘K palette
-  api/prompts/route.ts       ← JSON endpoint for ⌘K palette
   sitemap.ts                 ← auto-generated sitemap
 
 components/
   hero-section.tsx           ← landing hero, CTA, social links
   projects-section.tsx       ← home project cards → /work
   experience-section.tsx     ← home experience cards → /timeline
+  home-content-sections.tsx  ← reading preview carousel on homepage
   work-content.tsx           ← full project list with GitHub + demo links
-  reading-list.tsx           ← categorized reading cards
-  command-palette.tsx        ← ⌘K palette
-  task-file-view.tsx         ← about page terminal view
-  navbar.tsx                 ← top nav with search pill
+  reading-list.tsx           ← categorized reading cards with status dots
+  command-palette.tsx        ← ⌘K palette (Pages + Reading + Actions)
+  task-file-view.tsx         ← terminal-style task view (used in about)
+  tech-stack-section.tsx     ← tech grid + resume link
+  tech-stack-float.tsx       ← floating tech badge variant
+  node-graph-bg.tsx          ← animated canvas background
+  navbar.tsx                 ← top nav with theme toggle
   footer.tsx
-  code-block.tsx             ← syntax highlighted prompt blocks
+  code-block.tsx             ← syntax highlighted code blocks
+  logo.tsx                   ← site logo mark
 
 content/
   reading/*.mdx              ← one file per paper/book
   prompts/*.mdx              ← one file per prompt
 
 lib/
-  content.ts                 ← MDX parsing + content API
+  content.ts                 ← MDX parsing, getAllReading(), getPromptBySlug()
+  utils.ts                   ← cn() and shared utilities
 ```
 
 ---
@@ -339,12 +376,14 @@ lib/
 ## Key Patterns Used
 
 **Animation contract** — every interactive card uses the same Framer Motion spec:
+
 ```ts
 initial={{ opacity: 0, scale: 0.9 }}
 whileInView={{ opacity: 1, scale: 1 }}
 viewport={{ once: true }}
 whileHover={{ scale: 1.03, y: -4 }}
 ```
+
 Changing this in one place was considered but rejected — the consistency is intentional.
 
 **Link-over-div** — navigable cards are `<Link>` wrapping the visual container, not `<div onClick>`. This gives free keyboard navigation, right-click → open in new tab, and correct semantics.
@@ -354,23 +393,62 @@ Changing this in one place was considered but rejected — the consistency is in
 **DESIGN_SYSTEM.md as source of truth** — every gradient token, color pair, and animation value is documented. New components reference it instead of inventing new values.
 
 ---
+
 #TO Do: future
+
 1.  At 15–20 articles you don't need a CDN for content. Here's why:
 
-  - The current setup uses generateStaticParams — every article is pre-rendered to static HTML at build time. There is
+- The current setup uses generateStaticParams — every article is pre-rendered to static HTML at build time. There is
   no server rendering happening at request time. It's just flat files.
-  - MDX body is compiled at build, not at runtime. The reader gets pre-baked HTML.
-  - Images are the only real weight risk — Next.js <Image> with a CDN like Cloudinary handles that if you add figures
+- MDX body is compiled at build, not at runtime. The reader gets pre-baked HTML.
+- Images are the only real weight risk — Next.js <Image> with a CDN like Cloudinary handles that if you add figures
   later.
 
-  The only reason to move to a CDN/CMS would be if you want to publish new articles without redeploying the site. At 15
-  articles that's not a real problem — a git push deploys in ~30 seconds on Netlify/Vercel.
+The only reason to move to a CDN/CMS would be if you want to publish new articles without redeploying the site. At 15
+articles that's not a real problem — a git push deploys in ~30 seconds on Netlify/Vercel.
 
-  My recommendation: Stay with MDX files as-is. Add diagrams as inline SVGs when they genuinely help explain something.
-  Revisit a headless CMS (like Contentlayer or Sanity) only if you're writing more than one article per week and
-  redeploying becomes annoying.
+My recommendation: Stay with MDX files as-is. Add diagrams as inline SVGs when they genuinely help explain something.
+Revisit a headless CMS (like Contentlayer or Sanity) only if you're writing more than one article per week and
+redeploying becomes annoying.
 
 ---
+
+## 8. Reading Page — Individual Article Pages (June 2026)
+
+Each book and paper in `content/reading/*.mdx` now has its own detail route at `/reading/[slug]`.
+
+**What the slug page adds:**
+
+- Full MDX body rendered via `next-mdx-remote/rsc`
+- Scroll progress bar (thin line at the top of the viewport, updated on scroll)
+- Per-article metadata (`title`, `description`, `og:image`) exported from the page
+- Back navigation to the reading list
+- Same ambient glow background as the homepage
+
+The reading layout (`app/reading/layout.tsx`) wraps both the list and slug pages, so the background and nav stay consistent across the section.
+
+---
+
+## 9. Homepage Reading Carousel (June 2026)
+
+`components/home-content-sections.tsx` replaced the static reading preview with a carousel grid.
+
+- Surfaces items with `status: reading` or `status: discussing`, up to 3
+- Consistent with the reading list card design (pulsing dot + metadata)
+- Animated in with Framer Motion viewport detection
+
+---
+
+## 10. Dependency Upgrade — Next.js 16.0.10 → 16.2.7 (June 2026)
+
+Next.js updated from `16.0.10` to `^16.2.7` via `npm audit fix --force`. Security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) added to `next.config.mjs` via the `headers()` export.
+
+---
+
+## TO DO:
+
+1. Adding up pretext library in blogs
+2.
 
 ## Deployments
 

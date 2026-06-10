@@ -36,6 +36,7 @@ export function TechStackSection() {
             <Link
               href="https://drive.google.com/file/d/1PaV_eo-KRfX-WLQ1HevIZb1Wt8EtimgA/view?usp=sharing"
               target="_blank"
+              rel="noopener noreferrer"
               className="text-sm text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-1"
             >
               View Resume <span>→</span>
