@@ -33,3 +33,7 @@ next-env.d.ts
 mockup-*.html
 wireframes.html
 skills-lock.json
+
+#temp
+SECURITY_AUDIT_SUMMARY.md
+graphify-out/
