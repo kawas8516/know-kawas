@@ -55,11 +55,11 @@ An **agent** here is a program that takes a task specification, calls tools (cod
 
 SIA runs three agents in a hierarchy:
 
-- The **Meta-Agent** generates the initial scaffold — once, at the start — and is never updated again. It does not execute the task itself. Given the task specification *and* reference implementations ℛ (existing code, relevant papers), it writes a complete Python agent: prompt templates, tool definitions, output parsers, and execution flow. This is generation 0, the baseline every subsequent improvement is measured against.
+- The **Meta-Agent** generates the initial scaffold — once, at the start — and is never updated again. It does not execute the task itself. Given the task specification _and_ reference implementations ℛ (existing code, relevant papers), it writes a complete Python agent: prompt templates, tool definitions, output parsers, and execution flow. This is generation 0, the baseline every subsequent improvement is measured against.
 - The **Task-Specific Agent** is that scaffold in live execution: it receives task instances, calls tools, and produces candidate outputs. This is the component being improved across generations.
 - The **Feedback-Agent** sits above both: after each generation it reads the Task-Specific Agent's full trajectory and decides what change to make next — rewrite the scaffold, or run one RL training step on the weights.
 
-A **trajectory** is that execution record in full — every input, tool call, tool result, and model response, in order, for one task instance. Not a summary score; the raw log. Reading full trajectories is what lets the Feedback-Agent diagnose *why* the agent failed on specific instances, rather than reacting to an aggregate number.
+A **trajectory** is that execution record in full — every input, tool call, tool result, and model response, in order, for one task instance. Not a summary score; the raw log. Reading full trajectories is what lets the Feedback-Agent diagnose _why_ the agent failed on specific instances, rather than reacting to an aggregate number.
 
 A **rollout** is one generated attempt from the model — one candidate solution produced by sampling the policy once on a given input. Where a trajectory is the full execution log, a rollout is the single output that log captures. During RL training steps, the Task-Specific Agent produces multiple rollouts per task instance; the verifier scores each, and the distribution of scores drives the weight update.
 
@@ -85,15 +85,15 @@ One term the weight side depends on: **LoRA** (Low-Rank Adaptation). Rather than
 
 ## Test-time training and RL basics
 
-**Test-time training** (TTT) is the practice of updating a model's weights during deployment — using signal from the live task, not a pre-collected dataset. SIA is a TTT system: weight updates fire inside the improvement loop, triggered by the Feedback-Agent once scaffold iteration has stalled. This places it in a different category from standard fine-tuning (which runs before deployment on general-purpose data) and from prompt engineering (which never moves weights at all).
+**Test-time training** (TTT) is the practice of updating a model's weights during deployment — using signal from the live task, not a pre-collected dataset. SIA is a TTT system: weight updates fire inside the improvement loop, triggered by the Feedback-Agent once scaffold iteration has stalled. This places it in a different category from standard fine-tuning and from prompt engineering — both of which either predate deployment or never touch weights at all.
 
 The weight-update mechanism is **reinforcement learning from task feedback**: the Task-Specific Agent generates multiple candidate outputs, a verifier scores each against the task ground truth, and the model's weights are updated to increase the probability of high-scoring outputs. The Feedback-Agent selects the RL algorithm to match the reward structure it observes:
 
 - **PPO** — each update is clipped so a single bad batch can't collapse a working model (this bounded safe zone around the current policy is called the "trust region"); used when dense step-level rewards make training stability the binding constraint.
-- **GRPO** — no value network (no separate neural net estimating long-term value); advantages (each rollout's score minus the batch average) normalized within a batch; used when rollouts are cheap and end-of-episode rewards are easy to compute.
+- **GRPO** — no value network; advantages normalized within a batch; used when rollouts are cheap and end-of-episode rewards are easy to compute.
 - **Entropic advantage weighting** — instead of averaging all rollouts equally, this uses a softmax to give rare high-scoring ones exponentially more weight (if 99 kernels fail to compile and one runs fast, that one drives the entire update); used when most rollouts fail and only the occasional high-scoring rollout carries real signal.
-- **REINFORCE + KL-to-base** — uses the raw cumulative reward as the learning signal (no critic network, no clipping), plus a KL penalty that stops the model straying too far from its original weights — preventing it from forgetting prior capabilities while learning the new task; used when reward is dense but capability regression is the main risk.
-- **Best-of-N behavioral cloning (Phase 0)** — not an RL algorithm itself but a cold-start prerequisite: when rewards are so sparse that the RL gradient (the learning signal) is effectively zero, the top-k rollouts by verifier score are distilled into the model via cross-entropy (a supervised imitation loss) first, raising the pass rate to a level where PPO or GRPO can actually run.
+- **REINFORCE + KL-to-base** — raw cumulative reward as the learning signal, no critic, no clipping; a KL penalty keeps the updated policy close to the base model (so it doesn't unlearn what it already knew); used when reward is dense but capability regression is the binding risk.
+- **Best-of-N behavioral cloning (Phase 0)** — not an RL algorithm itself but a cold-start prerequisite: when rewards are so sparse that the RL gradient is effectively zero, the top-k rollouts by verifier score are distilled into the model via cross-entropy first, raising the pass rate to a level where PPO or GRPO can actually run.
 - **DPO** — used when the verifier can rank outputs (this is better than that) but cannot assign numerical scores; requires only a winning and a losing rollout per pair.
 
 The algorithm selection is automated, not hand-coded per task, and the LoRA adapters described above are what keep each update reversible at 120B scale.

@@ -8,6 +8,8 @@ import remarkGfm from 'remark-gfm';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { getAllReading, getReading } from '@/lib/content';
 import { ArrowLeft, Clock, FileText, BookOpen, Bookmark } from 'lucide-react';
+import { ScrollProgress } from '@/components/scroll-progress';
+import { FadeUp, FadeIn } from '@/components/reading-animations';
 
 export async function generateStaticParams() {
   const items = getAllReading();
@@ -67,103 +69,112 @@ export default async function ReadingDetailPage({
         crossOrigin="anonymous"
       />
 
-      {/* Scroll progress bar */}
-      <div id="progress-bar" className="fixed top-0 left-0 h-[2px] z-50 bg-gradient-to-r from-violet-500 via-pink-500 to-blue-500" style={{ width: '0%' }} />
+      <ScrollProgress />
 
-      <div className="mx-auto max-w-[680px] px-5 pt-24 pb-32">
+      <div className="mx-auto max-w-[840px] px-5 pt-20 pb-28">
 
         {/* Back */}
-        <Link
-          href="/reading"
-          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/60 hover:text-foreground transition-colors mb-12 tracking-wide"
-        >
-          <ArrowLeft className="h-3 w-3" />
-          Reading list
-        </Link>
-
-        {/* ── Header ── */}
-        <header className="mb-12">
-          {/* Type + read time row */}
-          <div className="flex items-center gap-3 mb-5">
-            <span className={`inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded border ${cfg.color}`}>
-              <TypeIcon className="h-2.5 w-2.5" />
-              {item.type}
-            </span>
-            <span className="text-[10px] text-muted-foreground/50 uppercase tracking-widest">{item.year}</span>
-            <span className="text-[10px] text-muted-foreground/40">·</span>
-            <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground/50 uppercase tracking-widest">
-              <Clock className="h-2.5 w-2.5" />
-              {readingTime} min read
-            </span>
-          </div>
-
-          {/* Title */}
-          <h1 className="text-[1.65rem] sm:text-[2rem] font-bold text-foreground leading-[1.2] tracking-tight mb-4" style={{ textWrap: 'balance' } as React.CSSProperties}>
-            {item.title}
-          </h1>
-
-          {/* Author */}
-          <p className="text-sm text-muted-foreground/70 mb-5 font-medium">{item.author}</p>
-
-          {/* Personal note — italicised pull quote style */}
-          {item.note && (
-            <blockquote className="border-l-[3px] border-violet-500/40 pl-4 py-1 mb-5">
-              <p className="text-sm text-muted-foreground/80 italic leading-relaxed">{item.note}</p>
-            </blockquote>
-          )}
-
-          {/* Tags */}
-          {item.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {item.tags.map((tag) => (
-                <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-muted/40 text-muted-foreground/70 border border-border/50">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </header>
-
-        {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-12" />
-
-        {/* ── Body ── */}
-        {item.hasContent ? (
-          <article className="reading-prose">
-            <MDXRemote source={content} options={mdxOptions} />
-          </article>
-        ) : (
-          <p className="text-muted-foreground/60 text-sm italic">No notes yet for this one.</p>
-        )}
-
-        {/* ── Bottom nav ── */}
-        <div className="mt-20 pt-8 border-t border-border/50">
-          {related.length > 0 && (
-            <div className="mb-8">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 mb-4">More {item.type}s</p>
-              <div className="flex flex-col gap-2">
-                {related.map((r) => (
-                  <Link
-                    key={r.slug}
-                    href={`/reading/${r.slug}`}
-                    className="group flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-muted/30 transition-colors"
-                  >
-                    <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors line-clamp-1">{r.title}</span>
-                    <span className="text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-colors text-sm flex-shrink-0 ml-3">→</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-
+        <FadeIn delay={0}>
           <Link
             href="/reading"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground/60 hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/60 hover:text-foreground transition-colors mb-10 tracking-wide"
           >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Back to reading list
+            <ArrowLeft className="h-3 w-3" />
+            Reading list
           </Link>
-        </div>
+        </FadeIn>
+
+        {/* ── Header ── */}
+        <FadeUp delay={0.06}>
+          <header className="mb-10">
+            {/* Type + read time row */}
+            <div className="flex items-center gap-3 mb-5">
+              <span className={`inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded border ${cfg.color}`}>
+                <TypeIcon className="h-2.5 w-2.5" />
+                {item.type}
+              </span>
+              <span className="text-[10px] text-muted-foreground/50 uppercase tracking-widest">{item.year}</span>
+              <span className="text-[10px] text-muted-foreground/40">·</span>
+              <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground/50 uppercase tracking-widest">
+                <Clock className="h-2.5 w-2.5" />
+                {readingTime} min read
+              </span>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-[1.65rem] sm:text-[2rem] font-bold text-foreground leading-[1.2] tracking-tight mb-4" style={{ textWrap: 'balance' } as React.CSSProperties}>
+              {item.title}
+            </h1>
+
+            {/* Author */}
+            <p className="text-sm text-muted-foreground/70 mb-5 font-medium">{item.author}</p>
+
+            {/* Personal note — italicised pull quote style */}
+            {item.note && (
+              <blockquote className="border-l-[3px] border-violet-500/40 pl-4 py-1 mb-5">
+                <p className="text-sm text-muted-foreground/80 italic leading-relaxed">{item.note}</p>
+              </blockquote>
+            )}
+
+            {/* Tags */}
+            {item.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {item.tags.map((tag) => (
+                  <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-muted/40 text-muted-foreground/70 border border-border/50">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </header>
+        </FadeUp>
+
+        {/* Divider */}
+        <FadeIn delay={0.14}>
+          <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-10" />
+        </FadeIn>
+
+        {/* ── Body ── */}
+        <FadeUp delay={0.2}>
+          {item.hasContent ? (
+            <article className="reading-prose">
+              <MDXRemote source={content} options={mdxOptions} />
+            </article>
+          ) : (
+            <p className="text-muted-foreground/60 text-sm italic">No notes yet for this one.</p>
+          )}
+        </FadeUp>
+
+        {/* ── Bottom nav ── */}
+        <FadeIn delay={0.3}>
+          <div className="mt-20 pt-8 border-t border-border/50">
+            {related.length > 0 && (
+              <div className="mb-8">
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 mb-4">More {item.type}s</p>
+                <div className="flex flex-col gap-2">
+                  {related.map((r) => (
+                    <Link
+                      key={r.slug}
+                      href={`/reading/${r.slug}`}
+                      className="group flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-muted/30 transition-colors"
+                    >
+                      <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors line-clamp-1">{r.title}</span>
+                      <span className="text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-colors text-sm flex-shrink-0 ml-3">→</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <Link
+              href="/reading"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground/60 hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              Back to reading list
+            </Link>
+          </div>
+        </FadeIn>
       </div>
 
       {/* ── Prose styles ── */}
@@ -178,7 +189,7 @@ export default async function ReadingDetailPage({
         .reading-prose h4 { font-size: 0.875rem; font-weight: 600; color: var(--color-foreground); margin: 1.25rem 0 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; }
 
         /* Paragraphs & text */
-        .reading-prose p { margin: 0 0 1.2rem; text-wrap: pretty; }
+        .reading-prose p { margin: 0 0 1.2rem; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
         .reading-prose strong { color: var(--color-foreground); font-weight: 600; }
         .reading-prose em { font-style: italic; }
         .reading-prose a { color: var(--color-foreground); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in oklch, var(--color-border) 180%, transparent); transition: text-decoration-color 0.15s; }
@@ -233,20 +244,6 @@ export default async function ReadingDetailPage({
         }
       `}</style>
 
-      {/* Scroll progress script */}
-      <script dangerouslySetInnerHTML={{ __html: `
-        (function() {
-          var bar = document.getElementById('progress-bar');
-          if (!bar) return;
-          function update() {
-            var scrolled = window.scrollY;
-            var total = document.documentElement.scrollHeight - window.innerHeight;
-            bar.style.width = total > 0 ? (scrolled / total * 100) + '%' : '0%';
-          }
-          window.addEventListener('scroll', update, { passive: true });
-          update();
-        })();
-      `}} />
     </main>
   );
 }
