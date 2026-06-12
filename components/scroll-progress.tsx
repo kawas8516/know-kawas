@@ -4,8 +4,9 @@ import { useEffect } from 'react';
 
 export function ScrollProgress() {
   useEffect(() => {
-    const bar = document.getElementById('progress-bar');
-    if (!bar) return;
+    const el = document.getElementById('progress-bar');
+    if (!el) return;
+    const bar = el;
 
     function update() {
       const scrolled = window.scrollY;
