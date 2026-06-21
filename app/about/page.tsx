@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Twitter, Mail, X } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { NewsletterSection } from '@/components/newsletter-section';
 
 type ModalEntry = {
   tag: string;
@@ -1167,6 +1168,7 @@ export default function AboutPage() {
         </AnimatePresence>
       </div>
 
+      <NewsletterSection />
       <Footer />
     </main>
   );

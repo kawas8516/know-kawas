@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Linkedin, Github, Mail, Twitter } from 'lucide-react';
 import Link from 'next/link';
 import { NodeGraphBg } from '@/components/node-graph-bg';
+import { SubstackIcon } from '@/components/icons/substack-icon';
 
 function HackerRankIcon({ className }: { className?: string }) {
   return (
@@ -25,6 +26,7 @@ const socialLinks = [
   { icon: Linkedin, name: 'LinkedIn', href: 'https://www.linkedin.com/in/kawas-nandan' },
   { icon: Github, name: 'GitHub', href: 'https://github.com/kawas8516' },
   { icon: Twitter, name: 'X', href: 'https://x.com/notkawas' },
+  { icon: SubstackIcon, name: 'Substack', href: 'https://kawas516.substack.com' },
   { icon: HackerRankIcon, name: 'HackerRank', href: 'https://www.hackerrank.com/profile/kawas8516' },
   { icon: LeetCodeIcon, name: 'LeetCode', href: 'https://leetcode.com/u/kawas8516/' },
   { icon: Mail, name: 'Email', href: 'mailto:kaustubhamandhane24@gmail.com' },
