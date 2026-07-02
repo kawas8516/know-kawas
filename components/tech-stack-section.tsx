@@ -44,7 +44,7 @@ export function TechStackSection() {
               rel="noopener noreferrer"
               className="text-[11px] text-gray-400 dark:text-white/35 hover:text-gray-700 dark:hover:text-white/65 transition-colors flex items-center gap-1"
             >
-              View Resume â†’
+              View Resume →
             </Link>
           </motion.div>
         </div>
@@ -69,7 +69,7 @@ export function TechStackSection() {
             >
               {/* Glass tile */}
               <div className="relative w-16 h-16 rounded-2xl overflow-hidden">
-                {/* Accent blob â€” visible on hover */}
+                {/* Accent blob — visible on hover */}
                 <div
                   className={`pointer-events-none absolute inset-0 rounded-2xl blur-[20px] opacity-0 group-hover:opacity-80 transition-opacity duration-400 ${tech.blob}`}
                   aria-hidden="true"

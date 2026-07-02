@@ -18,7 +18,7 @@ const projects = [
   {
     name: 'CLI Utilities (C/C++)',
     year: '2024',
-    description: 'Command-line tools built in C and C++. Systems-level fundamentals â€” where it all started.',
+    description: 'Command-line tools built in C and C++. Systems-level fundamentals — where it all started.',
     icon: Terminal,
     iconColor: 'text-blue-400',
     gradient: 'from-blue-400/30 to-cyan-500/15',
@@ -61,7 +61,7 @@ export function ProjectsSection() {
               href="/work"
               className="text-[11px] text-gray-400 dark:text-white/35 hover:text-gray-700 dark:hover:text-white/65 transition-colors flex items-center gap-1"
             >
-              All work â†’
+              All work →
             </Link>
           </motion.div>
         </div>

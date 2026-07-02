@@ -7,7 +7,7 @@ export function NewsletterSection() {
   return (
     <section id="newsletter" className="mx-auto max-w-[560px] px-6 py-12">
 
-      {/* Outer shell â€” clips blobs, establishes stacking context for backdrop-filter */}
+      {/* Outer shell — clips blobs, establishes stacking context for backdrop-filter */}
       <div className="relative overflow-hidden isolate rounded-2xl">
 
         {/* Apple WWDC 2025 Liquid Glass Background */}
@@ -96,7 +96,7 @@ export function NewsletterSection() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
 
-          {/* Specular shimmer â€” top edge */}
+          {/* Specular shimmer — top edge */}
           <div
             aria-hidden="true"
             className="

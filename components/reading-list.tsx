@@ -6,7 +6,7 @@ import { FileText, BookOpen, Bookmark } from 'lucide-react';
 import Link from 'next/link';
 import type { ReadingItem } from '@/lib/content';
 
-// â”€â”€â”€ sort â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── sort ─────────────────────────────────────────────────────────────────────
 
 const STATUS_ORDER: Record<ReadingItem['status'], number> = {
   discussing: 0,
@@ -19,7 +19,7 @@ function sortByStatus(items: ReadingItem[]): ReadingItem[] {
   return [...items].sort((a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]);
 }
 
-// â”€â”€â”€ section config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── section config ───────────────────────────────────────────────────────────
 
 type SectionType = 'paper' | 'book' | 'other';
 
@@ -50,7 +50,7 @@ const sectionConfig = {
   },
 };
 
-// â”€â”€â”€ filter config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── filter config ────────────────────────────────────────────────────────────
 
 const STATUS_FILTERS = [
   { value: 'all', label: 'All' },
@@ -66,7 +66,7 @@ const TYPE_FILTERS = [
   { value: 'other', label: 'Others' },
 ] as const;
 
-// â”€â”€â”€ badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── badges ───────────────────────────────────────────────────────────────────
 
 function StatusBadge({ status }: { status: ReadingItem['status'] }) {
   const base = 'text-[10px] font-medium px-2 py-0.5 rounded-full border';
@@ -101,7 +101,7 @@ function StatusBadge({ status }: { status: ReadingItem['status'] }) {
   return null;
 }
 
-// â”€â”€â”€ card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── card ─────────────────────────────────────────────────────────────────────
 
 function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: SectionType }) {
   const config = sectionConfig[sectionType];
@@ -149,12 +149,12 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
             <p className="font-medium text-sm text-gray-900 dark:text-white/90">{item.title}</p>
             {item.hasContent && (
               <span className="text-[10px] text-gray-400 dark:text-white/35 group-hover:text-gray-700 dark:group-hover:text-white/70 transition-colors flex-shrink-0 mt-0.5">
-                Read notes â†’
+                Read notes →
               </span>
             )}
           </div>
           <p className="text-xs text-gray-500 dark:text-white/45 mt-0.5">
-            {item.author} Â· {item.year}
+            {item.author} · {item.year}
           </p>
           {item.note && (
             <p className="text-xs text-gray-500 dark:text-white/40 leading-relaxed mt-1.5 italic line-clamp-2 group-hover:line-clamp-none transition-all duration-200">
@@ -187,7 +187,7 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
   return inner;
 }
 
-// â”€â”€â”€ section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── section ──────────────────────────────────────────────────────────────────
 
 function SectionGroup({ type, items }: { type: SectionType; items: ReadingItem[] }) {
   const prefersReducedMotion = useReducedMotion();
@@ -231,7 +231,7 @@ function SectionGroup({ type, items }: { type: SectionType; items: ReadingItem[]
   );
 }
 
-// â”€â”€â”€ filter button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── filter button ────────────────────────────────────────────────────────────
 
 function FilterButton({
   label,
@@ -258,7 +258,7 @@ function FilterButton({
   );
 }
 
-// â”€â”€â”€ status filter row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── status filter row ────────────────────────────────────────────────────────
 
 function StatusFilterRow({
   statusFilter,
@@ -281,7 +281,7 @@ function StatusFilterRow({
   );
 }
 
-// â”€â”€â”€ desktop sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── desktop sidebar ──────────────────────────────────────────────────────────
 
 function FilterSidebar({
   statusFilter,
@@ -339,7 +339,7 @@ function FilterSidebar({
   );
 }
 
-// â”€â”€â”€ mobile type filters â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── mobile type filters ──────────────────────────────────────────────────────
 
 function MobileTypeFilters({
   typeFilter,
@@ -362,7 +362,7 @@ function MobileTypeFilters({
   );
 }
 
-// â”€â”€â”€ main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── main ─────────────────────────────────────────────────────────────────────
 
 export function ReadingList({ items }: { items: ReadingItem[] }) {
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -412,7 +412,7 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
 
       <div className="relative mx-auto max-w-3xl">
 
-        {/* â”€â”€ HEADER â”€â”€ */}
+        {/* ── HEADER ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -438,7 +438,7 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
             What I&apos;m reading
           </h1>
           <p className="mt-3 text-sm sm:text-[15px] text-gray-600 dark:text-white/50 max-w-md mx-auto leading-relaxed">
-            Papers, books, essays â€” things worth the time. Filtered by what actually changed how I think.
+            Papers, books, essays — things worth the time. Filtered by what actually changed how I think.
           </p>
 
           {/* Shimmer divider */}
@@ -453,7 +453,7 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
           </div>
         </motion.div>
 
-        {/* â”€â”€ GRID â”€â”€ */}
+        {/* ── GRID ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

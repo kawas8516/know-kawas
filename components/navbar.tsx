@@ -47,7 +47,7 @@ export function Navbar() {
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-50 px-4 pt-3 sm:px-6">
-        {/* â”€â”€ Floating glass island â”€â”€ */}
+        {/* ── Floating glass island ── */}
         <motion.div
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -65,7 +65,7 @@ export function Navbar() {
               WebkitBackdropFilter: 'blur(48px) saturate(200%) brightness(1.06)',
             }}
           >
-            {/* Specular shimmer â€” top edge */}
+            {/* Specular shimmer — top edge */}
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-x-4 top-0 h-px
@@ -80,7 +80,7 @@ export function Navbar() {
                 dark:via-white/08 rounded-full"
             />
 
-            {/* â”€â”€ Logo â”€â”€ */}
+            {/* ── Logo ── */}
             <Link href="/">
               <motion.div
                 className="relative flex items-center"
@@ -90,7 +90,7 @@ export function Navbar() {
                 <Logo
                   text="Kawas"
                   size="md"
-                  ariaLabel="Kawas â€” Home"
+                  ariaLabel="Kawas — Home"
                   disableAnimation
                   className="italic font-light tracking-wide"
                   style={{ fontFamily: 'cursive' }}
@@ -99,7 +99,7 @@ export function Navbar() {
               </motion.div>
             </Link>
 
-            {/* â”€â”€ Desktop: nav capsule + search + social â”€â”€ */}
+            {/* ── Desktop: nav capsule + search + social ── */}
             <div className="hidden md:flex items-center gap-2.5">
 
               {/* Nav links - bare, floating inside the island */}
@@ -157,7 +157,7 @@ export function Navbar() {
                   border border-white/60 dark:border-white/[0.10]
                   text-gray-400 dark:text-white/30
                   shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
-                  âŒ˜K
+                  ⌘K
                 </kbd>
               </motion.button>
 
@@ -189,7 +189,7 @@ export function Navbar() {
               <ThemeToggle />
             </div>
 
-            {/* â”€â”€ Mobile: hamburger â”€â”€ */}
+            {/* ── Mobile: hamburger ── */}
             <button
               className="md:hidden p-1.5 rounded-lg text-gray-500 dark:text-white/45
                 hover:bg-white/40 dark:hover:bg-white/[0.07] transition-colors"
@@ -210,7 +210,7 @@ export function Navbar() {
             </button>
           </div>
 
-          {/* â”€â”€ Mobile drawer â€” glass panel below island â”€â”€ */}
+          {/* ── Mobile drawer — glass panel below island ── */}
           <AnimatePresence>
             {isMobileOpen && (
               <motion.div

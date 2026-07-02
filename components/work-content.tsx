@@ -106,7 +106,7 @@ const projects = [
     id: 3,
     name: 'CLI Utilities (C/C++)',
     description:
-      'Collection of system utilities and command-line tools â€” interactive mode, improved error handling. Built with C and C++.',
+      'Collection of system utilities and command-line tools — interactive mode, improved error handling. Built with C and C++.',
     icon: (
       <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400/30 to-cyan-500/15 flex items-center justify-center border border-blue-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
         style={{ backdropFilter: 'blur(12px)' }}>

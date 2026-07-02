@@ -5,7 +5,7 @@ import { Sun, Moon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [clicked, setClicked] = useState(false);
 
@@ -15,7 +15,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     return <span className={`h-4 w-4 ${className ?? ''}`} aria-hidden="true" />;
   }
 
-  const isDark = theme === 'dark';
+  const isDark = resolvedTheme === 'dark';
 
   function handleClick() {
     setClicked(true);

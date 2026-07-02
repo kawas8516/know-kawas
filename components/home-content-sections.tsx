@@ -127,7 +127,7 @@ export function HomeContentSections({ readingItems }: { readingItems: ReadingIte
             href="/reading"
             className="text-[11px] text-gray-400 dark:text-white/35 hover:text-gray-700 dark:hover:text-white/65 transition-colors whitespace-nowrap"
           >
-            Reading list â†’
+            Reading list →
           </Link>
         </div>
 
@@ -213,7 +213,7 @@ export function HomeContentSections({ readingItems }: { readingItems: ReadingIte
                         <StatusBadge status={item.status} />
                         {item.hasContent && (
                           <span className="text-[10px] text-gray-400 dark:text-white/30 group-hover:text-gray-600 dark:group-hover:text-white/60 transition-colors flex-shrink-0">
-                            Read notes â†’
+                            Read notes →
                           </span>
                         )}
                       </div>
