@@ -37,3 +37,6 @@ skills-lock.json
 #temp
 SECURITY_AUDIT_SUMMARY.md
 graphify-out/
+
+# impeccable skill local tool state (critique snapshots, hook cache)
+/.impeccable/
