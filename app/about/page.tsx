@@ -283,7 +283,7 @@ const CONNECTIONS = [
 const BACKLOG_ITEMS = [
   { priority: 'P0', className: 'bg-red-100 text-red-700', text: 'Ship production RAG project with eval harness' },
   { priority: 'P0', className: 'bg-red-100 text-red-700', text: 'Finish Designing Data-Intensive Applications' },
-  { priority: 'P1', className: 'bg-violet-100 text-violet-700', text: 'First OSS contribution to LLM tooling' },
+  { priority: 'P1', className: 'bg-fuchsia-100 text-fuchsia-700', text: 'First OSS contribution to LLM tooling' },
 ];
 
 const STATUS_PILLS = [
@@ -303,12 +303,16 @@ export default function AboutPage() {
       <div className="pt-32 pb-10">
         {/* ── HERO ── */}
         <section className="mx-auto max-w-[560px] px-4 mb-6">
-          <p className="text-[9px] uppercase tracking-[.16em] text-muted-foreground/60 mb-2.5 font-mono">
+          <p className="text-[10px] uppercase tracking-[.16em] text-muted-foreground/60 mb-2.5 font-mono">
             Portfolio · Pune, IN
           </p>
 
-          <h1 className="text-[32px] font-bold leading-[1.1] mb-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+          <h1 className="text-[32px] font-bold leading-[1.1] mb-2.5 text-foreground">
             Hey, I&apos;m Kawas.
+            <span
+              aria-hidden="true"
+              className="block mt-2 h-1 w-20 rounded-full bg-gradient-to-r from-fuchsia-500 via-rose-500 to-amber-400"
+            />
           </h1>
 
           <p className="text-[13px] text-muted-foreground/80 leading-[1.65] max-w-[400px] mb-3.5">
@@ -345,7 +349,7 @@ export default function AboutPage() {
           <div className="hidden md:flex w-[72px] flex-shrink-0 mt-1 flex-col gap-2.5">
             {/* Status box */}
             <div className="bg-muted/30 border border-border rounded p-2">
-              <p className="text-[8px] uppercase tracking-[.08em] text-muted-foreground/50 font-mono mb-1.5">
+              <p className="text-[9.5px] uppercase tracking-[.08em] text-muted-foreground/50 font-mono mb-1.5">
                 Status
               </p>
               {STATUS_DOTS.map(({ color, glow, label }) => (
@@ -354,7 +358,7 @@ export default function AboutPage() {
                     className="w-1.5 h-1.5 rounded-full flex-shrink-0"
                     style={{ background: color, boxShadow: `0 0 5px ${glow}` }}
                   />
-                  <span className="text-[9px] text-muted-foreground/55 font-mono">
+                  <span className="text-[10px] text-muted-foreground/55 font-mono">
                     {label}
                   </span>
                 </div>
@@ -363,7 +367,7 @@ export default function AboutPage() {
 
             {/* Yellow sticky */}
             <div className="relative" style={{ transform: 'rotate(-4deg)' }}>
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-purple-500 shadow-md z-10" />
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-fuchsia-500 shadow-md z-10" />
               <div
                 className="text-[8.5px] leading-[1.5] p-2 rounded-sm"
                 style={{
@@ -390,13 +394,13 @@ export default function AboutPage() {
               }}
             >
               {/* Top rule */}
-              <div className="h-[3px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500" />
+              <div className="h-[3px] bg-gradient-to-r from-fuchsia-500 via-rose-500 to-amber-400" />
 
               {/* Two-column inner layout */}
               <div className="flex">
                 {/* GUTTER */}
                 <div
-                  className="font-mono text-[8px] text-black/25 flex-shrink-0"
+                  className="font-mono text-[9.5px] text-black/25 flex-shrink-0"
                   style={{
                     background: 'rgba(0,0,0,0.04)',
                     borderRight: '1px solid rgba(0,0,0,0.1)',
@@ -426,7 +430,7 @@ export default function AboutPage() {
                       06. Apr 23, creator days
                     </span>
                     <span
-                      className="text-[8px] px-2 py-0.5 rounded-sm font-mono tracking-[.06em] border"
+                      className="text-[9.5px] px-2 py-0.5 rounded-sm font-mono tracking-[.06em] border"
                       style={{
                         background: '#1a1525',
                         color: 'rgba(255,255,255,0.45)',
@@ -441,10 +445,10 @@ export default function AboutPage() {
                   <h2 className="font-mono text-[15px] font-bold text-black tracking-[.05em]">
                     CROSS-POLLINATION LOG
                   </h2>
-                  <p className="text-[9.5px] text-black/50 italic">
+                  <p className="text-[10.5px] text-black/70 italic">
                     — no, no, everything connects.
                   </p>
-                  <p className="font-mono text-[9.5px] text-black/60 font-bold mb-2">
+                  <p className="font-mono text-[10.5px] text-black/60 font-bold mb-2">
                     [RESEARCH YEAR: 2025]
                   </p>
 
@@ -461,29 +465,29 @@ export default function AboutPage() {
                     aria-label="Open Journey"
                   >
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-amber-700 text-[10px]">★</span>
-                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                      <span className="text-amber-700 text-[11px]">★</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[.09em] text-black/70">
                         Journey · 2020–present
                       </span>
                     </div>
-                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                    <h3 className="font-mono text-[12px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
                       HOW I GOT HERE
                     </h3>
                     <div className="space-y-0.5 mt-1">
                       {[
-                        { text: 'BCA 2022–25', className: 'text-black/55' },
-                        { text: 'DNA · 2020–24', className: 'text-black/55' },
-                        { text: 'RAG Chatbot', className: 'text-black/55' },
-                        { text: 'MCA · active', className: 'text-violet-700' },
+                        { text: 'BCA 2022–25', className: 'text-black/75' },
+                        { text: 'DNA · 2020–24', className: 'text-black/75' },
+                        { text: 'RAG Chatbot', className: 'text-black/75' },
+                        { text: 'MCA · active', className: 'text-fuchsia-700' },
                         { text: 'Research papers + models', className: 'text-blue-700' },
                       ].map(({ text, className }) => (
-                        <div key={text} className="flex items-center gap-1.5 text-[9.5px]">
-                          <span className="text-amber-600 text-[9px]">✦</span>
+                        <div key={text} className="flex items-center gap-1.5 text-[10.5px]">
+                          <span className="text-amber-600 text-[10px]">✦</span>
                           <span className={`font-serif ${className}`}>{text}</span>
                         </div>
                       ))}
                     </div>
-                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-black/45 group-hover:text-black/70 transition-colors flex items-center gap-1 mt-1">
                       → read more
                     </span>
                   </motion.div>
@@ -499,22 +503,22 @@ export default function AboutPage() {
                     aria-label="Open Discord Nation Alpha"
                   >
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-amber-700 text-[10px]">★</span>
-                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                      <span className="text-amber-700 text-[11px]">★</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[.09em] text-black/70">
                         Community building · 2020–2024
                       </span>
                     </div>
-                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                    <h3 className="font-mono text-[12px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
                       DISCORD NATION ALPHA
-                      <span className="text-[9px] text-red-600 ml-1">
+                      <span className="text-[10px] text-red-600 ml-1">
                         (REF:{' '}
-                        <span className="bg-orange-200 text-orange-900 px-1 rounded-sm font-semibold text-[9px]">
+                        <span className="bg-orange-200 text-orange-900 px-1 rounded-sm font-semibold text-[10px]">
                           CREATOR ECONOMY
                         </span>
                         )
                       </span>
                     </h3>
-                    <p className="font-serif text-[10px] text-black/55 leading-[1.78]">
+                    <p className="font-serif text-[11px] text-black/75 leading-[1.78]">
                       Co-founded Gen-Z digital creator and community network.{' '}
                       <span className="text-green-700 font-semibold underline decoration-green-600/40">
                         Scaled to 4,300+ members
@@ -522,16 +526,16 @@ export default function AboutPage() {
                       across Discord — video editing, content writing, graphic design,
                       audience building. Worked across multiple hierarchy levels:
                       operations, moderation, engagement strategy, creator collaboration.{' '}
-                      <span className="line-through text-black/30">
+                      <span className="line-through text-black/50">
                         tried everything at once
                       </span>{' '}
                       Achieved{' '}
-                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[9px] font-semibold">
+                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[10px] font-semibold">
                         ~35% engagement growth
                       </span>{' '}
                       via data-driven strategy and creator collaborations.
                       <br />
-                      <span className="text-red-600 italic text-[9.5px]">
+                      <span className="text-red-600 italic text-[10.5px]">
                         ↳ owned every role — operations, moderation, creator strategy
                       </span>
                     </p>
@@ -550,11 +554,11 @@ export default function AboutPage() {
                           boxShadow: '1px 3px 8px rgba(0,0,0,0.25)',
                         }}
                       >
-                        <p className="font-bold text-[8px] mb-0.5">35% growth</p>
+                        <p className="font-bold text-[9.5px] mb-0.5">35% growth</p>
                         <p>data-driven strategy + creator collabs</p>
                       </div>
                     </div>
-                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-black/45 group-hover:text-black/70 transition-colors flex items-center gap-1 mt-1">
                       → read more
                     </span>
                   </motion.div>
@@ -570,44 +574,44 @@ export default function AboutPage() {
                     aria-label="Open Food Recipes bot"
                   >
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-amber-700 text-[10px]">★</span>
-                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                      <span className="text-amber-700 text-[11px]">★</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[.09em] text-black/70">
                         AI/ML systems · 2024
                       </span>
                     </div>
-                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                    <h3 className="font-mono text-[12px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
                       FOOD RECIPES BOT{' '}
                       <span className="underline decoration-blue-500 text-blue-700">
                         (RAG · FAISS · DJANGO)
                       </span>
                     </h3>
-                    <p className="font-serif text-[10px] text-black/55 leading-[1.78]">
+                    <p className="font-serif text-[11px] text-black/75 leading-[1.78]">
                       First end-to-end retrieval pipeline shipped.{' '}
                       <span className="text-red-600 font-semibold underline decoration-red-500/50">
                         80% of RAG quality lives in retrieval
                       </span>
                       ,{' '}
-                      <span className="line-through text-black/30">not the model</span>{' '}
+                      <span className="line-through text-black/50">not the model</span>{' '}
                       not the generation. Chunking strategy, embedding model choice,
                       metadata filters —{' '}
-                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[9px] font-semibold">
+                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[10px] font-semibold">
                         chunking strategy clicked here
                       </span>
                       .
                       <br />
-                      <span className="text-red-600 italic text-[9.5px]">
+                      <span className="text-red-600 italic text-[10.5px]">
                         → re-read the RAG paper after building — it reads differently
                       </span>
                     </p>
 
                     {/* Diagonal annotation */}
                     <span
-                      className="absolute right-[-18px] top-6 text-red-600 italic text-[9px] whitespace-nowrap pointer-events-none z-[8]"
+                      className="absolute right-0 top-6 text-red-600 italic text-[10px] whitespace-nowrap pointer-events-none z-[8]"
                       style={{ transform: 'rotate(-18deg)' }}
                     >
                       amounts of thought →
                     </span>
-                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-black/45 group-hover:text-black/70 transition-colors flex items-center gap-1 mt-1">
                       → read more
                     </span>
                   </motion.div>
@@ -623,32 +627,32 @@ export default function AboutPage() {
                     aria-label="Open Cross-domain connections"
                   >
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-amber-700 text-[10px]">★</span>
-                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                      <span className="text-amber-700 text-[11px]">★</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[.09em] text-black/70">
                         Cross-domain connections
                       </span>
                     </div>
-                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                    <h3 className="font-mono text-[12px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
                       HOW DOMAINS CROSS-POLLINATE
                     </h3>
                     {CONNECTIONS.map(({ left, right }) => (
                       <div
                         key={left}
-                        className="flex items-center gap-1 text-[9.5px] text-black/55 mt-1"
+                        className="flex items-center gap-1 text-[10.5px] text-black/75 mt-1"
                       >
-                        <div className="flex-1 px-1.5 py-0.5 rounded bg-black/5 border border-black/10 font-mono text-[9px] text-black/50">
+                        <div className="flex-1 px-1.5 py-0.5 rounded bg-black/5 border border-black/10 font-mono text-[10px] text-black/70">
                           {left}
                         </div>
-                        <span className="text-black/30 font-mono text-[10px]">→</span>
-                        <div className="flex-1 px-1.5 py-0.5 rounded bg-black/5 border border-black/10 font-mono text-[9px] text-black/50">
+                        <span className="text-black/50 font-mono text-[11px]">→</span>
+                        <div className="flex-1 px-1.5 py-0.5 rounded bg-black/5 border border-black/10 font-mono text-[10px] text-black/70">
                           {right}
                         </div>
                       </div>
                     ))}
-                    <span className="text-red-600 italic text-[9.5px] block mt-1">
+                    <span className="text-red-600 italic text-[10.5px] block mt-1">
                       ↳ the last one was intentional — philosophy as engineering
                     </span>
-                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-black/45 group-hover:text-black/70 transition-colors flex items-center gap-1 mt-1">
                       → read more
                     </span>
                   </motion.div>
@@ -664,12 +668,12 @@ export default function AboutPage() {
                     aria-label="Open Philosophy"
                   >
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-amber-700 text-[10px]">★</span>
-                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                      <span className="text-amber-700 text-[11px]">★</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[.09em] text-black/70">
                         Philosophy
                       </span>
                     </div>
-                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                    <h3 className="font-mono text-[12px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
                       BUILD. LEARN.{' '}
                       <span
                         style={{
@@ -681,9 +685,9 @@ export default function AboutPage() {
                         ITERATE.
                       </span>
                     </h3>
-                    <p className="font-serif text-[10px] text-black/55 leading-[1.78]">
+                    <p className="font-serif text-[11px] text-black/75 leading-[1.78]">
                       Not &quot;plan endlessly.&quot; Not{' '}
-                      <span className="bg-blue-100 text-blue-800 px-1 rounded-sm text-[9px]">
+                      <span className="bg-blue-100 text-blue-800 px-1 rounded-sm text-[10px]">
                         &quot;wait until ready.&quot;
                       </span>{' '}
                       Build something. Learn from it{' '}
@@ -697,12 +701,12 @@ export default function AboutPage() {
                       . DNA was run this way. The Food Recipes bot was built this way.
                       This site was designed this way.
                       <br />
-                      <span className="text-red-600 italic text-[9.5px]">
+                      <span className="text-red-600 italic text-[10.5px]">
                         ↳ the iterate part is what everyone skips — real learning lives
                         here
                       </span>
                     </p>
-                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-black/45 group-hover:text-black/70 transition-colors flex items-center gap-1 mt-1">
                       → read more
                     </span>
                   </motion.div>
@@ -718,34 +722,34 @@ export default function AboutPage() {
                     aria-label="Open Backlog"
                   >
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-amber-700 text-[10px]">★</span>
-                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                      <span className="text-amber-700 text-[11px]">★</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[.09em] text-black/70">
                         Backlog.md — current priorities
                       </span>
                     </div>
-                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                    <h3 className="font-mono text-[12px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
                       QUEUED &amp; CONCEPTUAL BLENDING
                     </h3>
 
                     {BACKLOG_ITEMS.map(({ priority, className, text }) => (
                       <div
                         key={text}
-                        className="flex items-baseline gap-1.5 py-0.5 text-[10px] text-black/55 leading-[1.5]"
+                        className="flex items-baseline gap-1.5 py-0.5 text-[11px] text-black/75 leading-[1.5]"
                       >
                         <span
-                          className={`text-[8px] font-bold px-1 py-0.5 rounded-sm font-mono flex-shrink-0 ${className}`}
+                          className={`text-[9.5px] font-bold px-1 py-0.5 rounded-sm font-mono flex-shrink-0 ${className}`}
                         >
                           [{priority}]
                         </span>
                         {text}
                       </div>
                     ))}
-                    <div className="flex items-baseline gap-1.5 py-0.5 text-[10px] text-black/55 leading-[1.5]">
-                      <span className="text-[8px] font-bold px-1 py-0.5 rounded-sm font-mono flex-shrink-0 bg-blue-100 text-blue-700">
+                    <div className="flex items-baseline gap-1.5 py-0.5 text-[11px] text-black/75 leading-[1.5]">
+                      <span className="text-[9.5px] font-bold px-1 py-0.5 rounded-sm font-mono flex-shrink-0 bg-blue-100 text-blue-700">
                         [P2]
                       </span>
                       Go deeper on{' '}
-                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[9px] font-semibold">
+                      <span className="bg-orange-100 text-orange-900 px-1 rounded-sm text-[10px] font-semibold">
                         Hugging Face
                       </span>{' '}
                       — beyond the tutorials
@@ -757,10 +761,10 @@ export default function AboutPage() {
                         <span>2 / 6 done</span>
                       </div>
                       <div className="h-[2px] bg-black/10 rounded-full overflow-hidden">
-                        <div className="h-full w-[28%] bg-purple-500 rounded-full" />
+                        <div className="h-full w-[28%] bg-fuchsia-500 rounded-full" />
                       </div>
                     </div>
-                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-black/45 group-hover:text-black/70 transition-colors flex items-center gap-1 mt-1">
                       → read more
                     </span>
                   </motion.div>
@@ -775,36 +779,36 @@ export default function AboutPage() {
                     aria-label="Open Live status"
                   >
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="text-amber-700 text-[10px]">★</span>
-                      <span className="font-mono text-[8px] uppercase tracking-[.09em] text-black/50">
+                      <span className="text-amber-700 text-[11px]">★</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[.09em] text-black/70">
                         Live status
                       </span>
                     </div>
-                    <h3 className="font-mono text-[11.5px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
+                    <h3 className="font-mono text-[12px] font-bold text-black tracking-[.03em] leading-[1.4] mb-1">
                       CURRENTLY
                     </h3>
                     <div className="flex flex-wrap gap-1.5 mt-1.5">
                       {STATUS_PILLS.map(({ bg, color, text }) => (
                         <span
                           key={text}
-                          className="inline-flex px-2 py-1 rounded-sm text-[9px] shadow-sm"
+                          className="inline-flex px-2 py-1 rounded-sm text-[10px] shadow-sm"
                           style={{ background: bg, color }}
                         >
                           {text}
                         </span>
                       ))}
                     </div>
-                    <span className="text-[9px] text-black/20 group-hover:text-black/50 transition-colors flex items-center gap-1 mt-1">
+                    <span className="text-[10px] text-black/45 group-hover:text-black/70 transition-colors flex items-center gap-1 mt-1">
                       → read more
                     </span>
                   </motion.div>
 
                   {/* CLOSING QUOTE */}
                   <div className="border-t pt-2.5 mt-1 pb-3" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>
-                    <p className="text-center italic text-[9px] text-black/40 leading-[1.7] font-serif">
+                    <p className="text-center italic text-[10px] text-black/40 leading-[1.7] font-serif">
                       &ldquo;A complex system that works is invariably found to have evolved from a simple system that worked.&rdquo;
                     </p>
-                    <p className="text-center text-[8px] text-black/28 font-mono tracking-[.06em] uppercase mt-1">
+                    <p className="text-center text-[9.5px] text-black/28 font-mono tracking-[.06em] uppercase mt-1">
                       John Gall — Systemantics, 1975
                     </p>
                   </div>
@@ -820,8 +824,8 @@ export default function AboutPage() {
               className="bg-white rounded-sm shadow-md p-2.5 relative"
               style={{ transform: 'rotate(-1.5deg)' }}
             >
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-purple-500 shadow-md z-10" />
-              <p className="font-mono text-[8px] uppercase tracking-wider text-black/50 mb-1">
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-fuchsia-500 shadow-md z-10" />
+              <p className="font-mono text-[9.5px] uppercase tracking-wider text-black/70 mb-1">
                 RAG pipeline
               </p>
               <svg viewBox="0 0 135 50" className="w-full">
@@ -896,10 +900,10 @@ export default function AboutPage() {
               style={{ transform: 'rotate(2deg)' }}
             >
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-pink-500 shadow-md z-10" />
-              <p className="font-mono text-[8px] uppercase tracking-wider text-black/50 mb-1">
+              <p className="font-mono text-[9.5px] uppercase tracking-wider text-black/70 mb-1">
                 What community taught me
               </p>
-              <p className="text-[9.5px] text-black/65 leading-[1.55]">
+              <p className="text-[10.5px] text-black/65 leading-[1.55]">
                 Running DNA was a leadership challenge — ownership across moderation,
                 creator collaboration, and data-driven retention for 4,300+ members.
                 Communication and adaptability were the real skills.
@@ -919,8 +923,8 @@ export default function AboutPage() {
               }}
             >
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-500 shadow-md z-10" />
-              <p className="text-[9.5px] font-bold mb-1">Read DDIA Ch.3</p>
-              <p className="text-[9px] leading-[1.55]">
+              <p className="text-[10.5px] font-bold mb-1">Read DDIA Ch.3</p>
+              <p className="text-[10px] leading-[1.55]">
                 Storage &amp; Retrieval. The indexing section finally clicked when building
                 the FAISS pipeline.
               </p>
@@ -932,7 +936,7 @@ export default function AboutPage() {
               style={{ transform: 'rotate(1.5deg)' }}
             >
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-red-500 shadow-md z-10" />
-              <p className="font-mono text-[8px] uppercase tracking-wider text-black/50 mb-1">
+              <p className="font-mono text-[9.5px] uppercase tracking-wider text-black/70 mb-1">
                 Embedding space
               </p>
               <svg viewBox="0 0 135 68" className="w-full">
@@ -1038,12 +1042,12 @@ export default function AboutPage() {
                 border: '1px solid rgba(255,255,255,0.08)',
               }}
             >
-              <p className="font-mono text-[8px] uppercase tracking-wider text-white/30 mb-1.5">
+              <p className="font-mono text-[9.5px] uppercase tracking-wider text-white/30 mb-1.5">
                 Project stack
               </p>
               <div className="flex gap-1.5 items-center">
                 <div className="w-3 h-3 rounded-full bg-pink-500" />
-                <div className="w-3 h-3 rounded-full bg-purple-500" />
+                <div className="w-3 h-3 rounded-full bg-fuchsia-500" />
                 <div className="w-3 h-3 rounded-full bg-blue-500" />
                 <span className="text-[8.5px] text-white/35 ml-1">DNA · RAG · MCA</span>
               </div>
@@ -1059,8 +1063,8 @@ export default function AboutPage() {
               }}
             >
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-green-500 shadow-md z-10" />
-              <p className="text-[9.5px] font-bold mb-1">Memory in AI Agents</p>
-              <p className="text-[9px] leading-[1.55]">
+              <p className="text-[10.5px] font-bold mb-1">Memory in AI Agents</p>
+              <p className="text-[10px] leading-[1.55]">
                 How do you give a model persistent context without blowing the window? Same
                 chunking problem as RAG, one abstraction up.
               </p>
@@ -1076,8 +1080,8 @@ export default function AboutPage() {
               }}
             >
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-pink-500 shadow-md z-10" />
-              <p className="text-[9.5px] font-bold mb-1">Gen AI → Agentic</p>
-              <p className="text-[9px] leading-[1.55]">
+              <p className="text-[10.5px] font-bold mb-1">Gen AI → Agentic</p>
+              <p className="text-[10px] leading-[1.55]">
                 The shift from &quot;generate a response&quot; to &quot;complete a
                 task&quot; changes the whole stack. Memory, planning, tool use. That&apos;s
                 the direction.
@@ -1089,11 +1093,11 @@ export default function AboutPage() {
               className="bg-white rounded-sm shadow-md p-2.5 relative"
               style={{ transform: 'rotate(-1.5deg)' }}
             >
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-violet-500 shadow-md z-10" />
-              <p className="font-mono text-[8px] uppercase tracking-wider text-black/50 mb-1">
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-fuchsia-500 shadow-md z-10" />
+              <p className="font-mono text-[9.5px] uppercase tracking-wider text-black/70 mb-1">
                 Attention is All You Need
               </p>
-              <p className="text-[9.5px] text-black/65 leading-[1.55]">
+              <p className="text-[10.5px] text-black/65 leading-[1.55]">
                 Vaswani et al., 2017. At the time: just another arXiv paper. By 2026: the
                 architecture behind every model you use.
               </p>
@@ -1147,7 +1151,7 @@ export default function AboutPage() {
                     return (
                       <>
                         <span
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium mb-4"
+                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium mb-4"
                           style={{ background: d.tagBg, color: d.tagColor }}
                         >
                           {d.tag}

@@ -1,8 +1,16 @@
 import type React from 'react';
 import type { Metadata } from 'next';
+import { Kalam } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
+
+const kalam = Kalam({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-logo',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kawas.netlify.app'),
@@ -56,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="scroll-smooth">
+    <html lang="en" suppressHydrationWarning className={`scroll-smooth ${kalam.variable}`}>
       <body className={'font-sans antialiased'}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}>
           {children}

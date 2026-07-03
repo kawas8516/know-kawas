@@ -3,7 +3,8 @@
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 
-const PALETTE = ['#9333ea', '#3b82f6', '#ec4899', '#10b981', '#f97316'];
+// Heat band — matches the fuchsia → rose → amber brand accent
+const PALETTE = ['#d946ef', '#ec4899', '#f43f5e', '#f59e0b', '#fb923c'];
 const NODE_COUNT = 30;
 const LINK_DIST = 180;
 

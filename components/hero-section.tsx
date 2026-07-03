@@ -34,7 +34,7 @@ const socialLinks = [
 
 export function HeroSection() {
   return (
-    <section id="about" className="relative overflow-hidden px-4 pt-28 pb-10">
+    <section id="intro" className="relative overflow-hidden px-4 pt-28 pb-10">
       <NodeGraphBg />
       <div className="relative z-10 mx-auto max-w-2xl">
         <motion.div
@@ -47,8 +47,12 @@ export function HeroSection() {
             Hi, I&apos;m Kaustubha
           </h1>
 
-          <h2 className="text-2xl sm:text-3xl font-semibold bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-foreground/90">
             Good at backends. Getting better in ML
+            <span
+              aria-hidden="true"
+              className="block mt-2 h-1 w-24 rounded-full bg-gradient-to-r from-fuchsia-500 via-rose-500 to-amber-400"
+            />
           </h2>
 
           <div className="flex items-center gap-2">
@@ -62,27 +66,60 @@ export function HeroSection() {
             </span>
           </div>
 
-          {/* Primary CTA */}
-          <motion.a
-            href="/work"
-            className="inline-flex items-center justify-center sm:justify-start gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white shadow-lg hover:opacity-90 transition-opacity w-full sm:w-auto mb-4"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.15 }}
-          >
-            See my work
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              aria-hidden="true"
+          {/* Primary + secondary CTAs */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-4">
+            <motion.a
+              href="/work"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold bg-gradient-to-r from-fuchsia-600 to-rose-600 text-white shadow-lg hover:opacity-90 transition-opacity"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.15 }}
             >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </motion.a>
+              See my work
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </motion.a>
+            <motion.a
+              href="https://drive.google.com/file/d/1PaV_eo-KRfX-WLQ1HevIZb1Wt8EtimgA/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium
+                text-gray-900 dark:text-white/90
+                bg-white/45 dark:bg-white/[0.08]
+                border border-white/65 dark:border-white/[0.14]
+                shadow-[0_2px_12px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.8)]
+                dark:shadow-[0_2px_12px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.10)]
+                hover:bg-white/65 dark:hover:bg-white/[0.12] transition-colors"
+              style={{ backdropFilter: 'blur(20px) saturate(150%)', WebkitBackdropFilter: 'blur(20px) saturate(150%)' }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.15 }}
+            >
+              Resume
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                aria-hidden="true"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <path d="M15 3h6v6" />
+                <path d="M10 14 21 3" />
+              </svg>
+            </motion.a>
+          </div>
 
           {/* Social Links Row */}
           <motion.div
@@ -115,14 +152,6 @@ export function HeroSection() {
             is the log — projects I&apos;ve shipped, what I&apos;m reading, prompts I actually use.
           </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-muted-foreground italic text-sm"
-          >
-            Build. Learn. Iterate.
-          </motion.p>
         </motion.div>
       </div>
     </section>

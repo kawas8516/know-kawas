@@ -57,7 +57,7 @@ export async function GET() {
             left: 0,
             right: 0,
             height: '6px',
-            background: 'linear-gradient(to right, #ec4899, #a855f7, #3b82f6)',
+            background: 'linear-gradient(to right, #d946ef, #f43f5e, #f59e0b)',
           }}
         />
       </div>

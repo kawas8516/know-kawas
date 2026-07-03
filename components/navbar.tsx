@@ -14,7 +14,6 @@ const navLinks = [
   { name: 'timeline', href: '/timeline' },
   { name: 'about', href: '/about' },
   { name: 'work', href: '/work' },
-  { name: 'experience', href: '/#experience' },
   { name: 'reading', href: '/reading' },
 ];
 
@@ -61,8 +60,8 @@ export function Navbar() {
               shadow-[0_8px_32px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.06),inset_0_1.5px_0_rgba(255,255,255,0.90)]
               dark:shadow-[0_8px_40px_rgba(0,0,0,0.45),0_2px_8px_rgba(0,0,0,0.3),inset_0_1.5px_0_rgba(255,255,255,0.10)]"
             style={{
-              backdropFilter: 'blur(48px) saturate(200%) brightness(1.06)',
-              WebkitBackdropFilter: 'blur(48px) saturate(200%) brightness(1.06)',
+              backdropFilter: 'blur(40px) saturate(170%)',
+              WebkitBackdropFilter: 'blur(40px) saturate(170%)',
             }}
           >
             {/* Specular shimmer — top edge */}
@@ -92,10 +91,8 @@ export function Navbar() {
                   size="md"
                   ariaLabel="Kawas — Home"
                   disableAnimation
-                  className="italic font-light tracking-wide"
-                  style={{ fontFamily: 'cursive' }}
                 />
-                <span className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400" />
+                <span className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-fuchsia-500 via-rose-400 to-amber-400" />
               </motion.div>
             </Link>
 
@@ -110,10 +107,10 @@ export function Navbar() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`relative px-3 py-1 rounded-lg text-[12.5px] font-medium transition-all duration-200 select-none ${
+                      className={`relative px-3 py-1 rounded-lg text-[13px] font-medium transition-all duration-200 select-none ${
                         isActive
                           ? 'text-gray-900 dark:text-white/95'
-                          : 'text-gray-500 dark:text-white/45 hover:text-gray-800 dark:hover:text-white/80 hover:bg-white/40 dark:hover:bg-white/[0.07]'
+                          : 'text-gray-600 dark:text-white/70 hover:text-gray-900 dark:hover:text-white/95 hover:bg-white/40 dark:hover:bg-white/[0.07]'
                       }`}
                     >
                       {isActive && (
@@ -144,18 +141,18 @@ export function Navbar() {
                   border border-white/55 dark:border-white/[0.10]
                   shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_2px_8px_rgba(0,0,0,0.05)]
                   dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_2px_8px_rgba(0,0,0,0.2)]
-                  text-gray-500 dark:text-white/40
+                  text-gray-600 dark:text-white/65
                   hover:bg-white/55 dark:hover:bg-white/[0.10]
-                  hover:text-gray-800 dark:hover:text-white/70
+                  hover:text-gray-900 dark:hover:text-white/90
                   transition-all duration-200"
               >
                 <div aria-hidden="true" className="pointer-events-none absolute inset-x-2 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-white/80 to-transparent dark:via-white/20" />
                 <Search size={11} className="flex-shrink-0" />
-                <span className="text-[11.5px] font-mono">search</span>
-                <kbd className="ml-0.5 inline-flex items-center text-[9.5px] px-1.5 py-0.5 rounded-md font-sans
+                <span className="text-[12px] font-mono">search</span>
+                <kbd className="ml-0.5 inline-flex items-center text-[10.5px] px-1.5 py-0.5 rounded-md font-sans
                   bg-white/60 dark:bg-white/[0.08]
                   border border-white/60 dark:border-white/[0.10]
-                  text-gray-400 dark:text-white/30
+                  text-gray-600 dark:text-white/60
                   shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
                   ⌘K
                 </kbd>
@@ -173,12 +170,12 @@ export function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="p-1.5 rounded-lg text-gray-400 dark:text-white/35
-                      hover:text-gray-900 dark:hover:text-white/85
+                    className="p-2 rounded-lg text-gray-600 dark:text-white/60
+                      hover:text-gray-900 dark:hover:text-white/95
                       hover:bg-white/40 dark:hover:bg-white/[0.07]
                       transition-all duration-200"
                   >
-                    <Icon className="h-3.5 w-3.5" />
+                    <Icon className="h-4 w-4" />
                   </Link>
                 ))}
               </div>
@@ -191,7 +188,7 @@ export function Navbar() {
 
             {/* ── Mobile: hamburger ── */}
             <button
-              className="md:hidden p-1.5 rounded-lg text-gray-500 dark:text-white/45
+              className="md:hidden p-1.5 rounded-lg text-gray-600 dark:text-white/70
                 hover:bg-white/40 dark:hover:bg-white/[0.07] transition-colors"
               onClick={() => setIsMobileOpen((o) => !o)}
               aria-label="Toggle menu"
@@ -224,8 +221,8 @@ export function Navbar() {
                   shadow-[0_16px_48px_rgba(0,0,0,0.12),inset_0_1.5px_0_rgba(255,255,255,0.90)]
                   dark:shadow-[0_16px_48px_rgba(0,0,0,0.5),inset_0_1.5px_0_rgba(255,255,255,0.10)]"
                 style={{
-                  backdropFilter: 'blur(48px) saturate(200%) brightness(1.06)',
-                  WebkitBackdropFilter: 'blur(48px) saturate(200%) brightness(1.06)',
+                  backdropFilter: 'blur(40px) saturate(170%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(170%)',
                 }}
               >
                 {/* Shimmer top */}
@@ -246,10 +243,10 @@ export function Navbar() {
                           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all duration-200 ${
                             isActive
                               ? 'text-gray-900 dark:text-white/95 font-medium bg-white/60 dark:bg-white/[0.10] border border-white/70 dark:border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]'
-                              : 'text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white/85 hover:bg-white/40 dark:hover:bg-white/[0.06]'
+                              : 'text-gray-600 dark:text-white/70 hover:text-gray-900 dark:hover:text-white/95 hover:bg-white/40 dark:hover:bg-white/[0.06]'
                           }`}
                         >
-                          {isActive && <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 flex-shrink-0" />}
+                          {isActive && <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-fuchsia-400 to-amber-400 flex-shrink-0" />}
                           {link.name}
                         </Link>
                       </motion.div>
@@ -266,7 +263,7 @@ export function Navbar() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={label}
-                          className="text-gray-400 dark:text-white/35 hover:text-gray-900 dark:hover:text-white/80 transition-colors"
+                          className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white/95 transition-colors"
                         >
                           <Icon className="h-4.5 w-4.5" />
                         </Link>
@@ -278,7 +275,7 @@ export function Navbar() {
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs
                           bg-white/40 dark:bg-white/[0.06]
                           border border-white/55 dark:border-white/[0.10]
-                          text-gray-500 dark:text-white/40
+                          text-gray-600 dark:text-white/65
                           hover:bg-white/60 dark:hover:bg-white/[0.10]
                           transition-all duration-200"
                       >

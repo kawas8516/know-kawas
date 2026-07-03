@@ -23,7 +23,7 @@ export function ScrollProgress() {
   return (
     <div
       id="progress-bar"
-      className="fixed top-0 left-0 h-[2px] z-50 bg-gradient-to-r from-violet-500 via-pink-500 to-blue-500"
+      className="fixed top-0 left-0 h-[2px] z-50 bg-gradient-to-r from-fuchsia-500 via-rose-500 to-amber-400"
       style={{ width: '0%' }}
     />
   );

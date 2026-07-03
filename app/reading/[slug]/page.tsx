@@ -32,7 +32,7 @@ export async function generateMetadata({
 }
 
 const typeConfig: Record<string, { color: string; icon: typeof FileText }> = {
-  paper:  { color: 'bg-violet-500/15 text-violet-300 border-violet-500/25', icon: FileText },
+  paper:  { color: 'bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-500/25', icon: FileText },
   book:   { color: 'bg-blue-500/15 text-blue-300 border-blue-500/25',       icon: BookOpen },
   essay:  { color: 'bg-pink-500/15 text-pink-300 border-pink-500/25',       icon: Bookmark },
   talk:   { color: 'bg-amber-500/15 text-amber-300 border-amber-500/25',    icon: FileText },
@@ -89,13 +89,13 @@ export default async function ReadingDetailPage({
           <header className="mb-10">
             {/* Type + read time row */}
             <div className="flex items-center gap-3 mb-5">
-              <span className={`inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded border ${cfg.color}`}>
+              <span className={`inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded border ${cfg.color}`}>
                 <TypeIcon className="h-2.5 w-2.5" />
                 {item.type}
               </span>
-              <span className="text-[10px] text-muted-foreground/50 uppercase tracking-widest">{item.year}</span>
-              <span className="text-[10px] text-muted-foreground/40">·</span>
-              <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground/50 uppercase tracking-widest">
+              <span className="text-[11px] text-muted-foreground/50 uppercase tracking-widest">{item.year}</span>
+              <span className="text-[11px] text-muted-foreground/40">·</span>
+              <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground/50 uppercase tracking-widest">
                 <Clock className="h-2.5 w-2.5" />
                 {readingTime} min read
               </span>
@@ -111,7 +111,7 @@ export default async function ReadingDetailPage({
 
             {/* Personal note — italicised pull quote style */}
             {item.note && (
-              <blockquote className="border-l-[3px] border-violet-500/40 pl-4 py-1 mb-5">
+              <blockquote className="border-l-[3px] border-fuchsia-500/40 pl-4 py-1 mb-5">
                 <p className="text-sm text-muted-foreground/80 italic leading-relaxed">{item.note}</p>
               </blockquote>
             )}
@@ -120,7 +120,7 @@ export default async function ReadingDetailPage({
             {item.tags.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {item.tags.map((tag) => (
-                  <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-muted/40 text-muted-foreground/70 border border-border/50">
+                  <span key={tag} className="text-[11px] px-2 py-0.5 rounded-full bg-muted/40 text-muted-foreground/70 border border-border/50">
                     {tag}
                   </span>
                 ))}
@@ -150,7 +150,7 @@ export default async function ReadingDetailPage({
           <div className="mt-20 pt-8 border-t border-border/50">
             {related.length > 0 && (
               <div className="mb-8">
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 mb-4">More {item.type}s</p>
+                <p className="text-[11px] uppercase tracking-widest text-muted-foreground/40 mb-4">More {item.type}s</p>
                 <div className="flex flex-col gap-2">
                   {related.map((r) => (
                     <Link

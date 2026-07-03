@@ -33,7 +33,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       <span
         className="absolute w-1 h-1 rounded-full"
         style={{
-          background: isDark ? '#fbbf24' : '#a78bfa',
+          background: isDark ? '#fbbf24' : '#e879f9',
           animation: 'orbit 2s linear infinite',
           transformOrigin: 'center',
           top: '50%',
@@ -49,7 +49,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         className="absolute inset-0 rounded-full"
         style={{
           animation: 'ringPulse 2s ease-out infinite',
-          border: isDark ? '1.5px solid rgba(251,191,36,0.5)' : '1.5px solid rgba(139,92,246,0.5)',
+          border: isDark ? '1.5px solid rgba(251,191,36,0.5)' : '1.5px solid rgba(232,121,249,0.5)',
           borderRadius: '50%',
         }}
         aria-hidden="true"
@@ -73,8 +73,8 @@ export function ThemeToggle({ className }: { className?: string }) {
           <Moon
             className="h-4 w-4"
             style={{
-              color: '#a78bfa',
-              filter: 'drop-shadow(0 0 6px rgba(139,92,246,0.9)) drop-shadow(0 0 12px rgba(139,92,246,0.4))',
+              color: '#e879f9',
+              filter: 'drop-shadow(0 0 6px rgba(232,121,249,0.9)) drop-shadow(0 0 12px rgba(232,121,249,0.4))',
             }}
           />
         )}
@@ -89,6 +89,9 @@ export function ThemeToggle({ className }: { className?: string }) {
           0%   { transform: scale(1);   opacity: 0.7; }
           70%  { transform: scale(1.9); opacity: 0; }
           100% { transform: scale(1.9); opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="orbit"], [style*="ringPulse"] { animation: none !important; }
         }
       `}</style>
     </button>

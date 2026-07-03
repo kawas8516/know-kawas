@@ -121,14 +121,14 @@ const categoryIcons: Record<TimelineCategory, typeof Briefcase> = {
 };
 
 const categoryColors: Record<TimelineCategory, string> = {
-  work: 'from-violet-500 to-purple-600',
-  education: 'from-cyan-500 to-blue-600',
+  work: 'from-fuchsia-500 to-rose-600',
+  education: 'from-emerald-500 to-teal-600',
   award: 'from-amber-500 to-orange-600',
 };
 
 const categoryGlows: Record<TimelineCategory, string> = {
-  work: 'shadow-violet-500/30',
-  education: 'shadow-cyan-500/30',
+  work: 'shadow-fuchsia-500/30',
+  education: 'shadow-emerald-500/30',
   award: 'shadow-amber-500/30',
 };
 
@@ -146,10 +146,6 @@ function TimelineCard({
     <div className={`flex items-center gap-8 ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
       {/* Card */}
       <motion.div
-        initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
         whileHover={{ scale: 1.02, y: -4 }}
         className="flex-1"
       >
@@ -250,9 +246,9 @@ export default function TimelinePage() {
     <main className="min-h-screen bg-background relative overflow-hidden">
       {/* Background glows */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-fuchsia-600/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-rose-600/5 rounded-full blur-3xl" />
       </div>
 
       <Navbar />
@@ -261,15 +257,17 @@ export default function TimelinePage() {
         <div className="max-w-5xl mx-auto">
           {/* Page Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                Timeline
-              </span>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+              Timeline
+              <span
+                aria-hidden="true"
+                className="block mx-auto mt-3 h-1 w-20 rounded-full bg-gradient-to-r from-fuchsia-500 via-rose-500 to-amber-400"
+              />
             </h1>
             <p className="text-muted-foreground max-w-md mx-auto">
               A quick look at my journey, highlighting key projects and growth as a developer. I prefer sharing my work
@@ -290,7 +288,7 @@ export default function TimelinePage() {
 
           {/* Category Legend */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-wrap justify-center gap-6 mb-16"
@@ -318,13 +316,13 @@ export default function TimelinePage() {
               {/* Animated solid line with glow */}
               <motion.div
                 style={{ scaleY, originY: 0 }}
-                className="absolute inset-0 w-px bg-gradient-to-b from-violet-500 via-purple-500 to-cyan-500"
+                className="absolute inset-0 w-px bg-gradient-to-b from-fuchsia-500 via-rose-500 to-amber-400"
               />
 
               {/* Glow effect */}
               <motion.div
                 style={{ scaleY, originY: 0 }}
-                className="absolute inset-0 w-4 -left-1.5 bg-gradient-to-b from-violet-500/20 via-purple-500/20 to-cyan-500/20 blur-sm"
+                className="absolute inset-0 w-4 -left-1.5 bg-gradient-to-b from-fuchsia-500/20 via-rose-500/20 to-amber-400/20 blur-sm"
               />
             </div>
 
@@ -337,25 +335,20 @@ export default function TimelinePage() {
 
             {/* End marker */}
             <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="absolute left-4 md:left-1/2 md:-translate-x-1/2 -bottom-4"
             >
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
+              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-fuchsia-500 to-amber-500 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
                 <div className="h-3 w-3 rounded-full bg-background" />
               </div>
             </motion.div>
           </div>
 
           {/* Back to home link */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center mt-20"
-          >
+          <motion.div className="text-center mt-20">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"

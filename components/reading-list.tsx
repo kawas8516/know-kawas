@@ -27,26 +27,26 @@ const sectionConfig = {
   paper: {
     label: 'Papers',
     Icon: FileText,
-    gradient: 'from-violet-400/30 to-purple-500/15',
-    border: 'border-violet-400/30',
-    iconColor: 'text-violet-400',
-    blob: 'bg-violet-400/20',
+    gradient: 'from-fuchsia-400/30 to-rose-500/15',
+    border: 'border-fuchsia-400/30',
+    iconColor: 'text-fuchsia-400',
+    blob: 'bg-fuchsia-400/20',
   },
   book: {
     label: 'Books',
     Icon: BookOpen,
-    gradient: 'from-blue-400/30 to-cyan-500/15',
-    border: 'border-blue-400/30',
-    iconColor: 'text-blue-400',
-    blob: 'bg-blue-400/20',
+    gradient: 'from-emerald-400/30 to-teal-500/15',
+    border: 'border-emerald-400/30',
+    iconColor: 'text-emerald-400',
+    blob: 'bg-emerald-400/20',
   },
   other: {
     label: 'Others',
     Icon: Bookmark,
-    gradient: 'from-pink-400/30 to-rose-500/15',
-    border: 'border-pink-400/30',
-    iconColor: 'text-pink-400',
-    blob: 'bg-pink-400/20',
+    gradient: 'from-amber-400/30 to-orange-500/15',
+    border: 'border-amber-400/30',
+    iconColor: 'text-amber-500',
+    blob: 'bg-amber-400/20',
   },
 };
 
@@ -69,31 +69,31 @@ const TYPE_FILTERS = [
 // ─── badges ───────────────────────────────────────────────────────────────────
 
 function StatusBadge({ status }: { status: ReadingItem['status'] }) {
-  const base = 'text-[10px] font-medium px-2 py-0.5 rounded-full border';
+  const base = 'text-[11px] font-medium px-2 py-0.5 rounded-full border';
   if (status === 'reading') {
     return (
-      <span className={`${base} bg-indigo-400/15 text-indigo-400 border-indigo-400/25`}>
+      <span className={`${base} bg-fuchsia-400/15 text-fuchsia-500 dark:text-fuchsia-400 border-fuchsia-400/25`}>
         reading
       </span>
     );
   }
   if (status === 'discussing') {
     return (
-      <span className={`${base} bg-purple-400/15 text-purple-400 border-purple-400/25`}>
+      <span className={`${base} bg-amber-400/15 text-amber-600 dark:text-amber-400 border-amber-400/25`}>
         up next
       </span>
     );
   }
   if (status === 'finished') {
     return (
-      <span className={`${base} bg-white/20 dark:bg-white/[0.06] text-gray-500 dark:text-white/40 border-white/30 dark:border-white/10`}>
+      <span className={`${base} bg-white/20 dark:bg-white/[0.06] text-gray-600 dark:text-white/65 border-white/30 dark:border-white/10`}>
         finished
       </span>
     );
   }
   if (status === 'abandoned') {
     return (
-      <span className={`${base} bg-white/10 dark:bg-white/[0.04] text-gray-400 dark:text-white/30 border-white/20 dark:border-white/08 opacity-70`}>
+      <span className={`${base} bg-white/10 dark:bg-white/[0.04] text-gray-600 dark:text-white/60 border-white/20 dark:border-white/08 opacity-70`}>
         abandoned
       </span>
     );
@@ -125,7 +125,6 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
           transition-shadow duration-300
           group-hover:shadow-[0_6px_28px_rgba(0,0,0,0.09),inset_0_1px_0_rgba(255,255,255,0.9)]
           dark:group-hover:shadow-[0_6px_32px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.07)]"
-        style={{ backdropFilter: 'blur(28px) saturate(180%) brightness(1.04)', WebkitBackdropFilter: 'blur(28px) saturate(180%) brightness(1.04)' }}
       >
         {/* Specular shimmer */}
         <div
@@ -138,7 +137,6 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
         {/* Icon */}
         <div
           className={`w-13 h-13 min-w-[3.25rem] min-h-[3.25rem] rounded-xl bg-gradient-to-br ${config.gradient} flex items-center justify-center border ${config.border} flex-shrink-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]`}
-          style={{ backdropFilter: 'blur(10px)' }}
         >
           <Icon className={`w-6 h-6 ${config.iconColor}`} />
         </div>
@@ -148,16 +146,16 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
           <div className="flex items-start justify-between gap-2">
             <p className="font-medium text-sm text-gray-900 dark:text-white/90">{item.title}</p>
             {item.hasContent && (
-              <span className="text-[10px] text-gray-400 dark:text-white/35 group-hover:text-gray-700 dark:group-hover:text-white/70 transition-colors flex-shrink-0 mt-0.5">
+              <span className="text-[11px] text-gray-600 dark:text-white/60 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors flex-shrink-0 mt-0.5">
                 Read notes →
               </span>
             )}
           </div>
-          <p className="text-xs text-gray-500 dark:text-white/45 mt-0.5">
+          <p className="text-xs text-gray-600 dark:text-white/70 mt-0.5">
             {item.author} · {item.year}
           </p>
           {item.note && (
-            <p className="text-xs text-gray-500 dark:text-white/40 leading-relaxed mt-1.5 italic line-clamp-2 group-hover:line-clamp-none transition-all duration-200">
+            <p className="text-xs text-gray-600 dark:text-white/65 leading-relaxed mt-1.5 italic line-clamp-2 group-hover:line-clamp-none transition-all duration-200">
               {item.note}
             </p>
           )}
@@ -165,11 +163,10 @@ function ReadingCard({ item, sectionType }: { item: ReadingItem; sectionType: Se
             {item.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] px-2 py-0.5 rounded-full
+                className="text-[11px] px-2 py-0.5 rounded-full
                   bg-white/35 dark:bg-white/[0.05]
                   border border-white/50 dark:border-white/[0.08]
-                  text-gray-500 dark:text-white/40"
-                style={{ backdropFilter: 'blur(8px)' }}
+                  text-gray-600 dark:text-white/65"
               >
                 {tag}
               </span>
@@ -202,11 +199,10 @@ function SectionGroup({ type, items }: { type: SectionType; items: ReadingItem[]
       <div className="flex items-center gap-3 mb-5">
         <div
           className={`w-7 h-7 rounded-lg bg-gradient-to-br ${config.gradient} flex items-center justify-center border ${config.border} shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]`}
-          style={{ backdropFilter: 'blur(8px)' }}
         >
           <Icon className={`w-3.5 h-3.5 ${config.iconColor}`} />
         </div>
-        <span className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-white/45 font-medium">
+        <span className="text-[11px] uppercase tracking-widest text-gray-600 dark:text-white/70 font-medium">
           {config.label}
         </span>
         <div className="flex-1 h-px bg-gradient-to-r from-white/40 dark:from-white/10 to-transparent" />
@@ -248,10 +244,9 @@ function FilterButton({
       aria-pressed={active}
       className={`text-xs px-3 py-1 rounded-full border transition-all duration-200 ${
         active
-          ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-400 dark:text-indigo-300 border-indigo-400/30 font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]'
-          : 'bg-white/20 dark:bg-white/[0.04] text-gray-500 dark:text-white/35 border-white/40 dark:border-white/[0.07] hover:bg-white/35 dark:hover:bg-white/[0.07] hover:text-gray-700 dark:hover:text-white/60'
+          ? 'bg-gradient-to-r from-fuchsia-500/20 to-rose-500/20 text-fuchsia-600 dark:text-fuchsia-300 border-fuchsia-400/30 font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]'
+          : 'bg-white/20 dark:bg-white/[0.04] text-gray-600 dark:text-white/60 border-white/40 dark:border-white/[0.07] hover:bg-white/35 dark:hover:bg-white/[0.07] hover:text-gray-900 dark:hover:text-white/60'
       }`}
-      style={{ backdropFilter: 'blur(12px)' }}
     >
       {label}
     </button>
@@ -313,7 +308,7 @@ function FilterSidebar({
           dark:via-white/10"
       />
 
-      <p className="text-[10px] uppercase tracking-[.12em] text-gray-400 dark:text-white/35 font-mono mb-3">
+      <p className="text-[11px] uppercase tracking-[.12em] text-gray-600 dark:text-white/60 font-mono mb-3">
         Type
       </p>
       <div className="flex flex-col gap-1.5">
@@ -330,7 +325,7 @@ function FilterSidebar({
       {hasActiveFilter && (
         <button
           onClick={() => { onStatusChange('all'); onTypeChange('all'); }}
-          className="mt-5 w-full text-center text-[11px] text-gray-400 dark:text-white/35 hover:text-gray-700 dark:hover:text-white/60 transition-colors rounded-full border border-dashed border-white/40 dark:border-white/10 py-1"
+          className="mt-5 w-full text-center text-[11px] text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white/60 transition-colors rounded-full border border-dashed border-white/40 dark:border-white/10 py-1"
         >
           Clear filters
         </button>
@@ -389,12 +384,12 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
       {/* Liquid glass animated background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <motion.div
-          className="absolute top-1/4 -left-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-violet-500/12 dark:bg-violet-600/08"
+          className="absolute top-1/4 -left-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-fuchsia-500/12 dark:bg-fuchsia-600/08"
           animate={{ x: [0, 45, -30, 0], y: [0, -35, 25, 0], scale: [1, 1.1, 0.9, 1] }}
           transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute bottom-1/4 -right-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-blue-500/12 dark:bg-cyan-600/08"
+          className="absolute bottom-1/4 -right-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-rose-500/12 dark:bg-rose-600/08"
           animate={{ x: [0, -40, 28, 0], y: [0, 38, -28, 0], scale: [1, 0.92, 1.08, 1] }}
           transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
         />
@@ -404,7 +399,7 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
           transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
         />
         <motion.div
-          className="absolute top-10 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] bg-indigo-500/10 dark:bg-indigo-600/07"
+          className="absolute top-10 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] bg-amber-400/10 dark:bg-amber-500/07"
           animate={{ x: [0, -22, 32, 0], y: [0, 32, -22, 0], scale: [1, 0.88, 1.12, 1] }}
           transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
         />
@@ -423,21 +418,20 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
           <motion.div
             className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase
               bg-white/30 dark:bg-white/[0.06] border border-white/50 dark:border-white/[0.1]
-              text-gray-500 dark:text-white/50
+              text-gray-600 dark:text-white/70
               shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]"
-            style={{ backdropFilter: 'blur(20px) saturate(180%)' }}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-violet-400 to-pink-400 inline-block" />
+            <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-fuchsia-400 to-amber-400 inline-block" />
             reading
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-violet-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-foreground">
             What I&apos;m reading
           </h1>
-          <p className="mt-3 text-sm sm:text-[15px] text-gray-600 dark:text-white/50 max-w-md mx-auto leading-relaxed">
+          <p className="mt-3 text-sm sm:text-[15px] text-gray-600 dark:text-white/70 max-w-md mx-auto leading-relaxed">
             Papers, books, essays — things worth the time. Filtered by what actually changed how I think.
           </p>
 
@@ -445,9 +439,9 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
           <div className="flex items-center justify-center gap-3 mt-8">
             <div className="h-px w-20 bg-gradient-to-r from-transparent via-white/40 to-white/20 dark:via-white/20" />
             <div className="flex gap-1.5">
-              <div className="w-1 h-1 rounded-full bg-violet-400/60" />
-              <div className="w-1 h-1 rounded-full bg-purple-400/60" />
-              <div className="w-1 h-1 rounded-full bg-pink-400/60" />
+              <div className="w-1 h-1 rounded-full bg-fuchsia-400/60" />
+              <div className="w-1 h-1 rounded-full bg-rose-400/60" />
+              <div className="w-1 h-1 rounded-full bg-amber-400/60" />
             </div>
             <div className="h-px w-20 bg-gradient-to-l from-transparent via-white/40 to-white/20 dark:via-white/20" />
           </div>
@@ -472,7 +466,7 @@ export function ReadingList({ items }: { items: ReadingItem[] }) {
                   border border-white/50 dark:border-white/[0.06]"
                 style={{ backdropFilter: 'blur(20px)' }}
               >
-                <p className="text-sm text-gray-400 dark:text-white/30 italic">
+                <p className="text-sm text-gray-600 dark:text-white/60 italic">
                   No items match this filter.
                 </p>
               </div>

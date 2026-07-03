@@ -35,8 +35,7 @@ const projects = [
     description:
       'Suggests recipes from available ingredients and gives storage tips using RAG + NLP. Built with Django, FAISS, Sentence Transformers, and HTMX.',
     icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/30 to-green-500/15 flex items-center justify-center border border-emerald-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
-        style={{ backdropFilter: 'blur(12px)' }}>
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/30 to-green-500/15 flex items-center justify-center border border-emerald-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
         <svg viewBox="0 0 24 24" className="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="1.75">
           <path d="M12 2a10 10 0 1 0 10 10H12V2z" />
           <path d="M12 2a10 10 0 0 1 10 10" />
@@ -46,7 +45,7 @@ const projects = [
     ),
     badges: [
       { label: 'AI/ML', color: 'bg-emerald-400/15 text-emerald-400 border border-emerald-400/20' },
-      { label: 'DJANGO', color: 'bg-purple-400/15 text-purple-400 border border-purple-400/20' },
+      { label: 'DJANGO', color: 'bg-rose-400/15 text-rose-400 border border-rose-400/20' },
     ],
     github: 'https://github.com/kawas8516/chat-cooking',
     demo: 'https://huggingface.co/spaces/kawas8516/chat-cooking',
@@ -59,8 +58,7 @@ const projects = [
     description:
       'Writing on backend systems, ML concepts, and things I figure out while building. Published across Medium, Hashnode, and Dev.to.',
     icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/30 to-yellow-500/15 flex items-center justify-center border border-amber-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
-        style={{ backdropFilter: 'blur(12px)' }}>
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/30 to-yellow-500/15 flex items-center justify-center border border-amber-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
         <svg viewBox="0 0 24 24" className="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" strokeWidth="1.75">
           <path d="M12 20h9" />
           <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
@@ -84,8 +82,7 @@ const projects = [
     description:
       'Java-based scheduling application to manage and track daily/weekly tasks. Built with OOP principles and GUI-based task management.',
     icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400/30 to-amber-500/15 flex items-center justify-center border border-orange-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
-        style={{ backdropFilter: 'blur(12px)' }}>
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400/30 to-amber-500/15 flex items-center justify-center border border-orange-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
         <svg viewBox="0 0 24 24" className="w-7 h-7 text-orange-400" fill="none" stroke="currentColor" strokeWidth="1.75">
           <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
           <line x1="16" y1="2" x2="16" y2="6" />
@@ -96,7 +93,7 @@ const projects = [
     ),
     badges: [
       { label: 'JAVA', color: 'bg-orange-400/15 text-orange-400 border border-orange-400/20' },
-      { label: 'OOP', color: 'bg-purple-400/15 text-purple-400 border border-purple-400/20' },
+      { label: 'OOP', color: 'bg-rose-400/15 text-rose-400 border border-rose-400/20' },
     ],
     github: 'https://github.com/kawas8516/Taskscheduler',
     languages: ['Java'],
@@ -108,8 +105,7 @@ const projects = [
     description:
       'Collection of system utilities and command-line tools — interactive mode, improved error handling. Built with C and C++.',
     icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400/30 to-cyan-500/15 flex items-center justify-center border border-blue-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
-        style={{ backdropFilter: 'blur(12px)' }}>
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400/30 to-cyan-500/15 flex items-center justify-center border border-blue-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
         <svg viewBox="0 0 24 24" className="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" strokeWidth="1.75">
           <polyline points="4 17 10 11 4 5" />
           <line x1="12" y1="19" x2="20" y2="19" />
@@ -128,10 +124,9 @@ const projects = [
     id: 4,
     name: 'Belleza',
     description:
-      'A frontend project showcasing modern web design principles with clean CSS styling and responsive layouts.',
+      'Salon landing page built with hand-rolled CSS — responsive layout, no framework.',
     icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-400/30 to-rose-500/15 flex items-center justify-center border border-pink-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
-        style={{ backdropFilter: 'blur(12px)' }}>
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-400/30 to-rose-500/15 flex items-center justify-center border border-pink-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
         <svg viewBox="0 0 24 24" className="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" strokeWidth="1.75">
           <path d="M12 2L2 7l10 5 10-5-10-5z" />
           <path d="M2 17l10 5 10-5" />
@@ -141,7 +136,7 @@ const projects = [
     ),
     badges: [
       { label: 'CSS', color: 'bg-pink-400/15 text-pink-400 border border-pink-400/20' },
-      { label: 'FRONTEND', color: 'bg-purple-400/15 text-purple-400 border border-purple-400/20' },
+      { label: 'FRONTEND', color: 'bg-rose-400/15 text-rose-400 border border-rose-400/20' },
     ],
     github: 'https://github.com/kawas8516/belleza',
     languages: ['CSS', 'HTML'],
@@ -153,9 +148,8 @@ const projects = [
     description:
       'A simple Python project for railway ticket booking. Learn Python basics, file handling, and console-based project workflow.',
     icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-400/30 to-purple-500/15 flex items-center justify-center border border-violet-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
-        style={{ backdropFilter: 'blur(12px)' }}>
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-violet-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-400/30 to-rose-500/15 flex items-center justify-center border border-fuchsia-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+        <svg viewBox="0 0 24 24" className="w-7 h-7 text-fuchsia-400" fill="none" stroke="currentColor" strokeWidth="1.75">
           <rect x="4" y="3" width="16" height="18" rx="2" />
           <path d="M9 17h6" />
           <path d="M12 3v18" />
@@ -163,21 +157,20 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: 'PYTHON', color: 'bg-violet-400/15 text-violet-400 border border-violet-400/20' },
+      { label: 'PYTHON', color: 'bg-fuchsia-400/15 text-fuchsia-400 border border-fuchsia-400/20' },
       { label: 'BEGINNER', color: 'bg-emerald-400/15 text-emerald-400 border border-emerald-400/20' },
     ],
     github: 'https://github.com/kawas8516/Railway-Reservation-System',
     languages: ['Python'],
-    accentBlob: 'bg-violet-400/25',
+    accentBlob: 'bg-fuchsia-400/25',
   },
   {
     id: 6,
     name: 'Shopping Cart',
     description: 'Python-based shopping cart system. Practice OOP, data handling, and basic project structuring.',
     icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400/30 to-teal-500/15 flex items-center justify-center border border-cyan-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
-        style={{ backdropFilter: 'blur(12px)' }}>
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/30 to-emerald-500/15 flex items-center justify-center border border-teal-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+        <svg viewBox="0 0 24 24" className="w-7 h-7 text-teal-400" fill="none" stroke="currentColor" strokeWidth="1.75">
           <circle cx="9" cy="21" r="1" />
           <circle cx="20" cy="21" r="1" />
           <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -185,12 +178,12 @@ const projects = [
       </div>
     ),
     badges: [
-      { label: 'PYTHON', color: 'bg-cyan-400/15 text-cyan-400 border border-cyan-400/20' },
-      { label: 'OOP', color: 'bg-purple-400/15 text-purple-400 border border-purple-400/20' },
+      { label: 'PYTHON', color: 'bg-teal-400/15 text-teal-400 border border-teal-400/20' },
+      { label: 'OOP', color: 'bg-rose-400/15 text-rose-400 border border-rose-400/20' },
     ],
     github: 'https://github.com/kawas8516/shopping-cart',
     languages: ['Python'],
-    accentBlob: 'bg-cyan-400/25',
+    accentBlob: 'bg-teal-400/25',
   },
 ];
 
@@ -217,17 +210,17 @@ export function WorkContent() {
       {/* Liquid glass animated background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <motion.div
-          className="absolute top-1/4 -left-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-indigo-500/15 dark:bg-indigo-600/10"
+          className="absolute top-1/4 -left-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-fuchsia-500/15 dark:bg-fuchsia-600/10"
           animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.1, 0.9, 1] }}
           transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute bottom-1/4 -right-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-cyan-500/12 dark:bg-teal-600/10"
+          className="absolute bottom-1/4 -right-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-amber-400/12 dark:bg-amber-600/10"
           animate={{ x: [0, -40, 30, 0], y: [0, 40, -30, 0], scale: [1, 0.95, 1.05, 1] }}
           transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
         />
         <motion.div
-          className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full blur-[110px] bg-purple-500/12 dark:bg-purple-600/08"
+          className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full blur-[110px] bg-rose-500/12 dark:bg-rose-600/08"
           animate={{ x: [0, 30, -50, 0], y: [0, -30, 20, 0], scale: [1, 1.08, 0.92, 1] }}
           transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
         />
@@ -254,19 +247,18 @@ export function WorkContent() {
                 bg-white/30 dark:bg-white/[0.06] border border-white/50 dark:border-white/[0.1]
                 text-gray-600 dark:text-white/60
                 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]"
-              style={{ backdropFilter: 'blur(20px) saturate(180%)' }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 inline-block" />
+              <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-fuchsia-400 to-amber-400 inline-block" />
               Selected Projects
             </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-foreground">
               Work
             </h1>
-            <p className="text-gray-600 dark:text-white/50 text-sm sm:text-[15px] max-w-md mx-auto leading-relaxed">
+            <p className="text-gray-600 dark:text-white/70 text-sm sm:text-[15px] max-w-md mx-auto leading-relaxed">
               Each of these projects reflects a piece of my journey.
               <br />
               Feel free to take a look around and explore the work I&apos;ve enjoyed building.
@@ -276,9 +268,9 @@ export function WorkContent() {
             <div className="flex items-center justify-center gap-3 mt-8">
               <div className="h-px w-20 bg-gradient-to-r from-transparent via-white/40 to-white/20 dark:via-white/20" />
               <div className="flex gap-1.5">
-                <div className="w-1 h-1 rounded-full bg-indigo-400/60" />
-                <div className="w-1 h-1 rounded-full bg-purple-400/60" />
-                <div className="w-1 h-1 rounded-full bg-pink-400/60" />
+                <div className="w-1 h-1 rounded-full bg-fuchsia-400/60" />
+                <div className="w-1 h-1 rounded-full bg-rose-400/60" />
+                <div className="w-1 h-1 rounded-full bg-amber-400/60" />
               </div>
               <div className="h-px w-20 bg-gradient-to-l from-transparent via-white/40 to-white/20 dark:via-white/20" />
             </div>
@@ -310,7 +302,6 @@ export function WorkContent() {
                     transition-shadow duration-300
                     group-hover:shadow-[0_8px_32px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
                     dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]"
-                  style={{ backdropFilter: 'blur(32px) saturate(180%) brightness(1.04)', WebkitBackdropFilter: 'blur(32px) saturate(180%) brightness(1.04)' }}
                 >
                   {/* Specular shimmer */}
                   <div
@@ -330,26 +321,24 @@ export function WorkContent() {
                       {project.badges.map((badge, index) => (
                         <span
                           key={index}
-                          className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${badge.color}`}
-                          style={{ backdropFilter: 'blur(8px)' }}
+                          className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${badge.color}`}
                         >
                           {badge.label}
                         </span>
                       ))}
                     </div>
 
-                    <p className="text-[13px] text-gray-600 dark:text-white/50 leading-relaxed">{project.description}</p>
+                    <p className="text-[13px] text-gray-600 dark:text-white/70 leading-relaxed">{project.description}</p>
 
                     {/* Language chips */}
                     <div className="flex flex-wrap gap-1.5 mt-2.5">
                       {project.languages.map((lang) => (
                         <span
                           key={lang}
-                          className="text-[10px] px-2 py-0.5 rounded-full
+                          className="text-[11px] px-2 py-0.5 rounded-full
                             bg-white/40 dark:bg-white/[0.06]
                             border border-white/50 dark:border-white/[0.08]
-                            text-gray-600 dark:text-white/45"
-                          style={{ backdropFilter: 'blur(8px)' }}
+                            text-gray-600 dark:text-white/70"
                         >
                           {lang}
                         </span>
@@ -364,7 +353,7 @@ export function WorkContent() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label="View on GitHub"
-                          className="flex items-center gap-1.5 text-[12px] text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 transition-colors duration-200"
+                          className="flex items-center gap-1.5 text-[12px] text-gray-600 dark:text-white/65 hover:text-gray-900 dark:hover:text-white/95 transition-colors duration-200"
                         >
                           <Github className="w-3.5 h-3.5" />
                           <span>GitHub</span>
@@ -376,7 +365,7 @@ export function WorkContent() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label="View live demo"
-                          className="flex items-center gap-1.5 text-[12px] text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 transition-colors duration-200"
+                          className="flex items-center gap-1.5 text-[12px] text-gray-600 dark:text-white/65 hover:text-gray-900 dark:hover:text-white/95 transition-colors duration-200"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                           <span>Live Demo</span>
@@ -389,7 +378,7 @@ export function WorkContent() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={l.label}
-                          className="text-gray-500 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 transition-colors duration-200"
+                          className="text-gray-600 dark:text-white/65 hover:text-gray-900 dark:hover:text-white/95 transition-colors duration-200"
                         >
                           <l.icon className="w-4 h-4" />
                         </Link>
