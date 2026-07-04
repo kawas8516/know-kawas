@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Github, ExternalLink } from 'lucide-react';
+import { workProjects } from '@/lib/work-data';
 
 function MediumIcon({ className }: { className?: string }) {
   return (
@@ -28,163 +29,75 @@ function DevToIcon({ className }: { className?: string }) {
   );
 }
 
-const projects = [
-  {
-    id: 1,
-    name: 'Food Recipes Bot',
-    description:
-      'Suggests recipes from available ingredients and gives storage tips using RAG + NLP. Built with Django, FAISS, Sentence Transformers, and HTMX.',
-    icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/30 to-green-500/15 flex items-center justify-center border border-emerald-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="1.75">
-          <path d="M12 2a10 10 0 1 0 10 10H12V2z" />
-          <path d="M12 2a10 10 0 0 1 10 10" />
-          <circle cx="12" cy="12" r="6" />
-        </svg>
-      </div>
-    ),
-    badges: [
-      { label: 'AI/ML', color: 'bg-emerald-400/15 text-emerald-400 border border-emerald-400/20' },
-      { label: 'DJANGO', color: 'bg-rose-400/15 text-rose-400 border border-rose-400/20' },
-    ],
-    github: 'https://github.com/kawas8516/chat-cooking',
-    demo: 'https://huggingface.co/spaces/kawas8516/chat-cooking',
-    languages: ['Python', 'Django', 'HTMX'],
-    accentBlob: 'bg-emerald-400/25',
-  },
-  {
-    id: 'writing',
-    name: 'Technical Blogs',
-    description:
-      'Writing on backend systems, ML concepts, and things I figure out while building. Published across Medium, Hashnode, and Dev.to.',
-    icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/30 to-yellow-500/15 flex items-center justify-center border border-amber-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" strokeWidth="1.75">
-          <path d="M12 20h9" />
-          <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-        </svg>
-      </div>
-    ),
-    badges: [
-      { label: 'WRITING', color: 'bg-amber-400/15 text-amber-400 border border-amber-400/20' },
-    ],
-    languages: ['Medium', 'Hashnode', 'Dev.to'],
-    accentBlob: 'bg-amber-400/25',
-    links: [
-      { icon: MediumIcon,   href: '#', label: 'Medium'   },
-      { icon: HashnodeIcon, href: '#', label: 'Hashnode'  },
-      { icon: DevToIcon,    href: '#', label: 'Dev.to'   },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Java Task Scheduler',
-    description:
-      'Java-based scheduling application to manage and track daily/weekly tasks. Built with OOP principles and GUI-based task management.',
-    icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400/30 to-amber-500/15 flex items-center justify-center border border-orange-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-orange-400" fill="none" stroke="currentColor" strokeWidth="1.75">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
-        </svg>
-      </div>
-    ),
-    badges: [
-      { label: 'JAVA', color: 'bg-orange-400/15 text-orange-400 border border-orange-400/20' },
-      { label: 'OOP', color: 'bg-rose-400/15 text-rose-400 border border-rose-400/20' },
-    ],
-    github: 'https://github.com/kawas8516/Taskscheduler',
-    languages: ['Java'],
-    accentBlob: 'bg-orange-400/25',
-  },
-  {
-    id: 3,
-    name: 'CLI Utilities (C/C++)',
-    description:
-      'Collection of system utilities and command-line tools — interactive mode, improved error handling. Built with C and C++.',
-    icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400/30 to-cyan-500/15 flex items-center justify-center border border-blue-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" strokeWidth="1.75">
-          <polyline points="4 17 10 11 4 5" />
-          <line x1="12" y1="19" x2="20" y2="19" />
-        </svg>
-      </div>
-    ),
-    badges: [
-      { label: 'C++', color: 'bg-blue-400/15 text-blue-400 border border-blue-400/20' },
-      { label: 'SYSTEM', color: 'bg-zinc-400/15 text-zinc-400 border border-zinc-400/20' },
-    ],
-    github: 'https://github.com/kawas8516/cpp-windows-system-utility-tool',
-    languages: ['C++', 'C'],
-    accentBlob: 'bg-blue-400/25',
-  },
-  {
-    id: 4,
-    name: 'Belleza',
-    description:
-      'Salon landing page built with hand-rolled CSS — responsive layout, no framework.',
-    icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-400/30 to-rose-500/15 flex items-center justify-center border border-pink-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" strokeWidth="1.75">
-          <path d="M12 2L2 7l10 5 10-5-10-5z" />
-          <path d="M2 17l10 5 10-5" />
-          <path d="M2 12l10 5 10-5" />
-        </svg>
-      </div>
-    ),
-    badges: [
-      { label: 'CSS', color: 'bg-pink-400/15 text-pink-400 border border-pink-400/20' },
-      { label: 'FRONTEND', color: 'bg-rose-400/15 text-rose-400 border border-rose-400/20' },
-    ],
-    github: 'https://github.com/kawas8516/belleza',
-    languages: ['CSS', 'HTML'],
-    accentBlob: 'bg-pink-400/25',
-  },
-  {
-    id: 5,
-    name: 'Railway Reservation System',
-    description:
-      'A simple Python project for railway ticket booking. Learn Python basics, file handling, and console-based project workflow.',
-    icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-400/30 to-rose-500/15 flex items-center justify-center border border-fuchsia-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-fuchsia-400" fill="none" stroke="currentColor" strokeWidth="1.75">
-          <rect x="4" y="3" width="16" height="18" rx="2" />
-          <path d="M9 17h6" />
-          <path d="M12 3v18" />
-        </svg>
-      </div>
-    ),
-    badges: [
-      { label: 'PYTHON', color: 'bg-fuchsia-400/15 text-fuchsia-400 border border-fuchsia-400/20' },
-      { label: 'BEGINNER', color: 'bg-emerald-400/15 text-emerald-400 border border-emerald-400/20' },
-    ],
-    github: 'https://github.com/kawas8516/Railway-Reservation-System',
-    languages: ['Python'],
-    accentBlob: 'bg-fuchsia-400/25',
-  },
-  {
-    id: 6,
-    name: 'Shopping Cart',
-    description: 'Python-based shopping cart system. Practice OOP, data handling, and basic project structuring.',
-    icon: (
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/30 to-emerald-500/15 flex items-center justify-center border border-teal-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
-        <svg viewBox="0 0 24 24" className="w-7 h-7 text-teal-400" fill="none" stroke="currentColor" strokeWidth="1.75">
-          <circle cx="9" cy="21" r="1" />
-          <circle cx="20" cy="21" r="1" />
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-        </svg>
-      </div>
-    ),
-    badges: [
-      { label: 'PYTHON', color: 'bg-teal-400/15 text-teal-400 border border-teal-400/20' },
-      { label: 'OOP', color: 'bg-rose-400/15 text-rose-400 border border-rose-400/20' },
-    ],
-    github: 'https://github.com/kawas8516/shopping-cart',
-    languages: ['Python'],
-    accentBlob: 'bg-teal-400/25',
-  },
+const projectIcons: Record<string, React.ReactNode> = {
+  'food-recipes-bot': (
+    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/30 to-green-500/15 flex items-center justify-center border border-emerald-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+      <svg viewBox="0 0 24 24" className="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <path d="M12 2a10 10 0 1 0 10 10H12V2z" />
+        <path d="M12 2a10 10 0 0 1 10 10" />
+        <circle cx="12" cy="12" r="6" />
+      </svg>
+    </div>
+  ),
+  writing: (
+    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/30 to-yellow-500/15 flex items-center justify-center border border-amber-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+      <svg viewBox="0 0 24 24" className="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <path d="M12 20h9" />
+        <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+      </svg>
+    </div>
+  ),
+  'java-task-scheduler': (
+    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400/30 to-amber-500/15 flex items-center justify-center border border-orange-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+      <svg viewBox="0 0 24 24" className="w-7 h-7 text-orange-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+    </div>
+  ),
+  'cli-utilities': (
+    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400/30 to-cyan-500/15 flex items-center justify-center border border-blue-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+      <svg viewBox="0 0 24 24" className="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <polyline points="4 17 10 11 4 5" />
+        <line x1="12" y1="19" x2="20" y2="19" />
+      </svg>
+    </div>
+  ),
+  belleza: (
+    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-400/30 to-rose-500/15 flex items-center justify-center border border-pink-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+      <svg viewBox="0 0 24 24" className="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+        <path d="M2 17l10 5 10-5" />
+        <path d="M2 12l10 5 10-5" />
+      </svg>
+    </div>
+  ),
+  'railway-reservation': (
+    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-400/30 to-rose-500/15 flex items-center justify-center border border-fuchsia-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+      <svg viewBox="0 0 24 24" className="w-7 h-7 text-fuchsia-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <rect x="4" y="3" width="16" height="18" rx="2" />
+        <path d="M9 17h6" />
+        <path d="M12 3v18" />
+      </svg>
+    </div>
+  ),
+  'shopping-cart': (
+    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400/30 to-emerald-500/15 flex items-center justify-center border border-teal-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
+      <svg viewBox="0 0 24 24" className="w-7 h-7 text-teal-400" fill="none" stroke="currentColor" strokeWidth="1.75">
+        <circle cx="9" cy="21" r="1" />
+        <circle cx="20" cy="21" r="1" />
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+      </svg>
+    </div>
+  ),
+};
+
+const writingLinks = [
+  { icon: MediumIcon,   href: '#', label: 'Medium'   },
+  { icon: HashnodeIcon, href: '#', label: 'Hashnode'  },
+  { icon: DevToIcon,    href: '#', label: 'Dev.to'   },
 ];
 
 const containerVariants = {
@@ -278,7 +191,7 @@ export function WorkContent() {
 
           {/* Projects List */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-4">
-            {projects.map((project) => (
+            {workProjects.map((project) => (
               <motion.div
                 key={project.id}
                 variants={itemVariants}
@@ -312,7 +225,7 @@ export function WorkContent() {
                   />
 
                   {/* Icon */}
-                  <div className="flex-shrink-0 mt-0.5">{project.icon}</div>
+                  <div className="flex-shrink-0 mt-0.5">{projectIcons[project.id]}</div>
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
@@ -371,7 +284,7 @@ export function WorkContent() {
                           <span>Live Demo</span>
                         </Link>
                       )}
-                      {project.links?.map((l) => (
+                      {(project.id === 'writing' ? writingLinks : []).map((l) => (
                         <Link
                           key={l.label}
                           href={l.href}

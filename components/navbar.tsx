@@ -27,11 +27,13 @@ const socialLinks = [
 export function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [isMac, setIsMac] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad/.test(navigator.platform));
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setPaletteOpen((o) => !o);
       }
@@ -154,7 +156,7 @@ export function Navbar() {
                   border border-white/60 dark:border-white/[0.10]
                   text-gray-600 dark:text-white/60
                   shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
-                  ⌘K
+                  {isMac ? '⌘K' : 'Ctrl K'}
                 </kbd>
               </motion.button>
 
