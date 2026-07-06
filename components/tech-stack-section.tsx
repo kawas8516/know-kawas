@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
 import { Code, Table, Database, Zap, Coffee, Brain, Network, GitBranch, Leaf, Binary } from 'lucide-react';

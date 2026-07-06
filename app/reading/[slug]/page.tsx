@@ -13,7 +13,9 @@ import { FadeUp, FadeIn } from '@/components/reading-animations';
 
 export async function generateStaticParams() {
   const items = getAllReading();
-  return items.map((item) => ({ slug: item.slug }));
+  // Only prebuild pages that have real notes. Frontmatter-only stubs aren't
+  // linked from the reading list; direct URLs still render on demand.
+  return items.filter((item) => item.hasContent).map((item) => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({

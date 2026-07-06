@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
 import { BookOpen, FileText, Book, Bookmark } from 'lucide-react';

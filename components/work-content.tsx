@@ -1,9 +1,10 @@
-﻿'use client';
+'use client';
 
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Github, ExternalLink } from 'lucide-react';
 import { workProjects } from '@/lib/work-data';
+import { motion } from 'framer-motion';
+import { ExternalLink, Github } from 'lucide-react';
+import Link from 'next/link';
+import { LiquidGlassBg } from '@/components/liquid-glass-bg';
 
 function MediumIcon({ className }: { className?: string }) {
   return (
@@ -29,7 +30,13 @@ function DevToIcon({ className }: { className?: string }) {
   );
 }
 
-const projectIcons: Record<string, React.ReactNode> = {
+const writingIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Medium: MediumIcon,
+  Hashnode: HashnodeIcon,
+  'Dev.to': DevToIcon,
+};
+
+const projectIcons: Record<string, React.JSX.Element> = {
   'food-recipes-bot': (
     <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/30 to-green-500/15 flex items-center justify-center border border-emerald-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
       <svg viewBox="0 0 24 24" className="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="1.75">
@@ -94,12 +101,6 @@ const projectIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-const writingLinks = [
-  { icon: MediumIcon,   href: '#', label: 'Medium'   },
-  { icon: HashnodeIcon, href: '#', label: 'Hashnode'  },
-  { icon: DevToIcon,    href: '#', label: 'Dev.to'   },
-];
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -120,29 +121,7 @@ const itemVariants = {
 export function WorkContent() {
   return (
     <>
-      {/* Liquid glass animated background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <motion.div
-          className="absolute top-1/4 -left-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-fuchsia-500/15 dark:bg-fuchsia-600/10"
-          animate={{ x: [0, 50, -30, 0], y: [0, -40, 30, 0], scale: [1, 1.1, 0.9, 1] }}
-          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 -right-40 w-[500px] h-[500px] rounded-full blur-[130px] bg-amber-400/12 dark:bg-amber-600/10"
-          animate={{ x: [0, -40, 30, 0], y: [0, 40, -30, 0], scale: [1, 0.95, 1.05, 1] }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        />
-        <motion.div
-          className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full blur-[110px] bg-rose-500/12 dark:bg-rose-600/08"
-          animate={{ x: [0, 30, -50, 0], y: [0, -30, 20, 0], scale: [1, 1.08, 0.92, 1] }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-        />
-        <motion.div
-          className="absolute top-3/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] bg-pink-500/10 dark:bg-rose-600/08"
-          animate={{ x: [0, -25, 35, 0], y: [0, 35, -25, 0], scale: [1, 0.9, 1.1, 1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-        />
-      </div>
+      <LiquidGlassBg />
 
       <div className="relative pt-32 pb-24 px-4">
         <div className="mx-auto max-w-2xl">
@@ -154,7 +133,6 @@ export function WorkContent() {
             transition={{ duration: 0.7, ease: 'easeOut' }}
             className="text-center mb-16"
           >
-            {/* Glass pill label */}
             <motion.div
               className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full text-[11px] font-medium tracking-widest uppercase
                 bg-white/30 dark:bg-white/[0.06] border border-white/50 dark:border-white/[0.1]
@@ -177,7 +155,6 @@ export function WorkContent() {
               Feel free to take a look around and explore the work I&apos;ve enjoyed building.
             </p>
 
-            {/* Shimmer divider */}
             <div className="flex items-center justify-center gap-3 mt-8">
               <div className="h-px w-20 bg-gradient-to-r from-transparent via-white/40 to-white/20 dark:via-white/20" />
               <div className="flex gap-1.5">
@@ -197,9 +174,8 @@ export function WorkContent() {
                 variants={itemVariants}
                 className="group relative overflow-hidden rounded-2xl"
                 whileHover={{ scale: 1.01 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
               >
-                {/* Per-card subtle accent blob */}
+                {/* Per-card accent blob */}
                 <div
                   className={`pointer-events-none absolute -top-10 -right-10 w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 ${project.accentBlob}`}
                   aria-hidden="true"
@@ -215,6 +191,7 @@ export function WorkContent() {
                     transition-shadow duration-300
                     group-hover:shadow-[0_8px_32px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
                     dark:group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)]"
+                  style={{ backdropFilter: 'blur(28px) saturate(180%) brightness(1.04)', WebkitBackdropFilter: 'blur(28px) saturate(180%) brightness(1.04)' }}
                 >
                   {/* Specular shimmer */}
                   <div
@@ -235,6 +212,7 @@ export function WorkContent() {
                         <span
                           key={index}
                           className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${badge.color}`}
+                          style={{ backdropFilter: 'blur(8px)' }}
                         >
                           {badge.label}
                         </span>
@@ -252,6 +230,7 @@ export function WorkContent() {
                             bg-white/40 dark:bg-white/[0.06]
                             border border-white/50 dark:border-white/[0.08]
                             text-gray-600 dark:text-white/70"
+                          style={{ backdropFilter: 'blur(8px)' }}
                         >
                           {lang}
                         </span>
@@ -284,18 +263,21 @@ export function WorkContent() {
                           <span>Live Demo</span>
                         </Link>
                       )}
-                      {(project.id === 'writing' ? writingLinks : []).map((l) => (
-                        <Link
-                          key={l.label}
-                          href={l.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={l.label}
-                          className="text-gray-600 dark:text-white/65 hover:text-gray-900 dark:hover:text-white/95 transition-colors duration-200"
-                        >
-                          <l.icon className="w-4 h-4" />
-                        </Link>
-                      ))}
+                      {project.writingLinks?.map((l) => {
+                        const Icon = writingIconMap[l.label];
+                        return Icon ? (
+                          <Link
+                            key={l.label}
+                            href={l.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={l.label}
+                            className="text-gray-600 dark:text-white/65 hover:text-gray-900 dark:hover:text-white/95 transition-colors duration-200"
+                          >
+                            <Icon className="w-4 h-4" />
+                          </Link>
+                        ) : null;
+                      })}
                     </div>
                   </div>
                 </div>

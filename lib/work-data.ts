@@ -7,6 +7,7 @@ export interface WorkProject {
   demo?: string;
   languages: string[];
   accentBlob: string;
+  writingLinks?: { href: string; label: string }[];
 }
 
 export const workProjects: WorkProject[] = [
@@ -21,7 +22,7 @@ export const workProjects: WorkProject[] = [
     ],
     github: 'https://github.com/kawas8516/chat-cooking',
     demo: 'https://huggingface.co/spaces/kawas8516/chat-cooking',
-    languages: ['Python', 'Django', 'HTMX'],
+    languages: ['Python', 'Django', 'HTMX', 'FAISS'],
     accentBlob: 'bg-emerald-400/25',
   },
   {
@@ -32,8 +33,14 @@ export const workProjects: WorkProject[] = [
     badges: [
       { label: 'WRITING', color: 'bg-amber-400/15 text-amber-400 border border-amber-400/20' },
     ],
-    languages: ['Medium', 'Hashnode', 'Dev.to'],
+    // Platforms are surfaced as writing-link icons below, so no language badges here.
+    languages: [],
     accentBlob: 'bg-amber-400/25',
+    writingLinks: [
+      { href: 'https://medium.com/@kawas8516', label: 'Medium' },
+      { href: 'https://hashnode.com/@kawas8516', label: 'Hashnode' },
+      { href: 'https://dev.to/kawas8516', label: 'Dev.to' },
+    ],
   },
   {
     id: 'java-task-scheduler',

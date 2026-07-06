@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { motion } from 'framer-motion';
 import { Clock, Terminal, MessageSquare } from 'lucide-react';
