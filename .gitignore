@@ -25,3 +25,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/.claude/
+/.agents/
+
+# Temporary design files
+mockup-*.html
+wireframes.html
+skills-lock.json
+
+#temp
+SECURITY_AUDIT_SUMMARY.md
+graphify-out/
+
+# impeccable skill local tool state (critique snapshots, hook cache)
+/.impeccable/

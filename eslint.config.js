@@ -6,10 +6,20 @@ import tseslint from '@typescript-eslint/eslint-plugin';
 import parser from '@typescript-eslint/parser';
 
 export default [
+  {
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'dist/**',
+      '.claude/**',
+      '.agents/**',
+      '.impeccable/**',
+      'next-env.d.ts',
+    ],
+  },
   js.configs.recommended,
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
-    ignores: ['.next/**', 'node_modules/**', 'dist/**'],
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -33,6 +43,9 @@ export default [
     rules: {
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
+      // TypeScript resolves globals/types (React namespace, etc.); core no-undef
+      // false-positives on type-only references, so let tsc own undefined checks.
+      'no-undef': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
@@ -42,10 +55,6 @@ export default [
           varsIgnorePattern: '^_'
         }
       ],
-      'indent': ['error', 2],
-      'linebreak-style': ['error', 'windows'],
-      'quotes': ['error', 'single'],
-      'semi': ['error', 'always'],
       'no-console': 'warn',
       'no-debugger': 'warn'
     },

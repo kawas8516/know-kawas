@@ -2,38 +2,38 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Instagram, Github, Linkedin, Gamepad2, Twitter, Search } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Menu, X, Github, Linkedin, Twitter, Search } from 'lucide-react';
+import { SubstackIcon } from '@/components/icons/substack-icon';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CommandPalette } from '@/components/command-palette';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const navLinks = [
   { name: 'timeline', href: '/timeline' },
   { name: 'about', href: '/about' },
   { name: 'work', href: '/work' },
-  { name: 'experience', href: '/#experience' },
   { name: 'reading', href: '/reading' },
 ];
 
+const socialLinks = [
+  { href: 'https://github.com/kawas8516', Icon: Github, label: 'GitHub' },
+  { href: 'https://x.com/notkawas', Icon: Twitter, label: 'X / Twitter' },
+  { href: 'https://linkedin.com/in/kawas-nandan', Icon: Linkedin, label: 'LinkedIn' },
+  { href: 'https://kawas516.substack.com', Icon: SubstackIcon, label: 'Substack' },
+];
+
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [isMac, setIsMac] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad/.test(navigator.platform));
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setPaletteOpen((o) => !o);
       }
@@ -42,167 +42,259 @@ export function Navbar() {
     return () => document.removeEventListener('keydown', down);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => { setIsMobileOpen(false); }, [pathname]);
+
   return (
     <>
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-background/80 backdrop-blur-xl' : 'bg-transparent'
-      }`}
-    >
-      <nav className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-14 items-center justify-between">
-          <Link href="/">
-            <motion.div className="relative flex items-center" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Logo
-                text="Kawas"
-                size="md"
-                ariaLabel="Kawas - Home"
-                disableAnimation
-                className="italic font-light tracking-wide"
-                style={{ fontFamily: 'cursive' }}
-              />
-              {/* Gradient underline */}
-              <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full" />
-            </motion.div>
-          </Link>
+      <div className="fixed top-0 left-0 right-0 z-50 px-4 pt-3 sm:px-6">
+        {/* ── Floating glass island ── */}
+        <motion.div
+          initial={{ y: -80, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+          className="relative mx-auto max-w-5xl"
+        >
+          <div
+            className="relative flex h-12 items-center justify-between px-4 rounded-2xl
+              bg-white/45 dark:bg-white/[0.08]
+              border border-white/65 dark:border-white/[0.14]
+              shadow-[0_8px_32px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.06),inset_0_1.5px_0_rgba(255,255,255,0.90)]
+              dark:shadow-[0_8px_40px_rgba(0,0,0,0.45),0_2px_8px_rgba(0,0,0,0.3),inset_0_1.5px_0_rgba(255,255,255,0.10)]"
+            style={{
+              backdropFilter: 'blur(40px) saturate(170%)',
+              WebkitBackdropFilter: 'blur(40px) saturate(170%)',
+            }}
+          >
+            {/* Specular shimmer — top edge */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-4 top-0 h-px
+                bg-gradient-to-r from-transparent via-white/90 to-transparent
+                dark:via-white/25 rounded-full"
+            />
+            {/* Soft bottom reflection */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-8 bottom-0 h-px
+                bg-gradient-to-r from-transparent via-white/30 to-transparent
+                dark:via-white/08 rounded-full"
+            />
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link, index) => (
+            {/* ── Logo ── */}
+            <Link href="/">
               <motion.div
-                key={link.name}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                className="relative flex items-center"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
               >
-                <Link
-                  href={link.href}
-                  className={`text-sm transition-colors ${
-                    pathname === link.href
-                      ? 'text-foreground relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-gradient-to-r after:from-pink-500 after:via-purple-500 after:to-blue-500 after:rounded-full'
-                      : 'text-zinc-400 hover:text-white'
-                  }`}
-                >
-                  {link.name}
-                </Link>
+                <Logo
+                  text="Kawas"
+                  size="md"
+                  ariaLabel="Kawas — Home"
+                  disableAnimation
+                />
+                <span className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-fuchsia-500 via-rose-400 to-amber-400" />
               </motion.div>
-            ))}
+            </Link>
 
-            {/* ⌘K search pill */}
-            <button
-              onClick={() => setPaletteOpen(true)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-border bg-muted/30 text-xs text-muted-foreground hover:bg-muted/60 transition-colors cursor-pointer font-mono"
-            >
-              <Search size={12} />
-              search
-              <kbd className="ml-1 text-[10px] bg-muted px-1 py-0.5 rounded">⌘K</kbd>
-            </button>
+            {/* ── Desktop: nav capsule + search + social ── */}
+            <div className="hidden md:flex items-center gap-2.5">
 
-            {/* Social Icons */}
-            {/* <div className="flex items-center gap-3 ml-4 pl-4 border-l border-zinc-700">
-              <Link
-                href="https://instagram.com/"
-                target="_blank"
-                className="text-zinc-400 hover:text-white transition-colors"
+              {/* Nav links - bare, floating inside the island */}
+              <nav className="flex items-center gap-1">
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className={`relative px-3 py-1 rounded-lg text-[13px] font-medium transition-all duration-200 select-none ${
+                        isActive
+                          ? 'text-gray-900 dark:text-white/95'
+                          : 'text-gray-600 dark:text-white/70 hover:text-gray-900 dark:hover:text-white/95 hover:bg-white/40 dark:hover:bg-white/[0.07]'
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.span
+                          layoutId="active-link"
+                          className="absolute inset-0 rounded-lg
+                            bg-white/65 dark:bg-white/[0.12]
+                            border border-white/75 dark:border-white/[0.14]
+                            shadow-[0_2px_8px_rgba(0,0,0,0.07),inset_0_1px_0_rgba(255,255,255,0.9)]
+                            dark:shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.10)] -z-10"
+                          transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                        />
+                      )}
+                      {link.name}
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Search pill */}
+              <motion.button
+                onClick={() => setPaletteOpen(true)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                aria-label="Open search"
+                className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-xl
+                  bg-white/35 dark:bg-white/[0.06]
+                  border border-white/55 dark:border-white/[0.10]
+                  shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_2px_8px_rgba(0,0,0,0.05)]
+                  dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_2px_8px_rgba(0,0,0,0.2)]
+                  text-gray-600 dark:text-white/65
+                  hover:bg-white/55 dark:hover:bg-white/[0.10]
+                  hover:text-gray-900 dark:hover:text-white/90
+                  transition-all duration-200"
               >
-                <Instagram className="h-4 w-4" />
-              </Link> */}
-            <Link
-              href="https://github.com/kawas8516"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-white transition-colors"
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-2 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-white/80 to-transparent dark:via-white/20" />
+                <Search size={11} className="flex-shrink-0" />
+                <span className="text-[12px] font-mono">search</span>
+                <kbd className="ml-0.5 inline-flex items-center text-[10.5px] px-1.5 py-0.5 rounded-md font-sans
+                  bg-white/60 dark:bg-white/[0.08]
+                  border border-white/60 dark:border-white/[0.10]
+                  text-gray-600 dark:text-white/60
+                  shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
+                  {isMac ? '⌘K' : 'Ctrl K'}
+                </kbd>
+              </motion.button>
+
+              {/* Divider */}
+              <div className="h-4 w-px bg-white/50 dark:bg-white/[0.12] mx-0.5" />
+
+              {/* Social icons */}
+              <div className="flex items-center gap-2">
+                {socialLinks.map(({ href, Icon, label }) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="p-2 rounded-lg text-gray-600 dark:text-white/60
+                      hover:text-gray-900 dark:hover:text-white/95
+                      hover:bg-white/40 dark:hover:bg-white/[0.07]
+                      transition-all duration-200"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </Link>
+                ))}
+              </div>
+
+              {/* Divider */}
+              <div className="h-4 w-px bg-white/50 dark:bg-white/[0.12] mx-0.5" />
+
+              <ThemeToggle />
+            </div>
+
+            {/* ── Mobile: hamburger ── */}
+            <button
+              className="md:hidden p-1.5 rounded-lg text-gray-600 dark:text-white/70
+                hover:bg-white/40 dark:hover:bg-white/[0.07] transition-colors"
+              onClick={() => setIsMobileOpen((o) => !o)}
+              aria-label="Toggle menu"
             >
-              <Github className="h-4 w-4" />
-            </Link>
-            <Link
-              href="https://x.com/notkawas"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-white transition-colors"
-            >
-              <Twitter className="h-4 w-4" />
-            </Link>
-            <Link
-              href="https://linkedin.com/in/kawas-nandan"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-white transition-colors"
-            >
-              <Linkedin className="h-4 w-4" />
-            </Link>
-            {/* <Link
-              href="https://discord.com"
-              target="_blank"
-              className="text-zinc-400 hover:text-white transition-colors"
-            >
-              <Gamepad2 className="h-4 w-4" />
-            </Link> */}
+              <AnimatePresence mode="wait" initial={false}>
+                {isMobileOpen ? (
+                  <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                    <X className="h-5 w-5" />
+                  </motion.span>
+                ) : (
+                  <motion.span key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                    <Menu className="h-5 w-5" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-zinc-400"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
-        </div>
-      </nav>
+          {/* ── Mobile drawer — glass panel below island ── */}
+          <AnimatePresence>
+            {isMobileOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                className="relative mt-2 rounded-2xl overflow-hidden
+                  bg-white/50 dark:bg-white/[0.08]
+                  border border-white/65 dark:border-white/[0.14]
+                  shadow-[0_16px_48px_rgba(0,0,0,0.12),inset_0_1.5px_0_rgba(255,255,255,0.90)]
+                  dark:shadow-[0_16px_48px_rgba(0,0,0,0.5),inset_0_1.5px_0_rgba(255,255,255,0.10)]"
+                style={{
+                  backdropFilter: 'blur(40px) saturate(170%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(170%)',
+                }}
+              >
+                {/* Shimmer top */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent dark:via-white/25 rounded-full" />
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-zinc-900/95 backdrop-blur-xl border-b border-zinc-800"
-          >
-            <div className="px-4 py-4 space-y-2">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-4 py-2 rounded-lg transition-colors ${
-                      pathname === link.href
-                        ? 'text-white bg-zinc-800/50'
-                        : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
-              <div className="flex items-center gap-4 px-4 pt-4 border-t border-zinc-800">
-                <Link href="https://github.com/kawas8516" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
-                  <Github className="h-5 w-5" />
-                </Link>
-                <Link href="https://x.com/notkawas" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
-                  <Twitter className="h-5 w-5" />
-                </Link>
-                <Link href="https://linkedin.com/in/kawas-nandan" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
-                  <Linkedin className="h-5 w-5" />
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+                <div className="px-3 py-3 space-y-1">
+                  {navLinks.map((link, i) => {
+                    const isActive = pathname === link.href;
+                    return (
+                      <motion.div
+                        key={link.name}
+                        initial={{ opacity: 0, x: -12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                      >
+                        <Link
+                          href={link.href}
+                          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all duration-200 ${
+                            isActive
+                              ? 'text-gray-900 dark:text-white/95 font-medium bg-white/60 dark:bg-white/[0.10] border border-white/70 dark:border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]'
+                              : 'text-gray-600 dark:text-white/70 hover:text-gray-900 dark:hover:text-white/95 hover:bg-white/40 dark:hover:bg-white/[0.06]'
+                          }`}
+                        >
+                          {isActive && <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-fuchsia-400 to-amber-400 flex-shrink-0" />}
+                          {link.name}
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
 
-    <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+                  {/* Bottom row */}
+                  <div className="flex items-center justify-between px-4 pt-3 mt-1 border-t border-white/40 dark:border-white/[0.08]">
+                    <div className="flex items-center gap-3">
+                      {socialLinks.map(({ href, Icon, label }) => (
+                        <Link
+                          key={label}
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={label}
+                          className="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white/95 transition-colors"
+                        >
+                          <Icon className="h-4.5 w-4.5" />
+                        </Link>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => { setPaletteOpen(true); setIsMobileOpen(false); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs
+                          bg-white/40 dark:bg-white/[0.06]
+                          border border-white/55 dark:border-white/[0.10]
+                          text-gray-600 dark:text-white/65
+                          hover:bg-white/60 dark:hover:bg-white/[0.10]
+                          transition-all duration-200"
+                      >
+                        <Search size={11} />
+                        <span className="font-mono">search</span>
+                      </button>
+                      <ThemeToggle />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
     </>
   );
 }

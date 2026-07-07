@@ -7,3 +7,255 @@ status: "finished"
 tags: ["training", "llm", "fine-tuning"]
 note: "Read this trying to understand why foundation models behave differently after fine-tuning. The midtraining concept filled a gap I didn't know I had."
 ---
+
+In modern LLM development, training is rarely a single, continuous run on web text followed by a quick supervised fine-tuning (SFT) phase. State-of-the-art models like Llama 3 or OLMo are increasingly trained using multi-stage pipelines. One of the most critical, yet historically under-investigated, phases in these pipelines is **midtraining** (often colloquially referred to as the "cooldown" or "annealing" phase).
+
+Midtraining involves taking a model that has been trained on a massive, generic pretraining corpus (such as C4 or RefinedWeb) and training it further on a curated mixture of general data and highly specialized data (such as code, math, or high-quality instruction-tuning distributions) before the final supervised fine-tuning (SFT) stage.
+
+Despite its widespread adoption, midtraining has largely been treated as an empirical heuristic. In this technical deep dive, we break down the underlying optimization mechanics of midtraining, analyze the mathematics of why it works, explore how data mixtures and timing interact, and discuss the implications for designing data pipelines that maximize downstream adaptation while mitigating catastrophic forgetting.
+
+---
+
+## The Problem: The Abrupt Distribution Shift
+
+To understand why midtraining is necessary, let's look at the standard language model training trajectory:
+
+$$\text{Pretraining }(D_{\text{pre}}) \longrightarrow \text{Supervised Fine-Tuning }(D_{\text{target}})$$
+
+During **pretraining**, the model is optimized on a massive, highly diverse dataset ($D_{\text{pre}}$) to minimize next-token prediction loss over general web text. This phase shapes the broad representational space of the model.
+
+During **post-training** (SFT), the model is adapted to a much narrower, specialized target distribution ($D_{\text{target}}$) such as Python code generation, step-by-step mathematical reasoning, or conversational instruction-following. $D_{\text{target}}$ is typically orders of magnitude smaller than $D_{\text{pre}}$.
+
+This direct transition introduces several key issues:
+
+1. **High Gradient Conflict:** The loss surface of the target distribution ($J_T$) can be radically different from the loss surface of the pretraining distribution ($J_P$). Taking large gradient steps directly on the SFT data can push the model's parameters into regions where general capabilities are degraded.
+2. **Catastrophic Forgetting:** When a model is abruptly switched from general web text to a narrow domain (e.g., 100% Python code), it suffers from rapid representation drift, resulting in the loss of general knowledge and linguistic capabilities acquired during pretraining.
+3. **Suboptimal Optimization Initialization:** The parameter state $\theta_{\text{pre}}$ at the end of pretraining is optimized for broad, average token prediction. It is often situated in a region of high gradient conflict relative to the specialized target basin.
+
+---
+
+## Core Intuition: The Distributional Bridge
+
+The core insight of the paper is that **midtraining acts as a distributional bridge**. Instead of forcing the parameters to make an abrupt, high-energy jump from the pretraining distribution to the target SFT distribution, midtraining shifts the initialization point to a transitional state $\theta_{\text{mid}}$.
+
+_Refer to **Figure 1** in the original paper to see a schematic representation of this optimization landscape. The standard path (red line) crosses high-conflict gradient contours, whereas the midtraining path (white line) curves around these high-conflict regions, arriving at SFT with a smoother, lower-energy path._
+
+By training the model on a intermediate mixture that retains some general pretraining data while incorporating specialized tokens, the model's parameters are guided closer to the SFT target basin. When the final SFT stage begins, the optimization path has already bypassed the high-conflict regions of the loss landscape, yielding lower final loss and preserving general capabilities.
+
+---
+
+## Theoretical Analysis: The Math of Forgetting and Effort
+
+The authors formalize this intuition using a classic first-order optimization analysis under the assumption of $L$-smoothness.
+
+### Setup
+
+Let:
+
+- $J_P(\theta)$ represent the population loss on the pretraining distribution $P$.
+- $J_T(\theta)$ represent the loss on the SFT/post-training target distribution $T$.
+- $\theta_0$ be the model parameters immediately before SFT begins.
+
+Post-training SFT is modeled as $K$ steps of gradient descent on the target loss $J_T$:
+
+$$\theta_{k+1} = \theta_k - \eta \nabla J_T(\theta_k), \quad k = 0, \dots, K-1$$
+
+We measure the degree of **catastrophic forgetting** by the increase in the pretraining loss after SFT:
+
+$$\Delta J_P(K) := J_P(\theta_K) - J_P(\theta_0)$$
+
+### Bounding Forgetting
+
+By applying the standard quadratic upper bound ($L$-smoothness) to the pretraining loss $J_P$ at step $\theta_t$ with step size $\theta_{t+1} - \theta_t = -\eta \nabla J_T(\theta_t)$, we get the following inequality after summing over all SFT steps $t = 0, \dots, K-1$:
+
+$$\Delta J_P(K) \le \underbrace{-\eta \sum_{t=0}^{K-1} \langle \nabla J_P(\theta_t), \nabla J_T(\theta_t) \rangle}_{\text{(A) Gradient Alignment Term}} + \underbrace{L_P \eta \left(J_T(\theta_0) - J_T^*\right)}_{\text{(B) Effort Term}}$$
+
+Where:
+
+- $J_T^*$ is the infimum of the target loss ($J_T^* = \inf_{\theta} J_T(\theta)$).
+- $L_P$ is the smoothness constant of $J_P$.
+
+### Why Midtraining Reduces Forgetting
+
+Equation (1) reveals that catastrophic forgetting is bounded by two distinct forces:
+
+1. **The Gradient Alignment Term (A):** This measures the projection of the target SFT gradients $\nabla J_T$ onto the pretraining gradients $\nabla J_P$. If the gradients conflict (i.e., the inner product $\langle \nabla J_P, \nabla J_T \rangle$ is highly negative), pretraining loss increases rapidly.
+2. **The Effort Term (B):** This measures how far the initialization parameters $\theta_0$ are from the optimal target loss. If $\theta_0$ is very far from the target basin, the model has to do more "work" (i.e., take longer optimization trajectories), which increases the upper bound on forgetting.
+
+**Midtraining directly targets Term B (Effort Term).** By changing the SFT initialization state $\theta_0 = \theta_0(t, w)$ (where $t$ is the start time of midtraining and $w$ is the mixture weight of the specialized data), midtraining makes $J_T(\theta_0)$ significantly smaller.
+
+Because the model has to do less work to minimize the target loss during SFT, the total trajectory length is minimized, reducing the pretraining loss degradation (catastrophic forgetting).
+
+---
+
+## Experimental Framework
+
+The authors verified this theory by training Pythia-family models (ranging from 70M to 1.1B parameters) on 128B tokens under carefully controlled data mixtures.
+
+- **Pretraining Base:** Models were trained on **C4 web data**.
+- **Midtraining Mixtures:** Five distinct mixtures were tested:
+  - _Starcoder (Code)_: Representing a distant domain.
+  - _Math (MAmmoTH & OpenMathInstruct)_: Representing a distant domain.
+  - _FLAN (Instruction data)_: High-quality instruction-formatted data.
+  - _KnowledgeQA (General knowledge/QA)_: Fact-focused QA.
+  - _DCLM (High-quality web)_: High-quality filtered pretraining data.
+- **Post-training (SFT) Targets:**
+  - _Pycode_ (Python code tasks)
+  - _GSM8K_ (Mathematical reasoning)
+  - _LIMA_ (Instruction following)
+  - _SciQ_ (Science QA)
+
+---
+
+## Key Technical Insights
+
+### 1. Midtraining Benefits are Domain-Specific and Distance-Dependent
+
+The first key result is that midtraining is not a general-purpose "cooldown" phase that improves all downstream SFT tasks equally. Instead, **its benefits are highly domain-specific**.
+
+- Code-focused midtraining (Starcoder) yields massive downstream validation loss improvements on code tasks (Pycode) but provides almost zero benefit on Math or SciQ.
+- Math-focused midtraining yields massive improvements on GSM8K but does not benefit Pycode.
+- Broad instruction mixtures (FLAN) provide surprisingly little SFT improvement on highly structured downstream tasks.
+
+This domain-specificity is strongly correlated with a metric the authors define as **Proximity Advantage (PA)**.
+
+#### Proximity Advantage Metric
+
+To quantify whether a midtraining mixture $M$ moves the model closer to the target distribution $T$ compared to simply continuing C4 pretraining, they compute a token-level proximity score using unigram token statistics:
+
+$$\text{PA}(M \to T) = \text{prox}(M, T) - \text{prox}(C4, T)$$
+
+- **Positive PA:** The midtraining mixture is token-distributively closer to the SFT target than C4.
+- **Negative PA:** The midtraining mixture is further or misaligned.
+
+As shown in _Figure 3_ of the original paper, there is a clear, statistically significant correlation between a mixture's Proximity Advantage and the downstream relative performance improvement. This relationship is strongest in smaller models, suggesting that smaller models are even more dependent on gradual distributional stepping stones than larger models.
+
+---
+
+### 2. Midtraining Consistently Beats Naive Continued Pretraining
+
+A common design alternative to midtraining is **continued pretraining (CPT)**: training the model normally on general web text, then switching **100%** to the specialized domain (e.g., pure Starcoder code) before SFT.
+
+The paper directly compares these two approaches:
+
+- _Midtraining:_ A mixture containing a controlled percentage of specialized data (e.g., 20% Starcoder + 80% C4).
+- _Continued Pretraining:_ Swapping to 100% Starcoder data for the same token budget.
+
+| Model Size | SFT Dataset | Training Strategy                 | SFT Val Loss (Adaptation)   | C4 Val Loss (Forgetting)      |
+| :--------- | :---------- | :-------------------------------- | :-------------------------- | :---------------------------- |
+| **160M**   | **Pycode**  | Pretrain-only (No midtraining)    | 2.314                       | 5.254                         |
+|            |             | **Midtraining (20% Starcoder)**   | **2.134** (Best Adaptation) | **5.079** (Lowest Forgetting) |
+|            |             | Continued Pretraining (100% Code) | 2.219                       | 5.369                         |
+| **160M**   | **GSM8K**   | Pretrain-only (No midtraining)    | 1.163                       | 5.308                         |
+|            |             | **Midtraining (12% Math)**        | **1.114** (Best Adaptation) | **5.230** (Lowest Forgetting) |
+|            |             | Continued Pretraining (100% Math) | 1.159                       | 5.326                         |
+
+#### Key Observation
+
+Across both code and math domains and across all model sizes, **midtraining (retaining a mixture of general pretraining data) significantly outperforms naive continued pretraining on both SFT adaptation and general knowledge retention**.
+
+Naive continued pretraining (100% specialized data) actually _increases_ downstream SFT validation loss and accelerates catastrophic forgetting (higher C4 validation loss). This empirical finding confirms the value of gradual distributional transitions over abrupt, absolute shifts.
+
+---
+
+### 3. The "Plasticity Window": The Strong Interaction of Timing and Mixture Weight
+
+Perhaps the most actionable finding for engineering pipelines is the **interaction between when midtraining is introduced and how much specialized data is mixed in**.
+
+Practitioners often tune midtraining mixture weights as a static hyperparameter. However, the authors show that the optimal mixture weight depends heavily on the training step at which midtraining begins.
+
+_Refer to **Figure 4** in the original paper to see the crossover effect of mixture weight and start time on SFT validation loss._
+
+#### The Timing-Weight Trade-off
+
+- **Early Introduction (e.g., starting at 12B tokens):** The model is highly malleable. It can tolerate a very high mixture weight of specialized data (up to **80% code**) without degrading. This aggressive mixture yields the best downstream adaptation.
+- **Late Introduction (e.g., starting at 105B tokens):** The model's representations have become rigid and stabilized (a loss of plasticity). At this stage, introducing a high mixture weight (80% code) is highly destructive, leading to terrible downstream validation loss. Instead, late-stage midtraining requires a highly conservative mixture weight (e.g., **10%**).
+
+#### The Failure of Compensation
+
+A critical engineering lesson is that **late introduction of specialized data cannot be compensated for by increasing the mixture weight later in training**. If you introduce code data late in the pretraining run, trying to "make up for lost time" by ramping up the code ratio to 80% will degrade the model. The model lacks the plasticity to adapt to abrupt distributional shifts late in its training lifecycle.
+
+---
+
+### 4. Midtraining Minimizes Representational Shift during SFT
+
+To understand how midtraining alters the internal representation space of the model, the authors conducted a layer-wise representational analysis using **Centered Kernel Alignment (CKA)**.
+
+CKA measures the similarity of layer activations between different model states when processing a probe dataset (like APPS code tasks).
+
+_Refer to the CKA activation matrices in **Figure 6** of the original paper to view the direct contrast between the base model and the midtrained model._
+
+#### Representational Stability
+
+The CKA analysis reveals that:
+
+- Models that did not undergo midtraining exhibit massive, highly volatile representational shifts across almost all layers (especially the deeper layers) when forced to adapt to SFT.
+- Models that went through midtraining show **extreme representational stability** during SFT, with CKA similarities close to 1.0 in the final layers.
+
+This provides deep empirical confirmation of the "distributional bridge" hypothesis: midtraining pre-aligns the model's representations. When SFT begins, the model requires only minimal, localized parameter adjustments to master the downstream target task.
+
+---
+
+## Practical Engineering Perspective: Designing a Midtraining Pipeline
+
+For machine learning engineers designing multi-stage pretraining pipelines, these findings provide a clear blueprint for structuring training phases.
+
+### 1. Data Mixture Configuration
+
+Do not switch your model to 100% domain-specific datasets after pretraining. Maintain a mixture of general pretraining data. Below is a conceptual representation of how data mixtures should evolve across a three-stage pipeline:
+
+```
+[Phase 1: Pretraining] (0% -> 80% of total tokens)
+   - 100% General Web Text (e.g., C4, DCLM)
+
+[Phase 2: Midtraining] (80% -> 98% of total tokens)
+   - 80% General Web Text
+   - 20% Curated Domain-Specific Data (e.g., Code, Math, High-Quality Web)
+
+[Phase 3: Post-Training SFT] (98% -> 100% of total tokens)
+   - 100% Specialized Target Task Data (Instruction-Answer format)
+```
+
+### 2. Tuning the Learning Rate Scheduler
+
+Because midtraining is an intermediate phase, you should not let your learning rate decay entirely to its minimum value before starting.
+
+If you plan to midtrain, structure your global learning rate scheduler to remain at a functional plateau (e.g., 10-20% of peak learning rate) during the midtraining transition, letting it decay to its minimum only during the final steps of midtraining or the start of SFT.
+
+### 3. The Goldilocks Timing Window
+
+Introduce specialized domains as early as practically possible. If you have access to specialized datasets (like math or code) from day one, integrate them into the pretraining mix early with high mixture weights. If you must introduce them late, aggressively scale back the mixture weight to protect the model's pre-established representations.
+
+---
+
+## Strengths of the Paper
+
+- **First Systematic Investigation:** It moves midtraining from an industry "secret sauce" heuristic to a scientifically grounded optimization technique.
+- **Agnostic, Low-Cost Predictor:** The introduction of the **Proximity Advantage (PA)** metric provides a cheap, tokenizer-based diagnostic that allows engineers to predict midtraining mixture success without running expensive, multi-billion parameter training sweeps.
+- **Theoretical Rigor:** Backs up empirical discoveries with optimization proofs, demonstrating why the "effort term" in smooth optimization translates to catastrophic forgetting.
+
+---
+
+## Limitations
+
+- **Scale Limitations:** The systematic sweeps were primarily conducted on smaller models (70M and 160M Pythia architectures), with key validation at 1B parameters. While the trends are robust, extreme scale behaviors (e.g., 70B+ parameters) may exhibit different plasticity windows.
+- **Data Quality Dependency:** The unigram-based Proximity Advantage metric, while useful, is a surface-level token statistic. It does not capture semantic structure, high-level logic, or reasoning quality within the midtraining data.
+- **Fixed Post-training Budget:** The study keeps the SFT step count ($K$) fixed. In practice, engineers often co-tune SFT epoch length and learning rates, which may interact with midtraining initialization quality.
+
+---
+
+## Key Takeaways for Machine Learning Practitioners
+
+1.  **Midtraining is a Geometric Intervention:** It is not just a polish step; it physically shapes your model's parameter initialization, placing it in a low-conflict region relative to your target task.
+2.  **Abrupt Shifts Kill Performance:** Naive continued pretraining (switching 100% to a specialized domain) degrades downstream SFT adaptation and causes catastrophic forgetting. Always maintain a general pretraining data buffer in your midtraining phases.
+3.  **Respect the Plasticity Window:** If you introduce specialized data early, mix it aggressively (up to 80%). If you are forced to introduce it late in a model's training run, keep the mixture highly conservative (10% or less) to avoid destroying pre-established representations.
+4.  **Target High-Proximity Domains:** Midtraining is most effective for downstream tasks whose token distributions differ substantially from general web text (such as mathematical syntax or programming languages).
+
+---
+
+## References
+
+- Liu, E., Neubig, G., & Xiong, C. (2026). _Midtraining Bridges Pretraining and Posttraining Distributions_. Carnegie Mellon University. arXiv:2510.14865v2 [cs.CL].
+- Gururangan, S., Marasovic, A., Swayamdipta, S., Lo, K., Beltagy, I., Downey, D., & Smith, N. A. (2020). _Don’t stop pretraining: Adapt language models to domains and tasks_. In _Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics_.
+
+_See the original paper [here](https://arxiv.org/abs/2510.14865) for the full breakdown of experiment results._

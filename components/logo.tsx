@@ -45,9 +45,9 @@ export function Logo({
       aria-label={ariaLabel || `${text} logo`}
       className={cn(
         // Base styles
-        'inline-block font-bold',
-        // Gradient text using Tailwind
-        'bg-gradient-to-r from-violet-500 to-cyan-500',
+        'inline-block font-bold [font-family:var(--font-logo)]',
+        // Wordmark gradient — the single deliberate clipped-text brand mark
+        'bg-gradient-to-r from-fuchsia-500 to-amber-500',
         'bg-clip-text text-transparent',
         // Size variant
         sizeClasses[size],

@@ -15,14 +15,20 @@ import {
   Briefcase,
   FileText,
   Folder,
+  FolderGit2,
   Github,
   GitBranch,
+  GraduationCap,
   Mail,
 } from 'lucide-react';
 import type { ReadingItem } from '@/lib/content';
+import type { WorkProject } from '@/lib/work-data';
+import type { TimelineEvent } from '@/lib/timeline-data';
 
 type PaletteData = {
-  reading: Pick<ReadingItem, 'slug' | 'title' | 'author'>[];
+  reading: Pick<ReadingItem, 'slug' | 'title' | 'author' | 'status'>[];
+  projects: Pick<WorkProject, 'id' | 'name' | 'description' | 'languages' | 'github' | 'demo'>[];
+  timeline: Pick<TimelineEvent, 'id' | 'title' | 'organization' | 'date' | 'category'>[];
 };
 
 const PAGES = [
@@ -49,11 +55,23 @@ const ACTIONS = [
   },
 ];
 
+// Strict word matching: every search term must appear as a substring.
+// cmdk's default fuzzy filter matches scattered letters, which turns long
+// description strings into false positives ("discord" hits "Food Recipes Bot").
+function paletteFilter(value: string, search: string): number {
+  const v = value.toLowerCase();
+  const terms = search.toLowerCase().split(/\s+/).filter(Boolean);
+  if (terms.length === 0) return 1;
+  if (!terms.every((t) => v.includes(t))) return 0;
+  // Rank name/title matches above description-only matches
+  return terms.every((t) => v.slice(0, 60).includes(t)) ? 2 : 1;
+}
+
 const ITEM_CLASS =
-  'flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer text-zinc-400 aria-selected:bg-accent/20 aria-selected:text-foreground outline-none transition-colors';
+  'flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer text-muted-foreground aria-selected:bg-accent/20 aria-selected:text-foreground outline-none transition-colors';
 
 const GROUP_HEADING_CLASS =
-  '[&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:pt-3';
+  '[&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:pt-3';
 
 export function CommandPalette({
   open,
@@ -67,9 +85,9 @@ export function CommandPalette({
 
   useEffect(() => {
     if (open && !data) {
-      fetch('/api/reading')
+      fetch('/api/search-index')
         .then((r) => r.json())
-        .then((reading) => setData({ reading }));
+        .then((index) => setData(index));
     }
   }, [open, data]);
 
@@ -97,7 +115,7 @@ export function CommandPalette({
       onClick={() => onOpenChange(false)}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-foreground/20 backdrop-blur-sm" />
 
       {/* Panel */}
       <div
@@ -107,6 +125,7 @@ export function CommandPalette({
         aria-modal="true"
       >
         <Command
+          filter={paletteFilter}
           className="rounded-xl border border-border bg-card shadow-2xl overflow-hidden"
           onKeyDown={(e) => {
             if (e.key === 'Escape') onOpenChange(false);
@@ -114,7 +133,7 @@ export function CommandPalette({
         >
           <CommandInput
             autoFocus
-            placeholder="Search pages, reading…"
+            placeholder="Search pages, projects, reading, timeline…"
             className="border-b border-border px-4 py-3 font-sans text-sm bg-transparent outline-none w-full text-foreground placeholder:text-muted-foreground"
           />
 
@@ -138,21 +157,64 @@ export function CommandPalette({
               ))}
             </CommandGroup>
 
+            {/* Projects */}
+            {data?.projects && data.projects.length > 0 && (
+              <CommandGroup heading="Projects" className={GROUP_HEADING_CLASS}>
+                {data.projects.map((project) => (
+                  <CommandItem
+                    key={project.id}
+                    value={`${project.name} ${project.description} ${project.languages.join(' ')}`}
+                    onSelect={() => handleSelect('/work')}
+                    className={ITEM_CLASS}
+                  >
+                    <FolderGit2 className="size-3.5 text-muted-foreground flex-shrink-0" />
+                    <span className="flex-1 truncate">{project.name}</span>
+                    <span className="text-[11px] text-muted-foreground/60">
+                      {project.languages.slice(0, 2).join(' · ')}
+                    </span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+
             {/* Reading */}
             {data?.reading && data.reading.length > 0 && (
               <CommandGroup heading="Reading" className={GROUP_HEADING_CLASS}>
-                {data.reading.slice(0, 4).map((item) => (
+                {data.reading.map((item) => (
                   <CommandItem
                     key={item.slug}
-                    value={`${item.title} ${item.author}`}
-                    onSelect={() => handleSelect('/reading')}
+                    value={`${item.title} ${item.author} ${item.status}`}
+                    onSelect={() => handleSelect(`/reading/${item.slug}`)}
                     className={ITEM_CLASS}
                   >
                     <BookOpen className="size-3.5 text-muted-foreground flex-shrink-0" />
                     <span className="flex-1 truncate">{item.title}</span>
-                    <span className="text-[10px] text-muted-foreground/60">{item.author}</span>
+                    <span className="text-[11px] text-muted-foreground/60">{item.author}</span>
                   </CommandItem>
                 ))}
+              </CommandGroup>
+            )}
+
+            {/* Timeline */}
+            {data?.timeline && data.timeline.length > 0 && (
+              <CommandGroup heading="Timeline" className={GROUP_HEADING_CLASS}>
+                {data.timeline.map((event) => {
+                  const Icon = event.category === 'education' ? GraduationCap : Briefcase;
+                  return (
+                    <CommandItem
+                      key={event.id}
+                      value={`${event.title} ${event.organization} ${event.date}`}
+                      onSelect={() => handleSelect('/timeline')}
+                      className={ITEM_CLASS}
+                    >
+                      <Icon className="size-3.5 text-muted-foreground flex-shrink-0" />
+                      <span className="flex-1 truncate">
+                        {event.title} — {event.organization}
+                      </span>
+                      <span className="text-[11px] text-muted-foreground/60">{event.date}</span>
+                    </CommandItem>
+                  );
+                })}
               </CommandGroup>
             )}
 
@@ -173,7 +235,7 @@ export function CommandPalette({
           </CommandList>
 
           {/* Footer */}
-          <div className="border-t border-border px-3 py-2 bg-muted/20 flex items-center gap-4 text-[10px] text-muted-foreground">
+          <div className="border-t border-border px-3 py-2 bg-muted/20 flex items-center gap-4 text-[11px] text-muted-foreground">
             <span>↑↓ navigate</span>
             <span>↵ select</span>
             <span>esc close</span>

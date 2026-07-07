@@ -1,9 +1,452 @@
 ---
 title: "Discovering Multiagent Learning Algorithms with Large Language Models"
 author: "Li, Schultz, Hennes, Lanctot (Google DeepMind)"
-year: 2024
+year: 07 May 2026
 type: "paper"
 status: "finished"
 tags: ["multi-agent", "llm", "ml-research"]
 note: "The paper felt amazing to read because it exposed me to mathematical concepts and approaches I had never seen before. It made me realize how deep and complex multi-agent AI research can get."
 ---
+
+Historically, designing reinforcement learning algorithms has been a manual, iterative process. Human researchers identify theoretical frameworks, formulate updates based on mathematical intuition, and run empirical trials to fine-tune hyperparameters. In game theory and Multi-Agent Reinforcement Learning (MARL), this process has produced monumental successes, such as Counterfactual Regret Minimization (CFR) and Policy Space Response Oracles (PSRO).
+
+However, manual design is fundamentally constrained by human cognitive biases and our preference for mathematically tractable heuristics (e.g., symmetric update rules, linear averaging, or static schedules).
+
+In this article, we look under the hood of a research paper from Google DeepMind that flips this paradigm. By leveraging **AlphaEvolve**—an evolutionary coding agent powered by large language models—the authors automated the discovery of game-theoretic learning algorithms. The search bypassed simple hyperparameter tuning to evolve the symbolic operations of the source code itself.
+
+The result? Two highly effective, non-intuitive algorithms that outperform human-designed state-of-the-art baselines:
+
+- **VAD-CFR** (Volatility-Adaptive Discounted Counterfactual Regret Minimization)
+- **SHOR-PSRO** (Smoothed Hybrid Optimistic Regret Policy-Space Response Oracles)
+
+This deep dive breaks down the mechanics of how these evolved algorithms work, why their unexpected design choices succeed, and how you can apply these insights to your own multi-agent implementations.
+
+---
+
+## Why This Paper Matters
+
+In imperfect-information games (like Poker or Battleship), agents must make decisions without knowing the complete state of the world. Solving these games means computing a **Nash Equilibrium**—a strategy profile where no player has an incentive to unilaterally deviate.
+
+- **CFR** solves these games by iteratively minimizing "counterfactual regret" (the hypothetical loss of not having taken an action in the past) at every decision point.
+- **PSRO** scales this to massive game trees by treating policies as "actions" in a meta-game, iteratively adding best-response policies to a growing pool.
+
+The performance of both algorithms hinges on subtle mathematical choices. For instance:
+
+- _In CFR:_ How much should we discount past regrets? How should we average policies over iterations to guarantee convergence?
+- _In PSRO:_ How should we mix exploration (generating diverse new strategies) and exploitation (refining the equilibrium) when choosing meta-strategies during training?
+
+Typically, we default to static heuristics (e.g., linear averaging or fixed discount rates). This paper demonstrates that LLM-driven symbolic evolution can discover dynamic, reactive, and highly asymmetric heuristics that humans would likely never think to design, resulting in faster convergence and lower exploitability.
+
+---
+
+## The Problem: The Human Intuition Bottleneck
+
+To understand why automated discovery is necessary, we must look at the mathematical formulations that dominate human-designed CFR and PSRO.
+
+### 1. The Rigidity of CFR Discounting
+
+In standard CFR, regrets are accumulated linearly over iterations:
+
+$$R^T(I, a) = \sum_{t=1}^T r^t(I, a)$$
+
+Modern variants like Discounted CFR (DCFR) apply discount factors to prevent early-stage noise from polluting later iterations:
+
+$$R^t(I, a) = R^{t-1}(I, a) \cdot d + r^t(I, a)$$
+
+Typically, $d$ is a fixed static value or a simple linear function of the iteration index $t$. However, this ignores the actual _state of the learning process_. If the game's strategy landscape is highly volatile, we want to discount past regrets heavily to "forget" the unstable history. If the strategy has stabilized, we want to retain history to fine-tune details. Static discounting cannot adapt to this.
+
+### 2. The Exploration-Exploitation Trade-off in PSRO
+
+During PSRO training, we solve a "meta-game" payoff tensor using a Meta-Strategy Solver (MSS) to guide our Best Response Oracles.
+
+- If we use a **Uniform** solver, we encourage exploration by training against all opponent strategies equally.
+- If we use a **Nash** solver, we focus purely on exploitation, training only against the opponent's current equilibrium strategy.
+
+Standard implementations enforce a static choice (e.g., always Nash or always Uniform). This is highly sub-optimal. Early in training, we need exploration to discover the game's topology. Later, we need exploitation to refine the equilibrium. Manually engineering a dynamic schedule that transitions between these two modes across different games is incredibly difficult.
+
+---
+
+## Core Intuition: LLMs as Genetic Operators
+
+Rather than attempting to optimize hyperparameters or use traditional genetic programming (which relies on random syntactic mutations that often break code execution), the authors utilized **AlphaEvolve**.
+
+The core insight is that **large language models can act as semantic mutators**. By treating the source code of an algorithm as its "genome," the LLM can make structured, logical modifications: introducing new state variables, injecting control flow blocks (e.g., `if` statements), adding mathematical operators, or wrapping code in running estimators.
+
+![Core Intuition — AlphaEvolve evolutionary loop](/reading/discovering-multiagent/core.svg)
+
+---
+
+## How The Method Actually Works
+
+The AlphaEvolve pipeline executes the following cycle:
+
+1. **Initialization:** The population is seeded with standard implementations of the baselines (e.g., standard CFR+ or Uniform PSRO).
+2. **Prompting for Mutation:** An LLM (in this study, Gemini 2.5 Pro) is prompted with the current best program's source code and instructions to modify it to reduce exploitability on a set of training games. The prompt restricts changes to specific, modular interface methods (e.g., `update_accumulate_regret` or `get_meta_strategy`).
+3. **Execution & Evaluation:** The newly generated python code is dynamically loaded and executed. It is evaluated on a set of small **Proxy Games** (e.g., 3-player Kuhn Poker, 2-player Leduc Poker).
+4. **Fitness Assignment:** The fitness score is calculated as the negative exploitability of the final strategy profile reached by the algorithm.
+5. **Selection:** If the code compiles, executes without runtime errors, and meets fitness thresholds, it is added to the active gene pool to act as a parent for future generations.
+
+---
+
+## Deep Dive: The Evolved Algorithms
+
+Let's dissect the precise symbolic mechanisms discovered by AlphaEvolve.
+
+### 1. VAD-CFR (Volatility-Adaptive Discounted CFR)
+
+VAD-CFR discards symmetric, static updates in favor of three highly reactive, asymmetric mechanisms.
+
+![VAD-CFR Update Pipeline — three-column information flow diagram](/reading/discovering-multiagent/vad-cfr.svg)
+
+#### A. Volatility-Adaptive Discounting
+
+Instead of applying static discount exponents $\alpha$ and $\beta$ to cumulative regrets (as in DCFR), VAD-CFR calculates them dynamically based on learning volatility.
+
+```python
+inst_mag = max((abs(r) for r in cfr_regrets.values()), default=0.0)
+self.ewma = 0.1 * inst_mag + 0.9 * self.ewma
+volatility = min(1.0, self.ewma / 2.0)
+
+alpha = max(0.1, 1.5 - 0.5 * volatility)
+beta = -0.1 - 0.5 * volatility
+beta = min(alpha, beta)
+```
+
+- **High Volatility (Strategy is in flux):** The exponents $\alpha$ and $\beta$ are reduced. Since the discount factor is computed as $d = t^x / (t^x + 1.0)$, lower exponents lead to _heavier discounting_ (closer to 0.5). This causes the algorithm to rapidly "forget" early, unstable iterations.
+- **Low Volatility (Strategy has stabilized):** The exponents increase, retaining historical regrets to support fine-tuning.
+
+#### B. Asymmetric Instantaneous Boosting
+
+Standard DCFR applies asymmetric discounting to _historical cumulative regrets_ based on their sign. VAD-CFR introduces asymmetry directly to the **instantaneous regret update**:
+
+```python
+# Asymmetric Instantaneous Boosting
+r_boosted = r * 1.1 if r > 0 else r
+```
+
+If an action yields positive instantaneous regret (meaning it represents a beneficial deviation in the current iteration), its impact is amplified by a factor of 1.1. This allows the agent to immediately exploit positive deviations without waiting for regret to accumulate over several iterations.
+
+#### C. Hard Warm-Start & Regret-Magnitude Weighting
+
+Perhaps the most dramatic departure from classical theory occurs in the `PolicyAccumulator`. Standard CFR algorithms begin averaging their iteration policies $\sigma^t$ immediately starting at iteration $t=1$. VAD-CFR enforces a **hard warm-start gate**:
+
+```python
+# Hard Warm-Start
+if iteration_number < 500:
+    return info_state_node.cumulative_policy
+```
+
+For the first 500 iterations, the algorithm continues to learn and update its internal regrets, but **completely skips updating the average policy**.
+
+Once $t \ge 500$, it computes a composite weight for policy averaging that depends not only on time but also on the instantaneous regret magnitude:
+
+```python
+# Multi-Factor Weighting
+w_time = (float(iteration_number) + 1.0) ** gamma
+w_mag = (1.0 + (inst_mag / 2.0)) ** 0.5
+w_stable = 1.0 / (1.0 + inst_mag ** 1.5)
+
+final_weight = w_time * w_mag * w_stable
+```
+
+- `w_time` ensures later iterations have more weight (standard polynomial averaging).
+- `w_mag` scales up the weight when the updates contain significant, high-information shifts.
+- `w_stable` acts as a penalty, scaling down the weight if the instantaneous regret magnitude is exceptionally high, which indicates temporary strategy instability.
+
+---
+
+### 2. SHOR-PSRO (Smoothed Hybrid Optimistic Regret PSRO)
+
+For large-scale games, PSRO expands a population of policies. At each epoch, a Meta-Strategy Solver (MSS) determines the mix of policies the opponents train their best responses against. SHOR-PSRO introduces a **Hybrid Blending Mechanism** that decouples training-time strategy selection from evaluation-time calculation.
+
+![SHOR-PSRO — Hybrid Meta-Strategy Solver Architecture](/reading/discovering-multiagent/SHOR.svg)
+
+#### A. The Hybrid Blending Mechanism
+
+At every internal iteration of the meta-solver, the target meta-strategy $\sigma_{\text{hybrid}}$ is computed as a blend:
+
+$$\sigma_{\text{hybrid}} = (1 - \lambda) \cdot \sigma_{\text{ORM}} + \lambda \cdot \sigma_{\text{softmax}}$$
+
+Where:
+
+- $\sigma_{\text{ORM}}$ is computed using **Optimistic Regret Matching**, which provides stable, defensive convergence.
+- $\sigma_{\text{softmax}}$ is a Boltzmann distribution over pure strategies:
+
+$$\sigma_{\text{softmax}}(a) \propto \exp\left(\frac{Q(a)}{\tau}\right)$$
+
+This aggressively biases the solver toward highly rewarding actions. The parameter $\lambda$ controls the trade-off between the defensive stability of ORM and the greedy exploitation of the softmax component.
+
+#### B. Dynamic Parameter Annealing Schedule
+
+Instead of using fixed parameters, the `TrainMetaStrategySolver` dynamically adjusts its parameters over the course of the outer PSRO epochs ($k$):
+
+```python
+# Annealing Schedules
+prog = min(1.0, self.current_psro_iter / 75.0)
+blend = 0.30 - (0.25 * prog)      # Blend (λ) decays from 0.30 to 0.05
+div = 0.05 - (0.049 * prog)       # Diversity bonus decays from 0.05 to 0.001
+temp = 0.50 - (0.49 * prog)       # Softmax temperature decays from 0.50 to 0.01
+```
+
+- **Early Epochs ($prog \approx 0$):** High blend factor ($\lambda = 0.30$) and a high diversity bonus ($div = 0.05$). This forces the best-response oracle to train against a highly diverse, exploration-focused set of opponent strategies, expanding the game graph quickly.
+- **Late Epochs ($prog \approx 1$):** Low blend ($\lambda = 0.05$), minimal diversity bonus, and sharp temperature. The meta-strategy shifts focus toward computing a robust, tight Nash Equilibrium.
+
+#### C. Training vs. Evaluation Asymmetry
+
+In classic PSRO, the same meta-solver is used to guide training and to evaluate the exploitability of the strategy pool. SHOR-PSRO breaks this symmetry:
+
+1. **The Training Solver** uses the dynamic annealing schedule detailed above and returns the **time-averaged strategy** over internal iterations to maintain stability.
+2. **The Evaluation Solver** uses fixed, highly exploitative parameters ($\lambda = 0.01, \tau = 0.001$, no diversity bonus) and returns the **last-iterate strategy**.
+
+This decoupling ensures that training can explore safely without injecting noisy, exploration-biased strategies into the final exploitability evaluations.
+
+---
+
+### 3. AOD-CFR (Asymmetric Optimistic Discounted CFR)
+
+As an alternative to VAD-CFR, the evolutionary search also discovered **AOD-CFR** during early trials. While less complex than VAD-CFR, it utilizes structured asymmetry that is highly effective:
+
+- **Linear Exponent Schedules:** Instead of tracking EWMA volatility, it shifts discount exponents linearly over the first 500 iterations:
+  - Positive discount exponent $\alpha$ transitions from $1.0 \rightarrow 2.5$.
+  - Negative discount exponent $\beta$ transitions from $0.5 \rightarrow 0.0$ (complete deletion of long-term negative regrets).
+- **Asymmetric Instantaneous Scaling:** Instantaneous regrets are scaled based on the sign alignment of current and historical regrets:
+  - Scale by $1.1$ when both cumulative and instantaneous regrets are positive (momentum preservation).
+  - Attenuate by $0.9$ when cumulative is positive but instantaneous is negative.
+- **Trend-Based Policy Optimism:** In the policy derivation step, AOD-CFR tracks an EMA of cumulative regrets and adds a scaled deviation term:
+
+$$\text{Optimistic Regret} = R^t(I, a) + w_{\text{trend}} \cdot \left(R^t(I, a) - \text{EMA}(R^{t-1}(I, a))\right)$$
+
+This rewards actions that are on an upward performance trend.
+
+---
+
+## Code Implementation Perspective
+
+Let's look at how to implement the core loops of these evolved algorithms in Python. We can map the mathematical descriptions directly to concrete object state and class boundaries.
+
+### Implementing VAD-CFR State Preservation
+
+A key requirement for VAD-CFR is maintaining running metrics (like EWMA) across iterations at each decision node. This requires a stateful `RegretAccumulator`.
+
+```python
+import numpy as np
+
+class VADRegretAccumulator:
+    def __init__(self, base_alpha=1.5, base_beta=-0.1, volatility_sensitivity=0.5,
+                 max_expected_instantaneous_regret=2.0, ewma_decay_factor=0.1,
+                 instantaneous_regret_boost_factor=1.1, negative_regret_cap=-20.0):
+        self.base_alpha = base_alpha
+        self.base_beta = base_beta
+        self.volatility_sensitivity = volatility_sensitivity
+        self.max_expected_regret = max_expected_instantaneous_regret
+        self.ewma_decay = ewma_decay_factor
+        self.boost_factor = instantaneous_regret_boost_factor
+        self.negative_cap = negative_regret_cap
+
+        # We must track EWMA per decision node / information state
+        self.ewma_mag = 0.0
+
+    def _calculate_adaptive_params(self, iteration_number, cfr_regrets):
+        t_plus_one = float(iteration_number + 1)
+
+        # L-infinity norm of instantaneous regrets
+        inst_mag = max((abs(r) for r in cfr_regrets.values()), default=0.0)
+
+        # EWMA update
+        if iteration_number == 0:
+            self.ewma_mag = inst_mag
+        else:
+            self.ewma_mag = (self.ewma_decay * inst_mag) + (1.0 - self.ewma_decay) * self.ewma_mag
+
+        # Normalize volatility
+        normalized_volatility = min(1.0, self.ewma_mag / self.max_expected_regret)
+
+        # Compute reactive exponents
+        effective_alpha = max(0.1, self.base_alpha - self.volatility_sensitivity * normalized_volatility)
+        effective_beta = self.base_beta - self.volatility_sensitivity * normalized_volatility
+        effective_beta = min(effective_alpha, effective_beta)
+
+        # Calculate positive and negative discount factors
+        discount_pos = (t_plus_one ** effective_alpha) / (t_plus_one ** effective_alpha + 1.0)
+        discount_neg = (t_plus_one ** effective_beta) / (t_plus_one ** effective_beta + 1.0)
+
+        return discount_pos, discount_neg
+
+    def update_accumulate_regret(self, info_state_node, iteration_number, cfr_regrets):
+        discount_pos, discount_neg = self._calculate_adaptive_params(iteration_number, cfr_regrets)
+
+        updated_regrets = {}
+        for action, inst_regret in cfr_regrets.items():
+            prev_regret = info_state_node.cumulative_regret.get(action, 0.0)
+
+            # 1. Asymmetric Instantaneous Boosting
+            boosted_regret = inst_regret * self.boost_factor if inst_regret > 0 else inst_regret
+
+            # 2. Sign-Dependent Discounting
+            discount = discount_pos if prev_regret >= 0 else discount_neg
+            discounted_prev = prev_regret * discount
+
+            # 3. Accumulate and Clip
+            new_regret = discounted_prev + boosted_regret
+            updated_regrets[action] = max(self.negative_cap, new_regret)
+
+        return updated_regrets
+```
+
+### Implementing SHOR-PSRO Meta-Strategy Solver
+
+Below is the vectorized implementation of the dynamic training meta-strategy solver, showing the exact blending of Optimistic Regret Matching and Softmax.
+
+```python
+def softmax(x, temperature=1.0):
+    stable_x = x - np.max(x)
+    exp_x = np.exp(stable_x / temperature)
+    sum_exp = np.sum(exp_x)
+    return exp_x / sum_exp if sum_exp > 1e-12 else np.ones_like(x) / len(x)
+
+def hybrid_meta_solver(meta_games, iterations, blending_factor, temperature,
+                       diversity_bonus_coeff, return_avg=True):
+    num_players = len(meta_games)
+    num_strats = [m.shape[p] for p, m in enumerate(meta_games)]
+
+    # Initialize strategies and cumulative regrets
+    strategies = [np.ones(s) / s for s in num_strats]
+    cum_regrets = [np.zeros(s) for s in num_strats]
+    avg_strategies = [np.zeros(s) for s in num_strats]
+    prev_gains = [np.zeros(s) for s in num_strats]
+
+    for t in range(iterations):
+        for p in range(num_players):
+            # Compute expected payoffs against current opponent strategies
+            payoff_vec = meta_games[p]
+            for other_p in range(num_players):
+                if other_p != p:
+                    payoff_vec = np.tensordot(payoff_vec, strategies[other_p], axes=([other_p], [0]))
+
+            # Centered payoff gains
+            gains = payoff_vec - np.mean(payoff_vec)
+
+            # 1. Optimistic updates via momentum (beta = 0.5)
+            optimistic_gains = 1.5 * gains - 0.5 * prev_gains[p]
+            prev_gains[p] = gains
+
+            # 2. Apply Diversity Bonus
+            diversity_bonus = diversity_bonus_coeff * (1.0 - strategies[p])
+            gains_for_regret = optimistic_gains + diversity_bonus
+
+            # Normalize gains to ensure scale invariance
+            max_gain = np.max(np.abs(gains_for_regret))
+            if max_gain > 1e-8:
+                gains_for_regret /= max_gain
+
+            # 3. Optimistic Regret Matching +
+            cum_regrets[p] = np.maximum(0, cum_regrets[p] + gains_for_regret)
+            sum_pos_regret = np.sum(cum_regrets[p])
+
+            if sum_pos_regret > 1e-12:
+                sigma_orm = cum_regrets[p] / sum_pos_regret
+            else:
+                sigma_orm = np.ones(num_strats[p]) / num_strats[p]
+
+            # 4. Smoothed Best Pure Strategy (Softmax)
+            sigma_pure = softmax(payoff_vec, temperature)
+
+            # 5. Hybrid Blending
+            strategies[p] = (1.0 - blending_factor) * sigma_orm + blending_factor * sigma_pure
+
+            if return_avg:
+                avg_strategies[p] += strategies[p]
+
+    if return_avg:
+        return [avg_strat / np.sum(avg_strat) for avg_strat in avg_strategies]
+    return strategies
+```
+
+---
+
+## Design Decisions and Trade-offs
+
+### Why Evolution Over Pure Hyperparameter Tuning?
+
+Hyperparameter tuning (e.g., Bayesian Optimization) cannot escape the boundaries of a predefined formula. It can optimize $\alpha$ or $\beta$ in DCFR, but it cannot:
+
+1. Discover that policy averaging should be **strictly disabled** for exactly 500 iterations.
+2. Formulate a three-way multiplicative weight (`w_time * w_mag * w_stable`) that dynamically scales policy updates.
+3. Introduce state variables like running EWMAs of regret magnitude into classes that previously had no tracking mechanics.
+
+By allowing the LLM to rewrite class structures, the search discovered structural, logical thresholds that are highly effective yet difficult to express with continuous parameters.
+
+### The Cost of Symbolic Flexibility: Search Space Constraints
+
+While code evolution is incredibly expressive, it is also highly unconstrained. If the LLM were allowed to write a CFR solver completely from scratch, the search space would be infinitely large, resulting in compile-time errors or trivial, non-convergent programs.
+
+To mitigate this, the authors made a crucial design choice: **they decoupled the core algorithm skeleton from the update mathematical logic**. By keeping the tree-traversal and game-state representation static and only allowing mutation inside specific mathematical interfaces (`RegretAccumulator`, `PolicyAccumulator`), they struck a functional balance between expressiveness and execution safety.
+
+---
+
+## Empirical Results and Interpretation
+
+The evolved algorithms were evaluated across a series of training games and then subjected to evaluation on larger, unseen test games (such as 4-player Kuhn Poker, 3-player Leduc Poker, and 6-sided Liar's Dice).
+
+### VAD-CFR Performance
+
+```
+Game: 3-Player Leduc Poker (Test Set)
+Exploitability after 1000 Iterations (Log Scale)
+
+  10^0  |=========================================== (CFR)
+        |================================== (CFR+)
+  10^-1 |======================== (Discounted CFR)
+        |================= (Discounted Predictive CFR+)
+  10^-3 |==== (VAD-CFR) [Evolved]
+________|___________________________________________
+```
+
+- **Superior Convergence Slope:** As shown in the paper's benchmarks (Figure 1), VAD-CFR achieves exploitability levels below $10^{-3}$ on 3-player Leduc Poker, whereas standard baselines like DCFR and DPCFR+ plateau at significantly higher exploitability levels.
+- **Broad Generalization:** Across 11 different benchmark games, VAD-CFR matched or outperformed previous state-of-the-art hand-designed algorithms in **10 out of 11 games** (with 4-player Kuhn Poker being the sole exception).
+
+### SHOR-PSRO Performance
+
+- **Mitigating Chaos in Population Dynamics:** In Leduc Poker, standard PSRO variants suffer from highly chaotic exploitability curves. SHOR-PSRO's transition from early exploration (high diversity bonus, high softmax blending) to late-stage refinement (low blending, pure ORM) dramatically flattens this variance, delivering smooth, monotonic convergence.
+- Overall, SHOR-PSRO matched or surpassed state-of-the-art performance in **8 out of 11 benchmark games** without requiring manual re-tuning of its parameters.
+
+---
+
+## Strengths of the Evolved Approach
+
+1. **High Interpretability:** Unlike neural-network-meta-learned optimizers (which represent update rules as black-box weights), the algorithms evolved by AlphaEvolve are **plain Python code**. We can read, analyze, and mathematically audit the code.
+2. **Asymmetry Discovery:** The evolutionary agent successfully bypassed human design preferences for symmetry, discovering that positive regrets should be scaled differently than negative regrets and that training-time solvers should be decoupled from evaluation metrics.
+3. **Out-of-Distribution Robustness:** Even though the algorithms were evolved on small, simple games, they generalized directly to larger game trees with higher branching factors.
+
+---
+
+## Limitations and Vulnerabilities
+
+1. **Overfitting to the Evaluation Horizon:** In VAD-CFR, the hard warm-start threshold is explicitly hardcoded to `500` iterations:
+   ```python
+   if iteration_number < 500:
+       return info_state_node.cumulative_policy
+   ```
+   This threshold was evolved under a fixed evaluation horizon of `1000` iterations. If we were to run this algorithm on a massive game that requires $100,000$ iterations to converge, a hard 500-iteration warmup would be far too short. This threshold is highly overfitted to the experimental setup and would need to be re-scaled dynamically (e.g., as a fraction of total iterations) for practical deployment.
+2. **Computationally Expensive Evaluation:** Evaluating a single mutated candidate requires running a multi-agent algorithm to convergence across multiple game trees. This makes the evolutionary loop computationally expensive.
+3. **Sensitivity to the Code Skeleton:** If the initial search space classes are designed poorly, the LLM will struggle to find performant mutations. The framework is still highly dependent on human-designed boundaries.
+
+---
+
+## Key Engineering Takeaways
+
+For engineers and practitioners designing multi-agent or optimization systems, this paper offers several valuable design lessons:
+
+- **Stop Averaging Immediately:** If you are implementing CFR, consider implementing a hard warm-start gate. Averaging policies during early, highly volatile iterations introduces noise that pollutes your final equilibrium approximation. Let your regrets stabilize before updating your average policy.
+- **Make Discounting Reactive:** Instead of static schedules, tie your discount parameters directly to a running volatility estimator (like an EWMA of your update magnitude). When the system is highly dynamic, discount historical data heavily; when it stabilizes, retain more history.
+- **Decouple Training and Evaluation Solvers in PSRO:** Do not use the same meta-strategy solver for generating new policies as you do for measuring exploitability. Your training-time solver should actively encourage diversity and exploration; your evaluation solver should remain focused on exploitation.
+
+---
+
+## References
+
+- Li, Z., Schultz, J., Hennes, D., & Lanctot, M. (2026). _Discovering Multiagent Learning Algorithms with Large Language Models_. Google DeepMind. arXiv:2602.16928v2 [cs.GT].
+- Novikov, A., Vu, N., Eisenberger, M., Dupont, E., Huang, P.-S., Wagner, A. Z., Shirobokov, S., Kozlovskii, B., Ruiz, F. J., Mehrabian, A., et al. (2025). _AlphaEvolve: A coding agent for scientific and algorithmic discovery_. arXiv preprint arXiv:2506.13131.
+- Brown, N., & Sandholm, T. (2019b). _Solving imperfect-information games via discounted regret minimization_. In _Thirty-Third AAAI Conference on Artificial Intelligence_.
+
+_See the original paper [here](https://arxiv.org/abs/2602.16928) for the full breakdown of experiment results and the complete listings of the evolved VAD-CFR and SHOR-PSRO code._

@@ -11,6 +11,7 @@ export type ReadingItem = {
   status: 'reading' | 'finished' | 'abandoned' | 'discussing'
   tags: string[]
   note?: string
+  hasContent: boolean
 }
 
 const readingDir = path.join(process.cwd(), 'content', 'reading')
@@ -26,7 +27,7 @@ export function getAllReading(): ReadingItem[] {
     .map((filename) => {
       const slug = filename.replace(/\.mdx$/, '')
       const raw = fs.readFileSync(path.join(readingDir, filename), 'utf8')
-      const { data } = matter(raw)
+      const { data, content } = matter(raw)
       return {
         slug,
         title: data.title as string,
@@ -36,7 +37,34 @@ export function getAllReading(): ReadingItem[] {
         status: data.status as ReadingItem['status'],
         tags: (data.tags as string[]) ?? [],
         note: data.note as string | undefined,
+        hasContent: content.trim().length > 0,
       }
     })
     .sort((a, b) => a.title.localeCompare(b.title))
+}
+
+export function getReading(slug: string): { item: ReadingItem; content: string; readingTime: number; related: ReadingItem[] } | null {
+  const filePath = path.join(readingDir, `${slug}.mdx`)
+  if (!fs.existsSync(filePath)) return null
+  const raw = fs.readFileSync(filePath, 'utf8')
+  const { data, content } = matter(raw)
+  const item: ReadingItem = {
+    slug,
+    title: data.title as string,
+    author: data.author as string,
+    year: data.year as number,
+    type: data.type as ReadingItem['type'],
+    status: data.status as ReadingItem['status'],
+    tags: (data.tags as string[]) ?? [],
+    note: data.note as string | undefined,
+    hasContent: content.trim().length > 0,
+  }
+  const wordCount = content.trim().split(/\s+/).length
+  const readingTime = Math.max(1, Math.round(wordCount / 200))
+
+  const related = getAllReading()
+    .filter((r) => r.slug !== slug && r.hasContent && r.type === item.type)
+    .slice(0, 3)
+
+  return { item, content, readingTime, related }
 }
