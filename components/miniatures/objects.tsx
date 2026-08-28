@@ -4,6 +4,8 @@ import type { ReactNode } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
 
+import { useDeskMotion } from '@/components/v3/desk-motion';
+
 import { Diagram, DottedArrow, Ring, StepBadge, Stroke } from './manual';
 import { BIKE_SHAPES, BIKE_VIEWBOX } from './bike-paths';
 
@@ -364,6 +366,7 @@ function Sticker({
   title?: string;
 }) {
   const reduce = useReducedMotion();
+  const { replay } = useDeskMotion();
 
   return (
     <motion.svg
@@ -376,7 +379,7 @@ function Sticker({
       aria-hidden={title ? undefined : true}
       initial={reduce ? undefined : { opacity: 0, scale: 0.86 }}
       whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+      viewport={{ once: !replay, margin: '0px 0px -60px 0px' }}
       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
     >
       {title && <title>{title}</title>}
@@ -452,6 +455,7 @@ export function HuggingFaceMark({ size = 87 }: { size?: number }) {
  */
 export function GithubOutline({ size = 89 }: { size?: number }) {
   const reduce = useReducedMotion();
+  const { replay } = useDeskMotion();
 
   return (
     <motion.svg
@@ -465,7 +469,7 @@ export function GithubOutline({ size = 89 }: { size?: number }) {
       role="img"
       initial={reduce ? undefined : 'hidden'}
       whileInView={reduce ? undefined : 'visible'}
-      viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+      viewport={{ once: !replay, margin: '0px 0px -60px 0px' }}
     >
       <title>GitHub</title>
       {reduce ? (
@@ -646,6 +650,7 @@ function BookSticker({
   children: ReactNode;
 }) {
   const reduce = useReducedMotion();
+  const { replay } = useDeskMotion();
   const height = Math.round(size * ratio);
 
   return (
@@ -659,7 +664,7 @@ function BookSticker({
       whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
       whileHover={reduce ? undefined : { scale: 1.35, rotate: 0 }}
       whileFocus={reduce ? undefined : { scale: 1.35, rotate: 0 }}
-      viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+      viewport={{ once: !replay, margin: '0px 0px -60px 0px' }}
       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
     >
       {src ? (

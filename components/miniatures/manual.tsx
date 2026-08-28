@@ -3,6 +3,8 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import type { ReactNode } from 'react';
 
+import { useDeskMotion } from '@/components/v3/desk-motion';
+
 /**
  * The assembly-manual drawing system.
  *
@@ -32,6 +34,7 @@ export function Diagram({
   title?: string;
 }) {
   const reduce = useReducedMotion();
+  const { replay } = useDeskMotion();
 
   return (
     <motion.svg
@@ -49,7 +52,7 @@ export function Diagram({
       aria-hidden={title ? undefined : true}
       initial={reduce ? undefined : 'hidden'}
       whileInView={reduce ? undefined : 'visible'}
-      viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+      viewport={{ once: !replay, margin: '0px 0px -60px 0px' }}
     >
       {title && <title>{title}</title>}
       {children}
