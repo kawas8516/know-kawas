@@ -199,3 +199,11 @@
     animation: none;
   }
 }
+
+/* Display serif for the /v3 desk layout.
+   A system stack, not a webfont — DESIGN_SYSTEM.md forbids new font imports,
+   and this downloads nothing. */
+.font-display {
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  font-feature-settings: "liga" 1, "kern" 1;
+}

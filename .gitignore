@@ -40,3 +40,18 @@ graphify-out/
 
 # impeccable skill local tool state (critique snapshots, hook cache)
 /.impeccable/
+
+# os cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editors (.vscode/settings.json is tracked on purpose, so it is not listed here)
+/.idea/
+*.swp
+
+# tool caches
+/.turbo/
+/.cache/
+/coverage/
+*.log
